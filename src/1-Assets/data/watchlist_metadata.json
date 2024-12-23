@@ -1,0 +1,234 @@
+[{
+  "_id": {
+    "$oid": "665df6627f1971c4963a3b9b"
+  },
+  "name": "Tuko pamoja Docuseries",
+  "categorized": true,
+  "watchlists": [
+    {
+      "title": "Frequently watched trailers",
+      "specific": false,
+      "Lists": [
+        {
+          "episodeId": {
+            "$oid": "665494c536470e427423ebfe",
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "13",
+            "episodeTitle": "Uganda: The Making of a Nation",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "1 June 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "Explore how the diverse yet interconnected peoples of contemporary Uganda handle the post-colonial dispensation after being clamped together into a country called Uganda. How are they fostering national unity after five decades of independence?",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=SCFb4MEik9M",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S13-Uganda/Trailer/Uganda%20Trailer%20EMB.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Improved_Nyati_Thumbnails/Uganda.png?updatedAt=1722657044126"
+            ],
+            "backdrops": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S13%20-%20Uganda/Backdrops/Screenshot%202024-05-20%20at%2023.19.58.png?updatedAt=1721040069353",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S13%20-%20Uganda/Backdrops/Screenshot%202024-05-20%20at%2023.20.57.png?updatedAt=1721040072637",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S13%20-%20Uganda/Backdrops/Screenshot%202024-05-20%20at%2023.22.01.png?updatedAt=1721041911454"
+            ]
+          },
+          "listfilmType": "episode",
+          "_id": {
+            "$oid": "665df6627f1971c4963a3b9d"
+          }
+        },
+        {
+          "episodeId": {
+            "$oid": "6654945736470e427423ebf7",
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "6",
+            "episodeTitle": "Eastern Uganda: Bagisu & Babukusu; Samia and Bagwe (The Luhyas)",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "23 March 2024",
+            "runtime": "N/A",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "This segment underscores the hybridity that results from two ethnic groups (the Nilotics and the Bantus) and the fact that the Berlin-drawn borders divided people into different countries, but the ordinary people have disregarded the artificial borders.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=Tm1cKwdG_l0",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S6-EasternUganda/Trailer/Bamasaba%20-%20Babukusu%20Trailer%20EMB.mp4",
+            "fullVideoLink": "N/A",
+            "posters": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Improved_Nyati_Thumbnails/Eastern%20Uganda.png?updatedAt=1722657131618"
+            ],
+            "backdrops": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S6%20-%20Eastern%20Uganda/Backdrops/Screenshot%202024-05-14%20at%2000.50.06.png?updatedAt=1721037639066",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S6%20-%20Eastern%20Uganda/Backdrops/Screenshot%202024-05-14%20at%2000.48.13.png?updatedAt=1721037243179",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S6%20-%20Eastern%20Uganda/Backdrops/Screenshot%202024-05-14%20at%2000.48.47.png?updatedAt=1721037168533",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S6%20-%20Eastern%20Uganda/Backdrops/Screenshot%202024-05-14%20at%2000.49.28.png?updatedAt=1721037100984",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S6%20-%20Eastern%20Uganda/Backdrops/Screenshot%202024-05-14%20at%2000.49.01.png?updatedAt=1721036878503",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S6%20-%20Eastern%20Uganda/Backdrops/Screenshot%202024-05-14%20at%2000.51.36.png?updatedAt=1721036839368"
+            ]
+          },
+          "listfilmType": "episode",
+          "_id": {
+            "$oid": "665df6627f1971c4963a3b9e"
+          }
+        },
+        {
+          "episodeId": {
+            "$oid": "6654943936470e427423ebf5",
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "4",
+            "episodeTitle": "Ankole:Kaaro-Karungi(Nkore), Buhweju, Buzimba and Mpororo States",
+            "YearOfProduction": "2024",
+            "rated": "G",
+            "released": "28 February 2024",
+            "runtime": " ",
+            "directors": "Cindy Magara",
+            "producers": "Cindy Magara",
+            "writers": "Cindy Magara",
+            "plotSummary": "Ankole brings on-screen people linked to Bunyoro and Rwanda. Because Ankole’s misnomer exemplifies the colonial concoction of a kingdom,  the colonial repercussions reverberate in today’s Ankore (there is a shell of a kingdom).",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=erQNk36epMw",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S4-Ankole/Trailer/Ankole%20Trailer%20EMB.mp4",
+            "fullVideoLink": "",
+            "posters": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Improved_Nyati_Thumbnails/Ankole.png?updatedAt=1722657118192"
+             ],
+            "backdrops": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S4%20-%20Ankole/Backdrops/Screenshot%202024-05-14%20at%2000.35.11.png?updatedAt=1721041134740",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S4%20-%20Ankole/Backdrops/Screenshot%202024-05-14%20at%2000.35.50.png?updatedAt=1721040680490",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S4%20-%20Ankole/Backdrops/Screenshot%202024-05-14%20at%2000.37.48.png?updatedAt=1721041033072"
+            ]
+          },
+          "listfilmType": "episode",
+          "_id": {
+            "$oid": "665df6627f1971c4963a3b9f"
+          }
+        },
+        {
+          "episodeId": {
+            "$oid": "665494a836470e427423ebfc",
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "11",
+            "episodeTitle": "(Re)-emergent/Breakaway states: Bunyala, Buruuli & Kooki",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "18 May 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "‘To be or not to be…’ comes alive here. At a time when nations are aspiring to federate, one wonders why the chiefdoms want to create independent Kingdoms. The answer is in history: even the Bugandas and Bunyoros (greatest kingdoms in Uganda) were formed at a certain time.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=sbey4TNLNh0",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S11-BreakAwayKingdoms/Trailer/Breakaway%20States%20Trailer%20EMB.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Improved_Nyati_Thumbnails/Breakaway%20states.png?updatedAt=1722657148827"
+            ],
+            "backdrops": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S11%20-%20Break%20Away%20Kingdoms/Backdrops/Screenshot%202024-05-20%20at%2023.14.08.png?updatedAt=1721037150452",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S11%20-%20Break%20Away%20Kingdoms/Backdrops/Screenshot%202024-05-20%20at%2023.16.42.png?updatedAt=1721036999575",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S11%20-%20Break%20Away%20Kingdoms/Backdrops/Screenshot%202024-05-20%20at%2023.13.36.png?updatedAt=1721036937884",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S11%20-%20Break%20Away%20Kingdoms/Backdrops/Screenshot%202024-05-20%20at%2023.14.23.png?updatedAt=1721036750726"
+            ]
+          },
+          "listfilmType": "episode",
+          "_id": {
+            "$oid": "665df6627f1971c4963a3ba0"
+          }
+        },
+        {
+          "episodeId": {
+            "$oid": "6654947d36470e427423ebf9",
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "8",
+            "episodeTitle": "The Luo: Acholi, Alur & Jopadhola",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "20 April 2024",
+            "runtime": "N/A",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "Spread all over Uganda and the Great Lakes Region, the Luo’s civilisation is felt in all parts of this world because they were and still are the rulers of the major Kingdoms in the region.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=UiaBp9TIgSQ",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S8-Luo/Trailer/Luo%20Trailer%20EMB.mp4",
+            "fullVideoLink": "",
+            "posters": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Improved_Nyati_Thumbnails/TV%20-%208.png?updatedAt=1722657135218"
+            ],
+            "backdrops": [
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S8%20-%20Luo/Backdrops/Screenshot%202024-05-14%20at%2001.01.47.png?updatedAt=1721039056048",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S8%20-%20Luo/Backdrops/Screenshot%202024-05-14%20at%2001.01.11.png?updatedAt=1721038791204",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S8%20-%20Luo/Backdrops/Screenshot%202024-05-14%20at%2000.59.11.png?updatedAt=1721038570065",
+              "https://ik.imagekit.io/alero/Nyati_Films/films-metadata/Tuko%20Pamoja(2024)/Episodes-Segments/S8%20-%20Luo/Backdrops/Screenshot%202024-05-14%20at%2000.59.38.png?updatedAt=1721038462152"
+            ]
+          },
+          "listfilmType": "episode",
+          "_id": {
+            "$oid": "665df6627f1971c4963a3ba1"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "665df6627f1971c4963a3b9c"
+      }
+    }
+  ],
+  "__v": 0
+}]

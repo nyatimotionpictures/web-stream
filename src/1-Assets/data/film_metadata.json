@@ -1,0 +1,711 @@
+[
+  {
+    "_id": {
+      "$oid": "66504774b30afd15ac294f77"
+    },
+    "createdBy": "Joshua Kimbareeba",
+    "comingSoon": false,
+    "title": "Fair Play",
+    "yearOfProduction": "2010",
+    "type": "movie",
+    "rated": "PG-13",
+    "released": "12 March 2010",
+    "runtime": "128",
+    "genre": ["Drama", "Documentary"],
+    "directors": ["Cindy Magara"],
+    "producers": ["Cindy Magara", "Godwin Otwoma"],
+    "writers": ["Godwin Otwoma", "Cindy Magara"],
+    "soundCore": ["David Pragmo Nsaiga"],
+    "actors": [
+      "Susan Vidot",
+      "Isaac G. Muwawu",
+      "Peter Kafuruka",
+      "Anthony Itwara"
+    ],
+    "plotSummary": "A group of young men (Itwara Anthony, Kafuruka Peter, Collin Asiimwe and Godfrey K.) in rural Ugandan town decide to be more involved in the political process.",
+    "overview": "A group of young men (Itwara Anthony, Kafuruka Peter, Collin Asiimwe and Godfrey K.) in rural Ugandan town decide to be more involved in the political process after their football pitch has been allocated to a private investor with the help of their local councillor. They take advantage of the upcoming by-election to find a candidate to save their football pitch. The club captain, Kato (Peter Kafuruka) contests as a compromise candidate of the Citizens Empowerment Party (CEP). However, Kato’s conservative parents belong to different parties and are not amused; they do not even support him. Can Kato, a barber and teacher, manage the tough game of politics?",
+    "audioLanguages": [
+      {
+        "iso_639_1": "en",
+        "name": "English"
+      },
+      {
+        "iso_639_1": "lg",
+        "name": "Ganda"
+      }
+    ],
+    "subtitleLanguages": [],
+    "embeddedSubtitles": false,
+    "country": "Uganda",
+    "copyright": "Nyati Motion Pictures",
+    "filmType": "movie",
+    "filmModel": "Free to watch",
+    "fullVideoLink": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/Fate(2006)/Video/Fair%20Play_360p.mp4",
+    "youtubeTrailer": "",
+    "localTrailer": "",
+    "posters": [
+      "https://ik.imagekit.io/nyatimot/films-metadata/Fair%20Play(2010)/Posters/FAIR%20PLAY%20POSTER_v2.png?updatedAt=1724321468256"
+    ],
+    "backdrops": [
+     "https://ik.imagekit.io/nyatimot/films-metadata/Fair%20Play(2010)/Backdrops/Image_1.png?updatedAt=1727379585786",
+     "https://ik.imagekit.io/nyatimot/films-metadata/Fair%20Play(2010)/Backdrops/Image_2.png?updatedAt=1727379564307"
+    ],
+    "premiered": [
+      {
+        "Location": "National Theatre, Kampala",
+        "Dates": "03/02/2024"
+      }
+    ],
+    "premieredGallery": [],
+    "showCaseState": "InTheatres",
+    "screening": [
+      {
+        "Location": "Ham Cinemax",
+        "Dates": ["04/02/2024"]
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "6653809ab30afd15ac294f78"
+    },
+    "createdBy": "Joshua Kimbareeba",
+    "comingSoon": false,
+    "title": "Windows of Hope",
+    "type": "movie",
+    "yearOfProduction": "2011",
+    "rated": "PG-13",
+    "released": "1 January 2011",
+    "runtime": "136",
+    "genre": ["Drama", "Documentary"],
+    "directors": ["Cindy Magara", "Godwin Otwoma"],
+    "producers": ["Cindy Magara", "Godwin Otwoma"],
+    "writers": ["Cindy Magara"],
+    "soundCore": ["David Pragmo Nsaiga"],
+    "actors": [
+      "Anthony Itwara",
+      "Nyakake Harriet",
+      "Akwehaire Stephen",
+      "Nantongo Justine"
+    ],
+    "plotSummary": "When the thin line between love and hate gets blurred for Alinda (Nyakake Harriet) and Nyanzi (Akwehaire Steven), their child Barugahara (Itwara Anthony) feels the pain.",
+    "overview": "When the thin line between love and hate gets blurred for Alinda (Nyakake Harriet) and Nyanzi (Akwehaire Steven), their child Barugahara (Itwara Anthony) feels the pain. He is rejected, unloved, uncared for and robbed of his inheritance. Barugahara courageously faces life, only keeping hope alive…How does he consider his relatives when he becomes very successful?",
+    "audioLanguages": [
+      {
+        "iso_639_1": "en",
+        "name": "English"
+      }
+    ],
+    "subtitleLanguages": [],
+    "embeddedSubtitles": false,
+    "country": "Uganda",
+    "copyright": "Nyati Motion Pictures",
+    "filmType": "movie",
+    "filmModel": "Free to watch",
+    "youtubeTrailer": "https://www.youtube.com/watch?v=K5X6btwsjbA",
+    "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/WindowsofHope(2011)/Trailer/WOH%20Cineplex%20ADD.avi",
+    "fullVideoLink": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/WindowsofHope(2011)/Video/WINDOWS%20OF%20HOPE%20a%20Ugandan%20movie%20for%20children%20children%20teenagers%20teen%20uganda%20movie%20africa_360p.mp4",
+    "posters": [
+      "https://ik.imagekit.io/nyatimot/films-metadata/Windows%20of%20Hope(2011)/Posters/Window_of_hope.png?updatedAt=1726827155041"
+    ],
+    "backdrops": [
+      "https://ik.imagekit.io/nyatimot/films-metadata/Windows%20of%20Hope(2011)/Backdrops/Screenshot%202024-05-12%20at%2003.22.07.png?updatedAt=1724323233961",
+      "https://ik.imagekit.io/nyatimot/films-metadata/Windows%20of%20Hope(2011)/Backdrops/Screenshot%202024-05-12%20at%2003.21.33.png?updatedAt=1724323233944",
+      "https://ik.imagekit.io/nyatimot/films-metadata/Windows%20of%20Hope(2011)/Backdrops/Screenshot%202024-05-12%20at%2003.17.56.png?updatedAt=1724323229058"
+    ],
+    "premiered": [
+      {
+        "Location": "National Theatre, Kampala",
+        "Dates": "03/02/2024"
+      }
+    ],
+    "premieredGallery": [],
+    "showCaseState": "streaming",
+    "screening": []
+  },
+  {
+    "_id": {
+      "$oid": "665383c3b30afd15ac294f79"
+    },
+    "createdBy": "Joshua Kimbareeba",
+    "comingSoon": false,
+    "title": "Fate",
+    "type": "movie",
+    "yearOfProduction": "2006",
+    "rated": "PG-13",
+    "released": "30 July 2006",
+    "runtime": "118",
+    "genre": ["Drama"],
+    "directors": ["Cindy Magara", "Godwin Otwoma"],
+    "producers": ["Cindy Magara", "Godwin Otwoma"],
+    "writers": ["Cindy Magara"],
+    "soundCore": ["David Pragmo Nsaiga"],
+    "actors": [
+      "Mutaka Alie",
+      "Nantongo Justine",
+      "Kizito Arnold",
+      "Musinguzi Bob Joe"
+    ],
+    "plotSummary": "Kate Komuntale (Nantongo Justine), a high-flying Kampala Corporate Executive in her thirties, has everything except a family: a husband and a child.",
+    "overview": "Kate Komuntale (Nantongo Justine), a high-flying Kampala Corporate Executive in her thirties, has everything except a family: a husband and a child. Society builds pressure on her to marry so as to complete her success. In that quagmire, Ken Bagonza (Allie Mutaka), a smooth-talking intelligence officer, breezes into the scene and easily sweeps Kate off her feet and up to the altar. But Ken has a sinister agenda… Bliss turns to hell. Kate has to dig deeper into her inner reservoir of strength to survive Ken’s crazy womanising, wild temper and, above all, singly parent ‘sensitive’ Ivan … Is it fate or choice?",
+    "audioLanguages": [
+      {
+        "iso_639_1": "en",
+        "name": "English"
+      }
+    ],
+    "subtitleLanguages": [],
+    "embeddedSubtitles": false,
+    "country": "Uganda",
+    "copyright": "Nyati Motion Pictures",
+    "filmType": "movie",
+    "filmModel": "Free to watch",
+    "youtubeTrailer": "https://www.youtube.com/watch?v=-q_akTLvLAo&t=1s",
+    "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/Fate(2006)/Trailer/FATE_360p.mp4",
+    "fullVideoLink": "",
+    "posters": [
+      "https://ik.imagekit.io/nyatimot/films-metadata/Fate(2006)/Posters/Movie%20poster.png?updatedAt=1724325942315"
+    ],
+    "backdrops": [
+      "https://ik.imagekit.io/nyatimot/films-metadata/Fate(2006)/Backdrops/Screenshot%202024-05-13%20at%2023.50.11.png?updatedAt=1724325938414",
+      "https://ik.imagekit.io/nyatimot/films-metadata/Fate(2006)/Backdrops/Screenshot%202024-05-13%20at%2023.50.44.png?updatedAt=1724323235279",
+      "https://ik.imagekit.io/nyatimot/films-metadata/Fate(2006)/Backdrops/Screenshot%202024-05-13%20at%2023.51.24.png?updatedAt=1724323230503"
+    ],
+    "premiered": [
+      {
+        "Location": "National Theatre, Kampala",
+        "Dates": "03/02/2024"
+      }
+    ],
+    "premieredGallery": [],
+    "showCaseState": "streaming",
+    "screening": []
+  },
+  {
+    "_id": {
+      "$oid": "6653925ab30afd15ac294f7a"
+    },
+    "createdBy": "Joshua Kimbareeba",
+    "comingSoon": false,
+    "title": "Tuko Pamoja",
+    "yearOfProduction": "2024",
+    "type": "series",
+    "rated": "PG-13",
+    "released": "03 February 2024",
+    "runtime": "118",
+    "genre": ["Docuseries", "Documentary"],
+    "directors": ["Cindy Magara"],
+    "producers": ["Cindy Magara"],
+    "writers": ["Cindy Magara"],
+    "soundCore": [],
+    "actors": [],
+    "plotSummary": "Tuko Pamoja explores the geopolitical and geolinguistics of the 1870-1900 Great Lakes nations (kingdoms and chiefdoms) that became colonial Uganda.",
+    "overview": "Tuko Pamoja explores the geopolitical and geolinguistics of the 1870-1900 Great Lakes nations (kingdoms and chiefdoms) that became colonial Uganda. The documentary primarily constructs and deconstructs the history of colonial confrontation by interviewing historians, various cultural leaders, and opinion leaders in Uganda. Information about Uganda’s recent past is from interviews with historians (academic and non-academic), opinion leaders, senior citizens and youths from various communities. Guided by the oral tradition culture, the filmmaker (Cindy Magara) goes into the community to seek an in-depth understanding of the construction of cultural identity/ethnicity and how they relate or fit in the larger Uganda (and, by extension East Africa) that is seen to have closely linked yet diverse peoples.",
+    "audioLanguages": [
+      {
+        "iso_639_1": "en",
+        "name": "English"
+      }
+    ],
+    "subtitleLanguages": [],
+    "embeddedSubtitles": false,
+    "country": "Uganda",
+    "copyright": "Nyati Motion Pictures",
+    "filmType": "TV series",
+    "filmModel": "Avaliable to rent or buy",
+    "youtubeTrailer": "https://www.youtube.com/watch?v=FftvaiJVKFg",
+    "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Trailer/Tuko%20Pamoja%20Trailer%20African%20Feel%20Subtitled%202k.mp4",
+    "fullVideoLink": "",
+    "posters": [
+      "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Posters/main-2.png?updatedAt=1724762624919"
+    ],
+    "backdrops": [
+      "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Backdrops/Tuko%20Pamoja%20Cindy_3.18.2.jpg?updatedAt=1724763090210",
+      "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Backdrops/Cindy%202_3.24.1.jpg?updatedAt=1724763093713"
+    ],
+    "premiered": [
+      {
+        "Location": "National Theatre, Kampala",
+        "Dates": "03/02/2024"
+      }
+    ],
+    "showCaseState": "inTheatres",
+    "seasons": [
+      {
+        "seasonTitle": "Season 1",
+        "seasonCounter": "1",
+        "totalEpisodes": "13",
+        "episodes": [
+          {
+            "_id": {
+              "$oid": "6654912f36470e427423ebf0"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "1",
+            "episodeTitle": "Bunyoro-Kitara",
+            "YearOfProduction": "2024",
+            "rated": "G",
+            "released": "3 February 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "See the history of the Kitara Empire, one of the largest empires in East and Central Africa. The detailed story of Omukama (king) John Cwa II Kabaleega, who was a paramount king of East Africa’s kingdoms and chiefdoms, encapsulates the thesis of the Tuko Pamoja (We are one) series.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=y1tsdziofPI",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S1-Bunyoro-Kitara/Trailer/Bunyoro-Kitara%20Trailer%20EMB.mp4",
+            "fullVideoLink": "",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Bunyoro-Kitara.png?updatedAt=1724762593601"
+            ],
+            "backdrops": [],
+            "screening": [
+              {
+                "Place": "Ham Cinemax",
+                "Location": "Kampala",
+                "Dates": [
+                  {
+                    "Dates": "2024-06-14T21:00:00.000Z",
+                    "Time": "2:00pm"
+                  }
+                ]
+              }
+            ],
+            "showCaseState": "InTheatres"
+          },
+          {
+            "_id": {
+              "$oid": "6654942036470e427423ebf3"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "2",
+            "episodeTitle": "Buganda",
+            "YearOfProduction": "2024",
+            "rated": "G",
+            "released": "11 February 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "See the systematic growth of an embryonic kingdom with strong links with Bunyoro and Bugisu that grew from a mere three counties to a nation. How did embattled Mwanga’s Buganda manage to remain a nation within a nation in the post-colonial Uganda, yet it was a springboard of British colonialism? ",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=Lo9DBMS7glw",
+            "localTrailer": " ",
+            "fullVideoLink": "N/A",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Buganda.png?updatedAt=1724762593388"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "6654942e36470e427423ebf4"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "3",
+            "episodeTitle": "Busoga",
+            "YearOfProduction": "2024",
+            "rated": "G",
+            "released": "21 February 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "It explores the birth of a nation that was, for a long time, a pawn of Bunyoro and Buganda kingdoms. It was and is still a gateway into Uganda.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=weS3xtZHplc",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S3-Busoga/Trailer/Busoga%20Trailer%20EMB.mp4",
+            "fullVideoLink": "N/A",
+            "posters": [
+             "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Busoga.png?updatedAt=1724762598176"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "6654943936470e427423ebf5"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "4",
+            "episodeTitle": "Ankole:Kaaro-Karungi(Nkore), Buhweju, Buzimba and Mpororo States",
+            "YearOfProduction": "2024",
+            "rated": "G",
+            "released": "28 February 2024",
+            "runtime": " ",
+            "directors": "Cindy Magara",
+            "producers": "Cindy Magara",
+            "writers": "Cindy Magara",
+            "plotSummary": "Ankole brings on-screen people linked to Bunyoro and Rwanda. Because Ankole’s misnomer exemplifies the colonial concoction of a kingdom,  the colonial repercussions reverberate in today’s Ankore (there is a shell of a kingdom).",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=erQNk36epMw",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S4-Ankole/Trailer/Ankole%20Trailer%20EMB.mp4",
+            "fullVideoLink": "",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Ankole.png?updatedAt=1724762597265"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "6654944a36470e427423ebf6"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "5",
+            "episodeTitle": "The Ateker ('Ango') Peoples: Lango, Karamojong & Iteso",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "10 March 2024",
+            "runtime": "N/A",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "It shows the connections of the Ateker people in East Africa and, more so, the role played by the Langi in defending pre-colonial Uganda. The Langi, who are Ateker by DNA and Luo by language, stand out as significant in the history of Uganda since they were protecting Omukama Kabaleega and Kabaka Mwanga in Kangai.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=W603GcDaL2o",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S5-The%E2%80%98Ango%E2%80%99peoples/Trailer/Lango%20Trailer%20EMB.mp4",
+            "fullVideoLink": "N/A",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Ateker%20('Ango').png?updatedAt=1727386107819"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "6654945736470e427423ebf7"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "6",
+            "episodeTitle": "Eastern Uganda: Bagisu & Babukusu; Samia and Bagwe (The Luhyas)",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "23 March 2024",
+            "runtime": "N/A",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "This segment underscores the hybridity that results from two ethnic groups (the Nilotics and the Bantus) and the fact that the Berlin-drawn borders divided people into different countries, but the ordinary people have disregarded the artificial borders.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=Tm1cKwdG_l0",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S6-EasternUganda/Trailer/Bamasaba%20-%20Babukusu%20Trailer%20EMB.mp4",
+            "fullVideoLink": "N/A",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Eastern%20Uganda.png?updatedAt=1724762596826"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "6654947236470e427423ebf8"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "7",
+            "episodeTitle": "Tooro",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "6 April 2024",
+            "runtime": "N/A",
+            "directors": ["Cindy Magara"],
+            "producers": "Cindy Magara",
+            "writers": "Cindy Magara",
+            "plotSummary": "Tooro is like a siamese twin of Bunyoro Kitara, and both Banyoro and Batooroare closely linked to their ancestors: the Luos, whose names they adorn as praise names (Amooti, Abwooli, Akiiki, Abbala, etc.).",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=g9cN0-7mEkY",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S7-Tooro/Trailer/Tooro%20Trailer%20EMB.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Tooro.png?updatedAt=1727385644970"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "6654947d36470e427423ebf9"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "8",
+            "episodeTitle": "The Luo: Acholi, Alur & Jopadhola",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "20 April 2024",
+            "runtime": "N/A",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "Spread all over Uganda and the Great Lakes Region, the Luo’s civilisation is felt in all parts of this world because they were and still are the rulers of the major Kingdoms in the region.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=UiaBp9TIgSQ",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S8-Luo/Trailer/Luo%20Trailer%20EMB.mp4",
+            "fullVideoLink": "",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Luo.png?updatedAt=1727385616780"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "6654948f36470e427423ebfa"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "9",
+            "episodeTitle": "Kigezi: Bafumbira, Bakiga and Batwa",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "4 May 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "The Banyakigezi (people of Kigezi) underscores the impact of artificial borders and the fact that Ugandans and Rwandans are one.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=zBpD8jRl6fM",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S9-Kigezi/Trailer/Kigezi%20Trailer%20EMB.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+              "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Kigezi.png?updatedAt=1727385728456"
+            ],
+            "backdrops": [],
+            "screening": [
+              {
+                "Place": "National Theatre",
+                "Location": "Kampala",
+                "Dates": [
+                  {
+                    "Dates": "2024-06-14T21:00:00.000Z",
+                    "Time": "2:00pm"
+                  }
+                ]
+              }
+            ],
+            "showCaseState": "InTheatres"
+          },
+          {
+            "_id": {
+              "$oid": "6654949a36470e427423ebfb"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "10",
+            "episodeTitle": "Lado Enclave: West Nilers: (Lugbara, Aringa, Madi and Kakwa)",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "11 May 2024",
+            "runtime": " ",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "These cousins of Luos and, mostly heavily intermarried among the Banyoro, have a village called Worokomba (Muzungu ends here), but their chief resister, Achief Aliku, is not among the mainstream resisters of foreign aggression. Tuko Pamoja weaves a story of people who were tossed from DRC to Uganda, yet are still divided by the artificial border from their kins in DRC and Sudan.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=h86-g9EtbuE",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S10-LadoEnclave/Trailer/West%20Nile%20-%20Lado%20Enclave%20Trailer%20EMB.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+             "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Lado.png?updatedAt=1727385670082"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "665494a836470e427423ebfc"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "11",
+            "episodeTitle": "(Re)-emergent/Breakaway states: Bunyala, Buruuli & Kooki",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "18 May 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "‘To be or not to be…’ comes alive here. At a time when nations are aspiring to federate, one wonders why the chiefdoms want to create independent Kingdoms. The answer is in history: even the Bugandas and Bunyoros (greatest kingdoms in Uganda) were formed at a certain time.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=sbey4TNLNh0",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S11-BreakAwayKingdoms/Trailer/Breakaway%20States%20Trailer%20EMB.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+             "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Breakaway%20states.png?updatedAt=1724762599663"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "665494b636470e427423ebfd"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "12",
+            "episodeTitle": "Kingdoms of the Mountains of Moon (The Rwenzori (Rwenzururu/ Rwenjura) peoples",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "25 May 2024",
+            "runtime": "N/A",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "Bakonjo, Bamba and Basongora. Be witness to the continued injustice caused by the Berlin conference, as almost everyone in the Rwenzori region has a relative in Congo.",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=zpdlfFeIq5o",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S12-KingdomsoftheMountainsofMoon/Trailer/Kingdoms%20of%20the%20Rwenzori%20Mountain.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+             "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Kingdoms%20of%20the%20Mountains%20of%20the%20Moon.png?updatedAt=1724762622689"
+            ],
+            "backdrops": []
+          },
+          {
+            "_id": {
+              "$oid": "665494c536470e427423ebfe"
+            },
+            "seriesId": {
+              "$oid": "6653925ab30afd15ac294f7a"
+            },
+            "seasonCounter": "1",
+            "episodeCounter": "13",
+            "episodeTitle": "Uganda: The Making of a Nation",
+            "YearOfProduction": "2024",
+            "rated": "PG-13",
+            "released": "1 June 2024",
+            "runtime": "",
+            "directors": ["Cindy Magara"],
+            "producers": ["Cindy Magara"],
+            "writers": ["Cindy Magara"],
+            "plotSummary": "Explore how the diverse yet interconnected peoples of contemporary Uganda handle the post-colonial dispensation after being clamped together into a country called Uganda. How are they fostering national unity after five decades of independence?",
+            "audioLanguages": [
+              {
+                "iso_639_1": "en",
+                "name": "English"
+              }
+            ],
+            "subtitleLanguages": [],
+            "filmType": "episode",
+            "youtubeTrailer": "https://www.youtube.com/watch?v=SCFb4MEik9M",
+            "localTrailer": "https://nyat-streams.fra1.cdn.digitaloceanspaces.com/films/TukoPamoja(2024)/Episodes-Segments/S13-Uganda/Trailer/Uganda%20Trailer%20EMB.mp4",
+            "fullVideoLink": " ",
+            "posters": [
+             "https://ik.imagekit.io/nyatimot/films-metadata/Tuko%20Pamoja%20(2024)/Improved_Nyati_Thumbnails/Uganda.png?updatedAt=1724762577575"
+            ],
+            "backdrops": []
+          }
+        ]
+      }
+    ]
+  }
+]

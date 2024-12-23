@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: local('Roboto-Medium'), url('./1-Assets/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SegoeUI-Bold-Italic';
+    src: local('SegoeUI-Bold-Italic'), url('./1-Assets/fonts/Segoe-UI-Bold-Italic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SegoeUI-Bold';
+    src: local('SegoeUI-Bold'), url('./1-Assets/fonts/Segoe-UI-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SegoeUI-SemiBold';
+    src: local('SegoeUI-SemiBold'), url('./1-Assets/fonts/Segoe-UI-Semibold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SegoeUI-Italic';
+    src: local('SegoeUI-Italic'), url('./1-Assets/fonts/Segoe-UI-Italic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Segoe-UI';
+    src: local('Segoe UI'), url('./1-Assets/fonts/Segoe-UI.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-Black';
+    src: local('Inter-Black'), url('./1-Assets/fonts/static/Inter-Black.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-Bold';
+    src: local('Inter-Bold'), url('./1-Assets/fonts/static/Inter-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-ExtraBold';
+    src: local('Inter-ExtraBold'), url('./1-Assets/fonts/static/Inter-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-ExtraLight';
+    src: local('Inter-ExtraLight'), url('./1-Assets/fonts/static/Inter-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-Light';
+    src: local('Inter-Light'), url('./1-Assets/fonts/static/Inter-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-Medium';
+    src: local('Inter-Medium'), url('./1-Assets/fonts/static/Inter-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-Regular';
+    src: local('Inter-Regular'), url('./1-Assets/fonts/static/Inter-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-SemiBold';
+    src: local('Inter-SemiBold'), url('./1-Assets/fonts/static/Inter-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-Thin';
+    src: local('Inter-Thin'), url('./1-Assets/fonts/static/Inter-Thin.ttf') format('truetype');
+}

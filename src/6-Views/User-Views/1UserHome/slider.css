@@ -1,0 +1,27 @@
+.embla {
+    max-width: 100%;
+    /* margin: auto; */
+    box-sizing: border-box;
+    --slide-height: 350px;
+    --slide-spacing: 1rem;
+    --slide-size: 80%;
+
+
+}
+
+.embla__viewport {
+    overflow: hidden;
+}
+.embla__container {
+    backface-visibility: hidden;
+    display: flex;
+
+
+    touch-action: pan-y pinch-zoom;
+    /* margin-left: calc(var(--slide-spacing) * -1); */
+
+/* 
+     margin-left: calc(2rem * -1);
+     margin-right: calc(2rem * 1);  */
+
+}
