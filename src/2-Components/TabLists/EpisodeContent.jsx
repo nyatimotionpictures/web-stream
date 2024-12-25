@@ -69,7 +69,7 @@ const EpisodeContent = ({
         <div className="flex justify-start  items-start w-max h-max ">
           <img
             src={
-              episodedata?.posters?.length > 0 ? episodedata?.posters[0] : ""
+              episodedata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""
             }
             alt=""
             className="size-fit sm:size-fill w-[280px] h-[250px] sm:w-[338px] sm:max-w-[338px] max-h-[250px] !object-cover mx-0 my-0 rounded-lg md:!w-[338px] xl:object-top xl:size-fit"
@@ -79,9 +79,9 @@ const EpisodeContent = ({
         <Stack spacing={"30px"} className="sm:w-[300px] md:w-full">
           <Stack>
             <Typography className="font-[Inter-SemiBold] text-base md:text-xl text-whites-40">
-              {`S${seriesdata?.seasonCounter}`}{" "}
-              {episodedata && `E${episodedata?.episodeCounter}`} -{" "}
-              {episodedata?.episodeTitle}
+              {`S${seriesdata?.season}`}{" "}
+              {episodedata && `E${episodedata?.episode}`} -{" "}
+              {episodedata?.title}
             </Typography>
             <Typography className="font-[Inter-Regular] text-[14px] md:text-base text-[#FFFAF6] text-opacity-70">
               {episodedata?.released}

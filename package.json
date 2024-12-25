@@ -22,6 +22,7 @@
     "@tanstack/react-table": "^8.16.0",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
+    "embla-carousel-autoplay": "^8.5.1",
     "embla-carousel-react": "^8.5.1",
     "formik": "^2.4.5",
     "moment-timezone": "^0.5.46",
@@ -40,6 +41,8 @@
   "devDependencies": {
     "@iconify-json/bx": "^1.1.10",
     "@iconify-json/carbon": "^1.2.4",
+    "@iconify-json/fa6-brands": "^1.2.5",
+    "@iconify-json/hugeicons": "^1.2.3",
     "@iconify-json/ion": "^1.1.17",
     "@iconify-json/solar": "^1.1.9",
     "@iconify-json/teenyicons": "^1.1.9",

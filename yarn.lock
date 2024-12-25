@@ -606,6 +606,20 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify-json/fa6-brands@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@iconify-json/fa6-brands/-/fa6-brands-1.2.5.tgz#27d7c809b974498e624dba2fc32c58d434897210"
+  integrity sha512-U/iFfziz6jSN9zArOJZYTtoj2tQyh6MxPdI8M84DQ2kEulPaj8j+h9bqvjmzszNHmD7v+kmmKd/MLkMKk+3Zuw==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify-json/hugeicons@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@iconify-json/hugeicons/-/hugeicons-1.2.3.tgz#94c3476c62dde081c50d5834f5fc51f2108578a7"
+  integrity sha512-EujzAC9jlyJY+iFA2ehXoTgGfjKxMMD9xWGQbbo0MlqZelkg/dmENlqIMJjLy9B1sZltw1ol5eYhhzY69TwkQw==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify-json/ion@^1.1.17":
   version "1.1.17"
   resolved "https://registry.yarnpkg.com/@iconify-json/ion/-/ion-1.1.17.tgz#34da00ec0649e8ebc50305b18f79152afa690ca0"
@@ -1680,6 +1694,11 @@ electron-to-chromium@^1.4.668:
   version "1.4.744"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.744.tgz#d19cdfdbd81bd800b71773702bcbaa129a3b2e8f"
   integrity sha512-nAGcF0yeKKfrP13LMFr5U1eghfFSvFLg302VUFzWlcjPOnUYd52yU5x6PBYrujhNbc4jYmZFrGZFK+xasaEzVA==
+
+embla-carousel-autoplay@^8.5.1:
+  version "8.5.1"
+  resolved "https://registry.yarnpkg.com/embla-carousel-autoplay/-/embla-carousel-autoplay-8.5.1.tgz#d0213ab6d7beeafcfcb8f7b1fa023a4d3882f0a2"
+  integrity sha512-FnZklFpePfp8wbj177UwVaGFehgs+ASVcJvYLWTtHuYKURynCc3IdDn2qrn0E5Qpa3g9yeGwCS4p8QkrZmO8xg==
 
 embla-carousel-react@^8.5.1:
   version "8.5.1"

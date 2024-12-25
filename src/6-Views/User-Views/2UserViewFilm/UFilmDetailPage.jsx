@@ -65,14 +65,14 @@ const UFilmDetailPage = () => {
 
       <Stack className="flex-col w-full h-full space-y-0">
         <UDetailHero
-          //filmData={filmsQuery?.data?.film}
-          filmData={selectedFilm}
+          filmData={filmsQuery?.data?.film}
+         // filmData={selectedFilm}
           handlePaymentModel={handlePaymentModel}
         />
         <div className="px-2 lg:px-16">
           <UFilmTabs 
-          //filmData={filmsQuery?.data?.film}
-          filmData={selectedFilm}
+          filmData={filmsQuery?.data?.film}
+         // filmData={selectedFilm}
           
           />
         </div>

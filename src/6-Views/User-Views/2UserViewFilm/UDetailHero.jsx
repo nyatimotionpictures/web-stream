@@ -8,6 +8,8 @@ import heroImg from "../../../1-Assets/Hero.png"
 const UDetailHero = ({ filmData, handlePaymentModel }) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
 
+//  console.log(filmData)
+
   React.useEffect(() => {
     if (
       filmData?.type?.toLowerCase()?.includes("series") ||
@@ -15,10 +17,10 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
         filmData?.seasons?.length > 0)
     ) {
       if (
-        filmData?.seasons[0]?.episodes?.length > 0 &&
-        filmData?.seasons[0]?.episodes[0]?.Backdrops?.length > 0
+        filmData?.season[0]?.episodes?.length > 0 &&
+        filmData?.season[0]?.episodes[0]?.Backdrops?.length > 0
       ) {
-        let bklink = filmData?.seasons[0]?.episodes[0]?.backdrops[0];
+        let bklink = filmData?.season[0]?.episodes[0]?.backdrops[0];
 
         setBackdropUrl(() => bklink);
       }
@@ -37,8 +39,8 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
       className={`flex flex-col h-screen w-screen bg-cover bg-no-repeat bg-fixed relative`}
     >
       <img
-       // src={backDropUrl ? backDropUrl : ""}
-       src={heroImg}
+        src={backDropUrl ? backDropUrl : ""}
+     //  src={heroImg}
         alt=""
         className="flex absolute top-0 object-cover h-full w-full slect-none bg-gradient-to-b from-transparent to-secondary-700"
         style={{
@@ -63,9 +65,9 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
               {filmData?.type?.toLowerCase()?.includes("series") ||
               filmData?.type?.toLowerCase()?.includes("segment") ? (
                 <div>
-                  {filmData?.seasons?.length > 0 && (
+                  {filmData?.season?.length > 0 && (
                     <Typography className="font-[Inter-Regular] text-[#EEF1F4] text-sm md:text-base text-ellipsis select-none">
-                      {filmData?.seasons[0]?.title}
+                      {filmData?.season[0]?.title}
                     </Typography>
                   )}
                 </div>

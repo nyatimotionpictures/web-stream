@@ -14,11 +14,11 @@ const EpisodeTab = ({
     openLocalModal,
 }) => {
     const [seasonData, setSeasonData] = React.useState([]);
-    //console.log("filmData", filmdata.seasons);
+    console.log("filmData", filmdata.season);
 
     React.useEffect(() => {
-        if (filmdata?.seasons ) {
-            setSeasonData(() => filmdata?.seasons);
+        if (filmdata?.season ) {
+            setSeasonData(() => filmdata?.season);
         } else {
             setSeasonData(() => []);
         }
@@ -27,19 +27,19 @@ const EpisodeTab = ({
             setSeasonData(() => []);
         }
       
-    }, [filmdata, filmdata?.title, filmdata?.filmType, filmdata?.seasons]);
+    }, [filmdata, filmdata?.title, filmdata?.filmType, filmdata?.season]);
   return (
       <Container>
-          {seasonData?.length > 0 && filmdata?.seasons  ? (
+          {seasonData?.length > 0 && filmdata?.season  ? (
               <>
-                  {filmdata?.seasons[0]?.episodes?.length > 0 && (
+                  {filmdata?.season[0]?.episodes?.length > 0 && (
                       <Stack  className="flex flex-col gap-[63px]">
-                          {filmdata?.seasons[0]?.episodes?.map((data, index) => {
+                          {filmdata?.season[0]?.episodes?.map((data, index) => {
                               return (
                                   <EpisodeContent
                                       openModal={openModal}
                                       key={index}
-                                      seriesdata={filmdata?.seasons[0]}
+                                      seriesdata={filmdata?.season[0]}
                                       episodedata={data}
                                       setSelectedTrailer={setSelectedTrailer}
                                       openLocalModal={openLocalModal}

@@ -9,8 +9,12 @@ import { useGetAllFilms } from "../../../5-Store/TanstackStore/services/queries"
 import useEmblaCarousel from "embla-carousel-react";
 import FilmJSON from '../../../1-Assets/data/film_metadata.json'
 import "./slider.css"
+import Autoplay from 'embla-carousel-autoplay';
+
 
 const UserHome = () => {
+  const autoplayOptions = { delay: 10000 };
+  const autoplay = Autoplay(autoplayOptions);
   const [featuredFilms, setFeaturedFilms] = React.useState([FilmJSON[0], FilmJSON[1]])
   let filmsQuery = useGetAllFilms();
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -20,7 +24,7 @@ const UserHome = () => {
     startIndex: 0,
     snapSize: 1,
     gap: 0,
-  });
+  },[autoplay]);
 
   const FeaturedData = React.useMemo(() => {
     return filmsQuery?.data?.films?.filter((film) => {
@@ -32,7 +36,7 @@ const UserHome = () => {
     });
   }, [filmsQuery?.data?.films]);
 
-  console.log("featuredFilkms", FilmJSON)
+ // console.log("featuredFilkms", FilmJSON)
 
 
 
@@ -47,7 +51,7 @@ const UserHome = () => {
         <div className="embla !min-h-[70vh] ">
           <div className="embla__viewport !overflow-hidden" ref={emblaRef}>
             <div className="embla__container flex flex-row !space-x-0 !gap-0 px-0 pr-0">
-              {featuredFilms?.map((data, index) => {
+              {FeaturedData?.map((data, index) => {
                 return (
                   <div key={index} className="embla__slide space-x-0 ">
                     <UserHero filmData={data} />

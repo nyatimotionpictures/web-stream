@@ -42,8 +42,8 @@ function App() {
             >
               <Route path="/" element={<UserHome />} />
               <Route path="/film/:id" element={<UFilmDetailPage />} />
-              <Route path="/series/:id" element={<UserHome />} />
-              <Route path="/episode/:id" element={<UserHome />} />
+              <Route path="/series/:id" element={<UFilmDetailPage />} />
+              <Route path="/episode/:id" element={<UFilmDetailPage />} />
               <Route path="/payment" element={<FilmPayment />} />
               <Route
                 path="/payment/validate/:orderTrackingId"
