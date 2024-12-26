@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Box, Stack, Typography } from "@mui/material";
 import Button from "../../../2-Components/Buttons/Button";
 import heroImg from "../../../1-Assets/Hero.png"
+import { Player } from "video-react";
+
 
 
 const UDetailHero = ({ filmData, handlePaymentModel }) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
+  const [showVideo, setShowVideo] = React.useState(false);
+  const [trailerUrl, setTrailerUrl] = React.useState(null);
+  const [isVideoPlayed, setIsVideoPlayed] = React.useState(false)
+  const [isVideoMuted, setIsVideoMuted] = React.useState(false)
+  const [timer, setTimer] = React.useState(null);
+  const videoRef = React.useRef(null);
+  const heroRef = React.useRef(null)
+  
 
-//  console.log(filmData)
+  const handlevideoEnd = () => {
+    setShowVideo(false);
+  };
 
+ console.log(filmData)
+
+ React.useEffect(() => {
+  const timer = setTimeout(() => {
+    setShowVideo(true);
+   
+  }, 5000);
+  return () => clearTimeout(timer);
+ },[])
   React.useEffect(() => {
     if (
       filmData?.type?.toLowerCase()?.includes("series") ||
@@ -18,9 +39,9 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
     ) {
       if (
         filmData?.season[0]?.episodes?.length > 0 &&
-        filmData?.season[0]?.episodes[0]?.Backdrops?.length > 0
+        filmData?.season[0]?.episodes[0]?.posters?.length > 0
       ) {
-        let bklink = filmData?.season[0]?.episodes[0]?.backdrops[0];
+        let bklink = filmData?.season[0]?.episodes[0]?.posters[0]?.url;
 
         setBackdropUrl(() => bklink);
       }
@@ -28,25 +49,136 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
       if (
         filmData?.type?.toLowerCase()?.includes("film") ||
         (filmData?.type?.toLowerCase()?.includes("movie") &&
-          filmData?.backdrops?.length > 0)
+          filmData?.posters?.length > 0)
       ) {
-        setBackdropUrl(() => filmData?.backdrops[0]);
+        setBackdropUrl(() => filmData?.posters[0]?.url);
       }
     }
   }, [filmData]);
+
+  React.useEffect(() => {
+    if (filmData?.video?.length > 0) {
+      filmData?.video?.filter((data) =>  {
+        if (data?.isTrailer) {
+          setTrailerUrl(() => data?.url);
+        }
+      } )
+      
+    }
+
+   
+  },  [filmData]);
+
+  const handleOnLoad = (e) => {
+    console.log("loaded", e.target)
+    //setIsVideoPlaying(true)
+   videoRef.current.play()
+  }
+
+  const handleOnEnded = () => {
+    setShowVideo(false);
+    setIsVideoPlayed(true)
+  };
+
+  const handleMuteVideo = () => {
+    setIsVideoMuted(!isVideoMuted)
+  }
+
+  const handleReplayVideo = () => {
+   
+    setIsVideoPlayed(false)
+    setShowVideo(true)
+  }
+
+  //handle the scroll behaviour
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!videoRef.current || !heroRef.current ) return;
+
+      const heroBounds = heroRef.current.getBoundingClientRect();
+      const isHeroInView = heroBounds.top >= 0 && heroBounds.bottom <= window.innerHeight;
+     
+
+       if (!isHeroInView && !videoRef.current.paused) {
+        videoRef.current.pause(); // Pause video when out of view
+      } else if (isHeroInView && videoRef.current.paused && showVideo) {
+        videoRef.current.play(); // Resume video if it’s back in view
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  },  [showVideo]);
+
+  
+
+
   return (
     <HeroContent
+    ref={heroRef }
       className={`flex flex-col h-screen w-screen bg-cover bg-no-repeat bg-fixed relative`}
     >
-      <img
-        src={backDropUrl ? backDropUrl : ""}
-     //  src={heroImg}
-        alt=""
-        className="flex absolute top-0 object-cover h-full w-full slect-none bg-gradient-to-b from-transparent to-secondary-700"
-        style={{
-          filter: "brightness(20%)", // Adjust brightness if needed
-        }}
-      />
+      {!showVideo ? (
+        <img
+          src={backDropUrl ? backDropUrl : ""}
+          //  src={heroImg}
+          alt=""
+          className="flex absolute top-0 object-cover h-full w-full slect-none bg-gradient-to-b from-transparent to-secondary-700"
+          style={{
+            filter: "brightness(20%)", // Adjust brightness if needed
+          }}
+        />
+      ) : (
+        <div className="flex justify-center items-center absolute top-0 object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden">
+          <video
+          ref={videoRef}
+          autoPlay
+          src={trailerUrl}
+          playsInline
+          onLoadedData={handleOnLoad}
+          onCanPlay={handleOnLoad}
+          controls={false}
+          onEnded={() => handleOnEnded()}
+          muted={isVideoMuted}
+          className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
+        ></video>
+
+        </div>
+        
+      )}
+
+      {isVideoPlayed || showVideo ? (
+        <div className="absolute flex right-0 bottom-20 z-50 w-20 h-10   ">
+          {isVideoPlayed ? (
+            <div className="flex flex-col justify-center items-start px-3  w-full h-full bg-secondary-900 ">
+               <span
+              onClick={handleReplayVideo}
+              className="icon-[solar--restart-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
+            ></span>
+
+            </div>
+           
+          ) : (
+            <div className="flex flex-col justify-center items-start px-3  w-full h-full bg-secondary-900 ">
+              {isVideoMuted ? (
+                <span
+                  onClick={handleMuteVideo}
+                  className="icon-[solar--muted-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
+                ></span>
+              ) : (
+                <span
+                  onClick={handleMuteVideo}
+                  className="icon-[solar--volume-loud-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
+                ></span>
+              )}
+            </div>
+          )}
+        </div>
+      ) : null}
+
       <div className="flex absolute top-0 object-cover h-full w-full slect-none  bg-gradient-to-b from-transparent to-secondary-800" />
       <Box className="mx-auto h-screen px-5  md:px-16 py-32 flex items-center">
         <Box className="flex flex-col relative  h-screen w-screen ">
@@ -103,23 +235,23 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
               >
                 <Stack direction="row" className="gap-2">
                   <span className="icon-[solar--bag-heart-outline] h-6 w-6 text-primary-500"></span>
-                  {
-                    filmData?.access?.toLowerCase()?.includes('free') ? (
-                      <Typography className="font-[Inter-Medium] text-base text-whites-40">
+                  {filmData?.access?.toLowerCase()?.includes("free") ? (
+                    <Typography className="font-[Inter-Medium] text-base text-whites-40">
                       Free to watch
                     </Typography>
-                    ) : (
-                      <Typography className="font-[Inter-Medium] text-base text-whites-40">
-                        Rent to watch
-                      </Typography>
-                    )
-                  }
-                  
+                  ) : (
+                    <Typography className="font-[Inter-Medium] text-base text-whites-40">
+                      Rent to watch
+                    </Typography>
+                  )}
                 </Stack>
 
                 <Stack className="flex flex-col-reverse gap-4 md:gap-0 md:flex-row space-x-3">
                   {/** handle payment */}
-                  <Button onClick={handlePaymentModel} className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]">
+                  <Button
+                    onClick={handlePaymentModel}
+                    className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                  >
                     <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
                     <Typography className="font-[Roboto-Regular] text-base">
                       Watch

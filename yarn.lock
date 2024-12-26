@@ -627,6 +627,13 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify-json/mdi@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@iconify-json/mdi/-/mdi-1.2.2.tgz#757d5780470c9e539dca9dd97b94f0bb4c8dbfb8"
+  integrity sha512-84aznJXzfGdbOXGe8xB7E5uNAb7Yo5IABwTgq2X3kczb819qZeS9eL31bTVn7wJdCLK5ieaoUc2GTS3QYIkJ6g==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify-json/solar@^1.1.9":
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/@iconify-json/solar/-/solar-1.1.9.tgz#a7eba734d0ff02457142334af25a937b9aa732d9"
