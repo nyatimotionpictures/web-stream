@@ -339,7 +339,9 @@ const UMobileHero = ({ filmData, handlePaymentModel }) => {
         </div>
 
         {/** watch button */}
-        <div className="flex flex-col gap-2 w-full">
+        {
+          !filmData?.type?.toLowerCase()?.includes("series") && (
+            <div className="flex flex-col gap-2 w-full">
           <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
             <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
             <Typography className="font-[Inter-Bold] text-base">
@@ -347,6 +349,9 @@ const UMobileHero = ({ filmData, handlePaymentModel }) => {
             </Typography>
           </Button>
         </div>
+          )
+        }
+        
 
         {/** ploat summary && cast & directors */}
         <div className="flex flex-col gap-4 w-full">
