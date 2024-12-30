@@ -61,18 +61,19 @@ const EpisodeContent = ({
     return (
       <Stack
         
-        className="flex-col md:flex-row w-[280px] gap-6 sm:w-full h-max justify-start items-start"
+        className="flex-col md:flex-row w-full xs:w-[280px] gap-6 sm:w-full h-max justify-start items-start"
         ref={ref}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <div className="flex justify-start  items-start w-max h-max ">
+        <div className="flex justify-start  items-start w-full sm:w-max h-max ">
           <img
             src={
               episodedata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""
             }
             alt=""
-            className="size-fit sm:size-fill w-[280px] h-[250px] sm:w-[338px] sm:max-w-[338px] max-h-[250px] !object-cover mx-0 my-0 rounded-lg md:!w-[338px] xl:object-top xl:size-fit"
+            //w-[280px] 
+            className="size-fit sm:size-fill w-full h-[250px] sm:w-[338px] sm:max-w-[338px] max-h-[250px] !object-cover mx-0 my-0 rounded-lg md:!w-[338px] xl:object-top xl:size-fit"
           />
         </div>
 

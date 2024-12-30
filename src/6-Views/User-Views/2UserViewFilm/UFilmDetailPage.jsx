@@ -3,7 +3,7 @@ import Footer from "../../../2-Components/Footer/Footer";
 import UDetailHero from "./UDetailHero";
 import UFilmTabs from "./UFilmTabs";
 import styled from "styled-components";
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useMediaQuery } from "@mui/material";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetFilm } from "../../../5-Store/TanstackStore/services/queries";
@@ -12,6 +12,7 @@ import Button from "../../../2-Components/Buttons/Button";
 import Logo from "../../../1-Assets/logos/Logo.svg";
 import UVideoResolutionForm from "../../../2-Components/Forms/UVideoResolutionForm";
 import FilmJson from "../../../1-Assets/data/film_metadata.json";
+import UMobileHero from "./UMobileHero";
 
 const UFilmDetailPage = () => {
   const [selectedFilm, setSelectedFilm] = React.useState(null);
@@ -59,21 +60,38 @@ const UFilmDetailPage = () => {
     setPayModal(() => !payModal);
   };
 
+  const isSmallScreen = useMediaQuery('(max-width:767px)')
+
+  console.log(isSmallScreen)
+
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
-      <WebNavigation isLoggedIn={true} />
+      {
+        !isSmallScreen &&  <WebNavigation isLoggedIn={true} />
+      }
+   
+     
+   
+   
 
       <Stack className="flex-col w-full h-full space-y-0">
-        <UDetailHero
+        {
+          isSmallScreen ?   <UMobileHero
           filmData={filmsQuery?.data?.film}
-         // filmData={selectedFilm}
+          // filmData={selectedFilm}
           handlePaymentModel={handlePaymentModel}
-        />
+        /> :  <UDetailHero
+        filmData={filmsQuery?.data?.film}
+        // filmData={selectedFilm}
+        handlePaymentModel={handlePaymentModel}
+      />
+        }
+       
+      
         <div className="px-2 lg:px-16">
-          <UFilmTabs 
-          filmData={filmsQuery?.data?.film}
-         // filmData={selectedFilm}
-          
+          <UFilmTabs
+            filmData={filmsQuery?.data?.film}
+            // filmData={selectedFilm}
           />
         </div>
       </Stack>
@@ -95,10 +113,7 @@ const UFilmDetailPage = () => {
                 {/**  forms  */}
                 <div className="flex flex-col w-full h-full text-whites-40 gap-6 relative">
                   <CustomStack className="z-50 w-full justify-between items-center py-2 pt-7 sticky top-0 bg-secondary-900">
-                    <div
-                      className="mx-0 mt-0 select-none cursor-pointer w-10 h-10"
-                      
-                    >
+                    <div className="mx-0 mt-0 select-none cursor-pointer w-10 h-10">
                       <img src={Logo} alt="" className="w-full h-full" />
                     </div>
 
@@ -123,20 +138,18 @@ const UFilmDetailPage = () => {
                   {/** stepper control */}
                   <div className="border-t-2 border-t-secondary-500 relative">
                     <div className="container flex flex-col-reverse md:flex-row gap-4 md:gap-2 items-center justify-end mx-0  mt-4 mb-8 ">
-                     
-                    <Button
-                          onClick={handlePaymentModel}
-                          className="w-max bg-transparent border border-primary-500 min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
-                        >
-                          Cancel & Close
-                        </Button>
-                        <Button
-                          onClick={handleFormSubmit}
-                          className="w-max min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
-                        >
-                          Pay
-                        </Button>
-                      
+                      <Button
+                        onClick={handlePaymentModel}
+                        className="w-max bg-transparent border border-primary-500 min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
+                      >
+                        Cancel & Close
+                      </Button>
+                      <Button
+                        onClick={handleFormSubmit}
+                        className="w-max min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
+                      >
+                        Pay
+                      </Button>
                     </div>
                   </div>
                 </div>

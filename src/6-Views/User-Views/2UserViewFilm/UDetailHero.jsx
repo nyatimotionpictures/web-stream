@@ -29,7 +29,11 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
     setShowVideo(true);
    
   }, 5000);
-  return () => clearTimeout(timer);
+  return () => {
+    clearTimeout(timer);
+    setShowVideo(false)
+    
+  }
  },[])
   React.useEffect(() => {
     if (
@@ -119,7 +123,7 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
   return (
     <HeroContent
     ref={heroRef }
-      className={`flex flex-col h-screen w-screen bg-cover bg-no-repeat bg-fixed relative`}
+      className={`hidden lg:flex flex-col h-screen w-screen bg-cover bg-no-repeat bg-fixed relative`}
     >
       {!showVideo ? (
         <img
