@@ -1,22 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import Footer from "../../../2-Components/Footer/Footer";
 import UDetailHero from "./UDetailHero";
 import UFilmTabs from "./UFilmTabs";
 import styled from "styled-components";
-import { Stack, Typography, useMediaQuery } from "@mui/material";
+import { Alert, Snackbar, Stack, Typography, useMediaQuery } from "@mui/material";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetFilm } from "../../../5-Store/TanstackStore/services/queries";
+import { useGetFilm, useGetWatchList } from "../../../5-Store/TanstackStore/services/queries";
 import CustomStack from "../../../2-Components/Stacks/CustomStack";
 import Button from "../../../2-Components/Buttons/Button";
 import Logo from "../../../1-Assets/logos/Logo.svg";
 import UVideoResolutionForm from "../../../2-Components/Forms/UVideoResolutionForm";
 import FilmJson from "../../../1-Assets/data/film_metadata.json";
 import UMobileHero from "./UMobileHero";
+import { postAddToWatchlist, rateLikesFilm, removeFromWatchlist } from "../../../5-Store/TanstackStore/services/api";
+import { useMutation } from "@tanstack/react-query";
+import { AuthContext } from "../../../5-Store/AuthContext";
 
 const UFilmDetailPage = () => {
   const [selectedFilm, setSelectedFilm] = React.useState(null);
   const [payModal, setPayModal] = React.useState(false);
+   const [currentUserData, setCurrentUserData] = React.useState(null);
+   const [includedInWatchlist, setIncludedInWatchlist] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState(null);
+  const userData = useContext(AuthContext);
+
+    React.useEffect(() => {
+      if (userData.currentUser !== null) {
+        setCurrentUserData(userData.currentUser?.user);
+      } else {
+        navigate("/login", { replace: true });
+      }
+      //console.log("userData", userData);
+    
+    }, [userData.currentUser?.user.id]);
 
   // const [isImgBroken, setIsImgBroken] = React.useState(false);
 
@@ -25,12 +42,10 @@ const UFilmDetailPage = () => {
   // console.log("filmId", filmId);
   let params = useParams();
   const formRef = React.useRef();
-  // console.log("params", params);
   const filmsQuery = useGetFilm(params?.id);
   let navigate = useNavigate();
 
-  //console.log("filmsQuery", filmsQuery?.data?.film);
-  console.log(FilmJson[3])
+  console.log(FilmJson[3]);
   React.useEffect(() => {
     setSelectedFilm(() => FilmJson[3]);
   }, [FilmJson]);
@@ -39,55 +54,125 @@ const UFilmDetailPage = () => {
     if (formRef.current) {
       formRef.current.handleSubmit();
     } else {
-      alert("No form")
+      alert("No form");
     }
-  }
+  };
 
   const handleAPISubmission = (values) => {
-    console.log("values", values)
+    console.log("values", values);
     //  alert(`form submitted ${editInfo.title}`);
-   // createMutation.mutate(values)
+    // createMutation.mutate(values)
     //handleFormSubmit()
-    navigate("/payment", { state: {
-      filmId: filmsQuery?.data?.film?.id,
-      videoId: values.videoId,
-      resolution: values.resolution,
-      resolutionInfo: values.resolutionInfo,
-    } });
-
-  }
+    navigate("/payment", {
+      state: {
+        filmId: filmsQuery?.data?.film?.id,
+        videoId: values.videoId,
+        resolution: values.resolution,
+        resolutionInfo: values.resolutionInfo,
+      },
+    });
+  };
   const handlePaymentModel = () => {
     setPayModal(() => !payModal);
   };
 
-  const isSmallScreen = useMediaQuery('(max-width:767px)')
+  const isSmallScreen = useMediaQuery("(max-width:767px)");
 
-  console.log(isSmallScreen)
+  /** rating mutation */
+  const rateMutation = useMutation({
+    mutationFn: rateLikesFilm,
+    onSuccess: (data, variables) => {
+      console.log("data", data);
+      //setRated(true)
+      setSnackbarMessage({message: data.message, severity: "success"});
+    },
+    onError: (error) => {
+      console.log("error", error);
+      setSnackbarMessage(() => ({message: error.message, severity: "error"}));
 
+    },
+  });
+
+  /** add watchlist mutation */
+  const addToWatchlistMutation = useMutation({
+    mutationFn: postAddToWatchlist,
+    onSuccess: (data, variables) => {
+      console.log("data", data);
+      //setRated(true)
+      setSnackbarMessage({message: data.message, severity: "success"});
+      watchlistQuery.refetch();
+    },
+    onError: (error) => {
+      console.log("error", error);
+      setSnackbarMessage(() => ({message: error.message, severity: "error"}));
+
+    },
+  });
+
+  /** remove watchlist mutation */
+  const removeFromWatchlistMutation = useMutation({
+    mutationFn: removeFromWatchlist,
+    onSuccess: (data, variables) => {
+      console.log("data", data);
+      //setRated(true)
+      setSnackbarMessage({message: data.message, severity: "success"});
+      watchlistQuery.refetch();
+    },
+    onError: (error) => {
+      console.log("error", error);
+      setSnackbarMessage(() => ({message: error.message, severity: "error"}));
+
+    },
+  });
+
+  /** get all user watchlist */
+  const watchlistQuery = useGetWatchList(userData.currentUser?.user?.id);
+
+
+
+  /** check watchlist */
+ 
+
+  React.useEffect(() => {
+    if (watchlistQuery?.data?.watchlist?.SAVED?.length > 0) {
+      let watchlistArray =  watchlistQuery?.data?.watchlist?.SAVED?.filter((data) => data?.id === filmsQuery?.data?.film?.id);
+      console.log("watchlistArray", watchlistArray)
+      setIncludedInWatchlist(watchlistArray?.length > 0 ? true : false);
+    } else {
+      setIncludedInWatchlist(false);
+    }
+  }, [watchlistQuery?.data?.watchlist?.SAVED]);
+  console.log("watchlistQuery", watchlistQuery)
+  
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
-      {
-        !isSmallScreen &&  <WebNavigation isLoggedIn={true} />
-      }
-   
-     
-   
-   
+      {!isSmallScreen && <WebNavigation isLoggedIn={true} />}
 
       <Stack className="flex-col w-full h-full space-y-0">
-        {
-          isSmallScreen ?   <UMobileHero
-          filmData={filmsQuery?.data?.film}
-          // filmData={selectedFilm}
-          handlePaymentModel={handlePaymentModel}
-        /> :  <UDetailHero
-        filmData={filmsQuery?.data?.film}
-        // filmData={selectedFilm}
-        handlePaymentModel={handlePaymentModel}
-      />
-        }
-       
-      
+        {isSmallScreen ? (
+          <UMobileHero
+            filmData={filmsQuery?.data?.film}
+            // filmData={selectedFilm}
+            handlePaymentModel={handlePaymentModel}
+            currentUserData={currentUserData}
+            rateMutation={rateMutation}
+            addToWatchlistMutation={addToWatchlistMutation}
+            removeFromWatchlistMutation={removeFromWatchlistMutation}
+            includedInWatchlist={includedInWatchlist}
+          />
+        ) : (
+          <UDetailHero
+            filmData={filmsQuery?.data?.film}
+            // filmData={selectedFilm}
+            handlePaymentModel={handlePaymentModel}
+            currentUserData={currentUserData}
+            rateMutation={rateMutation}
+            addToWatchlistMutation={addToWatchlistMutation}
+            removeFromWatchlistMutation={removeFromWatchlistMutation}
+            includedInWatchlist={includedInWatchlist}
+          />
+        )}
+
         <div className="px-2 lg:px-16">
           <UFilmTabs
             filmData={filmsQuery?.data?.film}
@@ -158,6 +243,18 @@ const UFilmDetailPage = () => {
           </div>
         </CustomStack>
       )}
+
+       {/** snackbar */}
+                  <Snackbar
+              open={snackbarMessage !== null}
+              autoHideDuration={6000}
+              onClose={() => setSnackbarMessage(null)}
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+              <Alert severity={snackbarMessage?.severity} variant="filled">
+                {snackbarMessage?.message}
+              </Alert>
+            </Snackbar>
     </Container>
   );
 };

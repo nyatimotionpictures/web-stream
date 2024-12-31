@@ -5,7 +5,7 @@ import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import TextClamped from "../../../2-Components/Stacks/TextClamped";
 
-const UMobileHero = ({ filmData, handlePaymentModel }) => {
+const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist }) => {
    const [backDropUrl, setBackdropUrl] = React.useState(null);
     const [showVideo, setShowVideo] = React.useState(false);
     const [trailerUrl, setTrailerUrl] = React.useState(null);
@@ -187,6 +187,49 @@ const UMobileHero = ({ filmData, handlePaymentModel }) => {
        },  [showVideo]);
      
 
+
+       //handle likes
+       const handleLikes = (type) => {
+        if (type === "like") {
+       let dataValues =   {
+            filmId: filmData?.id,
+            userId: currentUserData?.id,
+            likeType: "THUMBS_UP",
+            type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+          }
+          rateMutation.mutate(dataValues);
+        } else {
+          let dataValues =   {
+            filmId: filmData?.id,
+            userId: currentUserData?.id,
+            likeType: "THUMBS_DOWN",
+            type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+
+          }
+          rateMutation.mutate(dataValues);
+        }
+       }
+
+       /** check watchlist */
+      
+
+      
+       //handle add to watchlist
+       const handleAddToWatchlist = () => {
+         if (includedInWatchlist) {
+           removeFromWatchlistMutation.mutate({
+             filmId: filmData?.id,
+             userId: currentUserData?.id,
+           })
+         } else {
+           addToWatchlistMutation.mutate({
+             filmId: filmData?.id,
+             userId: currentUserData?.id,
+           })
+         }
+       }
+
+     
     
   return (
     <div
@@ -200,7 +243,7 @@ const UMobileHero = ({ filmData, handlePaymentModel }) => {
             // poster={backDropUrl ? backDropUrl : ""}
             ref={videoRef}
             autoPlay
-             src={trailerUrl}
+            src={trailerUrl}
             playsInline
             onTimeUpdate={handleTimeUpdate}
             onLoadedData={handleLoadedData}
@@ -339,25 +382,37 @@ const UMobileHero = ({ filmData, handlePaymentModel }) => {
         </div>
 
         {/** watch button */}
-        {
-          !filmData?.type?.toLowerCase()?.includes("series") && (
-            <div className="flex flex-col gap-2 w-full">
-          <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
-            <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
-            <Typography className="font-[Inter-Bold] text-base">
-              Watch
-            </Typography>
-          </Button>
-        </div>
-          )
-        }
-        
+        {!filmData?.type?.toLowerCase()?.includes("series") && (
+          <>
+          {
+            filmData?.access?.toLowerCase()?.includes("free") ? (
+              <div className="flex flex-col gap-2 w-full">
+                <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+                  <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
+                  <Typography className="font-[Inter-Bold] text-base">
+                    Watch
+                  </Typography>
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 w-full">
+              <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+                <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
+                <Typography className="font-[Inter-Bold] text-base">
+                  Pay to Watch
+                </Typography>
+              </Button>
+            </div>
+            )
+          }
+           
+          </>
+        )}
 
         {/** ploat summary && cast & directors */}
         <div className="flex flex-col gap-4 w-full">
           <p className=" font-[Inter-Regular] text-whites-100 text-sm md:text-base text-ellipsis  select-none">
             <TextClamped text={filmData?.plotSummary} lines={3} />
-         
           </p>
 
           <div className="flex flex-col gap-1 w-full">
@@ -395,17 +450,31 @@ const UMobileHero = ({ filmData, handlePaymentModel }) => {
 
         {/** like buttons */}
         <div className="flex flex-row gap-2 w-full">
-          <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+          {
+            includedInWatchlist ? (<Button onClick={handleAddToWatchlist} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-secondary-300">
+              <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-secondary-900"></span>
+            </Button>) : (<Button  onClick={handleAddToWatchlist}  className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
             <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-secondary-900"></span>
-          </Button>
-          <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+          </Button>)
+          }
+          
+        
+          <Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("like")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
             <span className="icon-[solar--like-broken] h-6 w-6 text-secondary-900"></span>
           </Button>
-          <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+          <Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("dislike")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
             <span className="icon-[solar--dislike-broken] h-6 w-6 text-secondary-900"></span>
           </Button>
         </div>
       </div>
+
+
+     {/** loader */}
+     {rateMutation.isPending || addToWatchlistMutation.isPending || removeFromWatchlistMutation.isPending ? (
+        <div className="absolute flex w-full h-full items-center justify-center">
+          <CustomLoader />
+        </div>
+      ): null}
     </div>
   );
 }

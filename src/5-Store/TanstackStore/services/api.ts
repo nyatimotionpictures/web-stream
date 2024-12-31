@@ -151,17 +151,7 @@ export const getAllFilms = async () => {
   }
 };
 
-/** query: Get watchlist of user - new-not tested with data */
-export const getUserWatchList = async (UserId: String) => {
-  try {
-      const response = await apiRequest.get(`/v1/film/watchlist/${UserId}`);
 
-      return response.data
-  } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
-  }
-}
 
 /** query: Get purchases of user - new-not tested with data */
 
@@ -176,7 +166,56 @@ export const getUserPurchaseList = async (UserId: String) => {
   }
 }
 
+/** like rate */
+export const rateLikesFilm = async (likeContent: any) => {
+  try {
+    let {filmId, userId, ...rest} = likeContent;
+    const response = await apiRequest.put(`/v1/film/likerate/${filmId}/${userId}`, rest); 
+    return response.data
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+}
 
+/** add to watchlist - working as expected */
+export const postAddToWatchlist = async (watchlistContent: any) => {
+  try {
+    let {filmId, userId, ...rest} = watchlistContent;
+    const response = await apiRequest.post(`/v1/film/watchlist/${filmId}/${userId}`, rest); 
+    return response.data
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+}
+
+/** remove from watchlist - not working as expected : remind newton to fix */
+export const removeFromWatchlist = async (watchlistContent: any) => {
+  try {
+    let {filmId, userId, ...rest} = watchlistContent;
+    const response = await apiRequest.delete(`/v1/film/watchlist/${filmId}/${userId}`, rest); 
+    return response.data
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+}
+
+/** query: Get watchlist of user - new-not tested with data */
+export const getUserWatchList = async (UserId: String) => {
+  try {
+      const response = await apiRequest.get(`/v1/film/watchlist/${UserId}`);
+
+      return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+}
 
 
 
