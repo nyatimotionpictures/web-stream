@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {  getAllFilms,  getFilmContent, getUserPurchaseList, getUserWatchList } from "./api";
+import {  getAllFilms,  getFilmContent, getSimilarFilms, getUserPurchaseList, getUserWatchList } from "./api";
 
 export function useGetAllFilms() {
     return useQuery({
@@ -13,6 +13,14 @@ export function useGetFilm(id: String) {
     return useQuery({
         queryKey: ["film", id],
         queryFn: () => getFilmContent(id),
+       
+    });
+}
+
+export function useGetSimilarFilms(id: String) {
+    return useQuery({
+        queryKey: ["similar", id],
+        queryFn: () => getSimilarFilms(id),
        
     });
 }

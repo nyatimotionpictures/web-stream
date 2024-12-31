@@ -210,7 +210,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
         }
        }
 
-       /** check watchlist */
+      
       
 
       
@@ -396,7 +396,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
               </div>
             ) : (
               <div className="flex flex-col gap-2 w-full">
-              <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+              <Button  onClick={handlePaymentModel} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
                 <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
                 <Typography className="font-[Inter-Bold] text-base">
                   Pay to Watch

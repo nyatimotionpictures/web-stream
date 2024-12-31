@@ -136,13 +136,18 @@ const UFilmDetailPage = () => {
   React.useEffect(() => {
     if (watchlistQuery?.data?.watchlist?.SAVED?.length > 0) {
       let watchlistArray =  watchlistQuery?.data?.watchlist?.SAVED?.filter((data) => data?.id === filmsQuery?.data?.film?.id);
-      console.log("watchlistArray", watchlistArray)
+      
       setIncludedInWatchlist(watchlistArray?.length > 0 ? true : false);
     } else {
       setIncludedInWatchlist(false);
     }
   }, [watchlistQuery?.data?.watchlist?.SAVED]);
-  console.log("watchlistQuery", watchlistQuery)
+  
+
+  //handle Watch Video
+  const handleWatchVideo = () => {
+    
+  }
   
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">

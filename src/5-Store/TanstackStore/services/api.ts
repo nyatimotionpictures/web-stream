@@ -205,7 +205,7 @@ export const removeFromWatchlist = async (watchlistContent: any) => {
   }
 }
 
-/** query: Get watchlist of user - new-not tested with data */
+/** query: Get watchlist of user - working as expected - user */
 export const getUserWatchList = async (UserId: String) => {
   try {
       const response = await apiRequest.get(`/v1/film/watchlist/${UserId}`);
@@ -216,6 +216,18 @@ export const getUserWatchList = async (UserId: String) => {
     throw axiosError.response?.data ?? { message: "An unknown error occurred" };
   }
 }
+
+/** query: get similar films - not working - remind newton */
+export const getSimilarFilms = async (filmId: String) => {
+  try {
+      const response = await apiRequest.get(`/v1/film/similar/${filmId}`);  
+      return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+}
+
 
 
 

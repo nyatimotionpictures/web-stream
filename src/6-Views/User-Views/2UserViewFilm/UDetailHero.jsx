@@ -4,10 +4,11 @@ import { Box, Stack, Typography } from "@mui/material";
 import Button from "../../../2-Components/Buttons/Button";
 import heroImg from "../../../1-Assets/Hero.png"
 import { Player } from "video-react";
+import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 
 
 
-const UDetailHero = ({ filmData, handlePaymentModel }) => {
+const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist }) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
   const [showVideo, setShowVideo] = React.useState(false);
   const [trailerUrl, setTrailerUrl] = React.useState(null);
@@ -117,12 +118,48 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
     };
   },  [showVideo]);
 
-  
+   //handle likes
+   const handleLikes = (type) => {
+    if (type === "like") {
+   let dataValues =   {
+        filmId: filmData?.id,
+        userId: currentUserData?.id,
+        likeType: "THUMBS_UP",
+        type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+      }
+      rateMutation.mutate(dataValues);
+    } else {
+      let dataValues =   {
+        filmId: filmData?.id,
+        userId: currentUserData?.id,
+        likeType: "THUMBS_DOWN",
+        type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+
+      }
+      rateMutation.mutate(dataValues);
+    }
+   }
+
+
+    //handle add to watchlist
+    const handleAddToWatchlist = () => {
+      if (includedInWatchlist) {
+        removeFromWatchlistMutation.mutate({
+          filmId: filmData?.id,
+          userId: currentUserData?.id,
+        })
+      } else {
+        addToWatchlistMutation.mutate({
+          filmId: filmData?.id,
+          userId: currentUserData?.id,
+        })
+      }
+    }
 
 
   return (
     <HeroContent
-    ref={heroRef }
+      ref={heroRef}
       className={`hidden lg:flex flex-col h-screen w-screen bg-cover bg-no-repeat bg-fixed relative`}
     >
       {!showVideo ? (
@@ -138,33 +175,29 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
       ) : (
         <div className="flex justify-center items-center absolute top-0 object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden">
           <video
-          ref={videoRef}
-          autoPlay
-          src={trailerUrl}
-          playsInline
-          onLoadedData={handleOnLoad}
-          onCanPlay={handleOnLoad}
-          controls={false}
-          onEnded={() => handleOnEnded()}
-          muted={isVideoMuted}
-          className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
-        ></video>
-
+            ref={videoRef}
+            autoPlay
+            src={trailerUrl}
+            playsInline
+            onLoadedData={handleOnLoad}
+            onCanPlay={handleOnLoad}
+            controls={false}
+            onEnded={() => handleOnEnded()}
+            muted={isVideoMuted}
+            className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
+          ></video>
         </div>
-        
       )}
 
       {isVideoPlayed || showVideo ? (
         <div className="absolute flex right-0 bottom-20 z-50 w-20 h-10   ">
           {isVideoPlayed ? (
             <div className="flex flex-col justify-center items-start px-3  w-full h-full bg-secondary-900 ">
-               <span
-              onClick={handleReplayVideo}
-              className="icon-[solar--restart-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
-            ></span>
-
+              <span
+                onClick={handleReplayVideo}
+                className="icon-[solar--restart-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
+              ></span>
             </div>
-           
           ) : (
             <div className="flex flex-col justify-center items-start px-3  w-full h-full bg-secondary-900 ">
               {isVideoMuted ? (
@@ -252,25 +285,58 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
 
                 <Stack className="flex flex-col-reverse gap-4 md:gap-0 md:flex-row space-x-3">
                   {/** handle payment */}
-                  <Button
-                    onClick={handlePaymentModel}
-                    className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                  >
-                    <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
-                    <Typography className="font-[Roboto-Regular] text-base">
-                      Watch
-                    </Typography>
-                  </Button>
+                  {filmData?.access?.toLowerCase()?.includes("free") ? (
+                    <Button
+                      
+                      className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                    >
+                      <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                      <Typography className="font-[Roboto-Regular] text-base">
+                        Watch
+                      </Typography>
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={handlePaymentModel}
+                      className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                    >
+                      <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                      <Typography className="font-[Roboto-Regular] text-base">
+                       Pay to Watch
+                      </Typography>
+                    </Button>
+                  )}
 
                   {/** like buttons */}
                   <Stack direction="row" className="space-x-2">
-                    <Button className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]">
-                      <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
-                    </Button>
-                    <Button className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]">
+                    {includedInWatchlist ? (
+                      <Button
+                        onClick={handleAddToWatchlist}
+                        className="flex w-max px-2 border-2 border-primary-500 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                      >
+                        <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={handleAddToWatchlist}
+                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                      >
+                        <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
+                      </Button>
+                    )}
+
+                    <Button
+                      disabled={rateMutation.isPending ? true : false}
+                      onClick={() => handleLikes("like")}
+                      className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                    >
                       <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
                     </Button>
-                    <Button className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]">
+                    <Button
+                      disabled={rateMutation.isPending ? true : false}
+                      onClick={() => handleLikes("dislike")}
+                      className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                    >
                       <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
                     </Button>
                   </Stack>
@@ -280,6 +346,15 @@ const UDetailHero = ({ filmData, handlePaymentModel }) => {
           </Box>
         </Box>
       </Box>
+
+      {/** loader */}
+      {rateMutation.isPending ||
+      addToWatchlistMutation.isPending ||
+      removeFromWatchlistMutation.isPending ? (
+        <div className="absolute flex w-full h-full items-center justify-center">
+          <CustomLoader />
+        </div>
+      ) : null}
     </HeroContent>
   );
 };
