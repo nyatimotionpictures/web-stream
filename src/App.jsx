@@ -50,7 +50,7 @@ function App() {
                 element={<PaymentValidation />}
               />
 
-              <Route path="/ufilm/:hfdfh/watch" element={<UWatchFilm />} />
+              <Route path="/watch/:id" element={<UWatchFilm />} />
 
               <Route path="/browse" element={<BrowsePage />} />
               <Route path="/browse/genre/all" element={<SearchAll />} />

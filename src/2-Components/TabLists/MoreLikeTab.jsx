@@ -10,7 +10,7 @@ const MoreLikeTab = ({ filmdata }) => {
     const [allMovies, setAllMovies] = React.useState([]);
     let getSimilarFilmsQuery = useGetSimilarFilms(filmdata?.id);
 
-    console.log("getSimilarFilmsQuery", getSimilarFilmsQuery)
+    // console.log("getSimilarFilmsQuery", getSimilarFilmsQuery)
     React.useEffect(() => {
         if (getSimilarFilmsQuery?.data?.films?.length > 0) {
             setAllMovies(() => getSimilarFilmsQuery?.data?.films);

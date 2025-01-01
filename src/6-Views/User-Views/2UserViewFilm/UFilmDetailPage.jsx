@@ -45,10 +45,10 @@ const UFilmDetailPage = () => {
   const filmsQuery = useGetFilm(params?.id);
   let navigate = useNavigate();
 
-  console.log(FilmJson[3]);
-  React.useEffect(() => {
-    setSelectedFilm(() => FilmJson[3]);
-  }, [FilmJson]);
+  // console.log(FilmJson[3]);
+  // React.useEffect(() => {
+  //   setSelectedFilm(() => FilmJson[3]);
+  // }, [FilmJson]);
 
   const handleFormSubmit = () => {
     if (formRef.current) {
@@ -76,7 +76,7 @@ const UFilmDetailPage = () => {
     setPayModal(() => !payModal);
   };
 
-  const isSmallScreen = useMediaQuery("(max-width:767px)");
+  const isSmallScreen = useMediaQuery("(max-width:1023px)");
 
   /** rating mutation */
   const rateMutation = useMutation({
@@ -146,8 +146,10 @@ const UFilmDetailPage = () => {
 
   //handle Watch Video
   const handleWatchVideo = () => {
-    
+    navigate(`/watch/${filmsQuery?.data?.film?.id}`)
   }
+
+  console.log(filmsQuery?.data?.film)
   
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
@@ -164,6 +166,9 @@ const UFilmDetailPage = () => {
             addToWatchlistMutation={addToWatchlistMutation}
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
+            handleWatchVideo={handleWatchVideo}
+            videoPurchased={filmsQuery?.data?.film?.videoPurchased}
+
           />
         ) : (
           <UDetailHero
@@ -175,6 +180,8 @@ const UFilmDetailPage = () => {
             addToWatchlistMutation={addToWatchlistMutation}
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
+            handleWatchVideo={handleWatchVideo}
+            videoPurchased={filmsQuery?.data?.film?.videoPurchased}
           />
         )}
 

@@ -5,13 +5,13 @@ import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import TextClamped from "../../../2-Components/Stacks/TextClamped";
 
-const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist }) => {
+const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist, videoPurchased, handleWatchVideo }) => {
    const [backDropUrl, setBackdropUrl] = React.useState(null);
     const [showVideo, setShowVideo] = React.useState(false);
     const [trailerUrl, setTrailerUrl] = React.useState(null);
      const [isVideoPlaying, setIsVideoPlaying] = React.useState(false)
      const [isVideoLoaded, setIsVideoLoaded] = React.useState(false)
-    const [isVideoPlayed, setIsVideoPlayed] = React.useState(false)
+    const [isVideoPlayed, setIsVideoPlayed] = React.useState(false);
     const [isVideoMuted, setIsVideoMuted] = React.useState(false)
     
     const videoRef = React.useRef(null);
@@ -387,7 +387,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
           {
             filmData?.access?.toLowerCase()?.includes("free") ? (
               <div className="flex flex-col gap-2 w-full">
-                <Button className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+                <Button onClick={handleWatchVideo} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
                   <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
                   <Typography className="font-[Inter-Bold] text-base">
                     Watch
@@ -396,12 +396,24 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
               </div>
             ) : (
               <div className="flex flex-col gap-2 w-full">
-              <Button  onClick={handlePaymentModel} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
-                <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
-                <Typography className="font-[Inter-Bold] text-base">
-                  Pay to Watch
-                </Typography>
-              </Button>
+                {
+                  videoPurchased ? (
+                    <Button  onClick={handlePaymentModel} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+                    <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
+                    <Typography className="font-[Inter-Bold] text-base">
+                      Pay to Watch
+                    </Typography>
+                  </Button>
+                  ) : (
+                    <Button onClick={handleWatchVideo} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+                      <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
+                      <Typography className="font-[Inter-Bold] text-base">
+                        Watch
+                      </Typography>
+                    </Button>
+                  )
+                }
+              
             </div>
             )
           }

@@ -8,7 +8,7 @@ import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 
 
 
-const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist }) => {
+const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist,videoPurchased, handleWatchVideo }) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
   const [showVideo, setShowVideo] = React.useState(false);
   const [trailerUrl, setTrailerUrl] = React.useState(null);
@@ -270,41 +270,65 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
                 spacing={"20px"}
                 className="select-none"
               >
-                <Stack direction="row" className="gap-2">
-                  <span className="icon-[solar--bag-heart-outline] h-6 w-6 text-primary-500"></span>
-                  {filmData?.access?.toLowerCase()?.includes("free") ? (
-                    <Typography className="font-[Inter-Medium] text-base text-whites-40">
-                      Free to watch
-                    </Typography>
-                  ) : (
-                    <Typography className="font-[Inter-Medium] text-base text-whites-40">
-                      Rent to watch
-                    </Typography>
-                  )}
-                </Stack>
+                {!filmData?.videoPurchased && (
+                  <>
+                    {!filmData?.type?.toLowerCase()?.includes("series") && (
+                      <Stack direction="row" className="gap-2">
+                        <span className="icon-[solar--bag-heart-outline] h-6 w-6 text-primary-500"></span>
+                        {filmData?.access?.toLowerCase()?.includes("free") ? (
+                          <Typography className="font-[Inter-Medium] text-base text-whites-40">
+                            Free to watch
+                          </Typography>
+                        ) : (
+                          <Typography className="font-[Inter-Medium] text-base text-whites-40">
+                            Rent to watch
+                          </Typography>
+                        )}
+                      </Stack>
+                    )}
+                  </>
+                )}
 
                 <Stack className="flex flex-col-reverse gap-4 md:gap-0 md:flex-row space-x-3">
                   {/** handle payment */}
-                  {filmData?.access?.toLowerCase()?.includes("free") ? (
-                    <Button
-                      
-                      className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                    >
-                      <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
-                      <Typography className="font-[Roboto-Regular] text-base">
-                        Watch
-                      </Typography>
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={handlePaymentModel}
-                      className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                    >
-                      <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
-                      <Typography className="font-[Roboto-Regular] text-base">
-                       Pay to Watch
-                      </Typography>
-                    </Button>
+                  {!filmData?.type?.toLowerCase()?.includes("series") && (
+                    <>
+                      {filmData?.access?.toLowerCase()?.includes("free") ? (
+                        <Button
+                          onClick={handleWatchVideo}
+                          className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                        >
+                          <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                          <Typography className="font-[Roboto-Regular] text-base">
+                            Watch
+                          </Typography>
+                        </Button>
+                      ) : (
+                        <>
+                          {videoPurchased ? (
+                            <Button
+                              onClick={handleWatchVideo}
+                              className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                            >
+                              <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                              <Typography className="font-[Roboto-Regular] text-base">
+                                Watch
+                              </Typography>
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={handlePaymentModel}
+                              className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                            >
+                              <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                              <Typography className="font-[Roboto-Regular] text-base">
+                                Pay to Watch
+                              </Typography>
+                            </Button>
+                          )}
+                        </>
+                      )}
+                    </>
                   )}
 
                   {/** like buttons */}
