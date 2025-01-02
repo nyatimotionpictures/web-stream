@@ -88,15 +88,15 @@ const FullCustomPlayer = ({
     setDuration(videoRef.current.duration);
   };
 
-  const handleProgressClick = (e) => {
-    console.log(e);
-    console.log("clicked", progressRef?.current);
-    console.log("normal", e.nativeEvent.offsetX);
-    const progressWidth = e.target.clientWidth;
-    const clickPosition = e.nativeEvent.offsetX;
-    const newTime = (clickPosition / progressWidth) * duration;
-    videoRef.current.currentTime = newTime;
-  };
+  // const handleProgressClick = (e) => {
+  //   console.log(e);
+  //   console.log("clicked", progressRef?.current);
+  //   console.log("normal", e.nativeEvent.offsetX);
+  //   const progressWidth = e.target.clientWidth;
+  //   const clickPosition = e.nativeEvent.offsetX;
+  //   const newTime = (clickPosition / progressWidth) * duration;
+  //   videoRef.current.currentTime = newTime;
+  // };
 
   const togglePlayPause = () => {
     if (isVideoPlaying) {
@@ -182,7 +182,8 @@ const FullCustomPlayer = ({
             ref={videoRef}
             className="video-player w-full h-full"
             onTimeUpdate={handleTimeUpdate}
-            src={videoSrc && videoSrc?.id ? videoSrc?.url : null}
+            // src={videoSrc && videoSrc?.id ? videoSrc?.url : null}
+            src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}` : null}
             onProgress={handleBufferedProgress}
             onLoadedData={handleLoadedData}
             muted={isVideoMuted}

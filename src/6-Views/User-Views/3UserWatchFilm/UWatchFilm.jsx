@@ -22,7 +22,7 @@ const UWatchFilm = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   let episodeId = searchParams.get("eid");
   let seasonId = searchParams.get("sid");
-  console.log(searchParams.toString())
+  // console.log(searchParams.toString())
   let navigate = useNavigate();
   const filmsQuery = useGetFilm(params?.id);
 
@@ -31,7 +31,7 @@ const UWatchFilm = () => {
       if(filmsQuery?.data?.film?.type !== "series"){
         if(filmsQuery?.data?.film?.access?.includes("Free")){
           let videoArray = filmsQuery?.data?.film?.video?.filter(video => !video.isTrailer);
-          console.log("videoArray", videoArray);
+          // console.log("videoArray", videoArray);
           //check if we have videos to watch
           //else set error message
           if (videoArray.length > 0){
@@ -67,11 +67,11 @@ const UWatchFilm = () => {
           //setVideoUrl(filmsQuery?.data?.film?.url)
         }
       }else {
-        console.log(episodeId, seasonId)
+        // console.log(episodeId, seasonId)
 
         if(episodeId && seasonId) {
           let checkSeason = filmsQuery?.data?.film?.season?.filter((data) => data?.id === seasonId)
-          console.log("checkSeason", checkSeason)
+          // console.log("checkSeason", checkSeason)
           if (checkSeason?.length > 0) {
             let checkEpisode = checkSeason[0]?.episodes
               ?.filter((data) => data?.id === episodeId)
@@ -82,13 +82,13 @@ const UWatchFilm = () => {
               }));
             if (checkEpisode?.length > 0) {
               setEpisodeData(() => checkEpisode[0]);
-              console.log("checkEpisode", checkEpisode[0]);
+              // console.log("checkEpisode", checkEpisode[0]);
               //check if access is free
               if (checkEpisode[0]?.access?.toLowerCase()?.includes("free")) {
                 let videoArray = checkEpisode[0]?.video?.filter(
                   (video) => !video.isTrailer
                 );
-                console.log("videoArray", videoArray);
+                // console.log("videoArray", videoArray);
                 //check if we have videos to watch
                 //else set error message
                 if (videoArray.length > 0) {
@@ -142,7 +142,7 @@ const UWatchFilm = () => {
   React.useEffect(() => {
     handleCheckingVideo();
   }, [filmsQuery?.data?.film]);
-  console.log(filmsQuery?.data?.film);
+  // console.log(filmsQuery?.data?.film);
 
   //selecting different resolution
   const handleResolution = (resolution) => {
