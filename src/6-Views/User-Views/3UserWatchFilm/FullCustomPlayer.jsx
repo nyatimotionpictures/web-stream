@@ -3,21 +3,25 @@ import React, { useRef, useState } from "react";
 import Button from "../../../2-Components/Buttons/Button";
 import PlayerControls from "./PlayerControls";
 import formatDuration from "./formatDuration";
+import { BaseUrl } from "../../../3-Middleware/apiRequest";
+import { useGetVideoSource } from "../../../5-Store/TanstackStore/services/queries";
 
 
-const FullCustomPlayer = ({ videoSrc, title }) => {
+const FullCustomPlayer = ({ videoSrc, filmData, allVideos, handleResolution }) => {
     const videoRef = useRef(null);
     let playerContainerRef = useRef(null)
     let progressRef = useRef(null)
     const [isVideoPlaying, setIsVideoPlaying] = React.useState(false)
     const [volumestate, setVolumeState] = React.useState(40);
+     const [isVideoMuted, setIsVideoMuted] = React.useState(false)
 
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0)
     const [loadedPercentage, setLoadedPercentage] = useState(0);
     const [isFullScreen, setIsFullScreen] = useState(false)
 
-
+    let getVideoSource = useGetVideoSource(videoSrc?.id);
+    console.log("getVideoSource", getVideoSource);
      const handleBack = () => {
      
         videoRef.current.currentTime -= 10; // Go back 10 seconds
@@ -71,6 +75,10 @@ const FullCustomPlayer = ({ videoSrc, title }) => {
      setCurrentTime(value)
   }
 
+  const handleMuteVideo = () => {
+    setIsVideoMuted(!isVideoMuted)
+  }
+
   const handleVolumeChange = (e) => {
   //  console.log(videoRef.current.volume)
   e.preventDefault()
@@ -108,7 +116,8 @@ const FullCustomPlayer = ({ videoSrc, title }) => {
     setCurrentTime(0)
   }
 
-
+console.log("videoSrc", videoSrc);
+console.log("allVideos", allVideos);
     
   return (
     <div className="video-player-container flex flex-col my-0 justify-center mx-auto">
@@ -121,9 +130,10 @@ const FullCustomPlayer = ({ videoSrc, title }) => {
             ref={videoRef}
             className="video-player w-full h-full"
             onTimeUpdate={handleTimeUpdate}
-            src={videoSrc}
+            src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}` : null}
             onProgress={handleBufferedProgress}
             onLoadedData={handleLoadedData}
+            muted={isVideoMuted}
             //onPlay={handleVideoPlayed}
             //onPause={handleVideoPaused}
             
@@ -139,12 +149,18 @@ const FullCustomPlayer = ({ videoSrc, title }) => {
             <div className=" flex flex-row items-center gap-2">
               <span className="icon-[solar--arrow-left-linear] h-6 w-6  text-whites-40"></span>
               <Typography className="font-[Roboto-Bold] text-xl text-whites-40 ">
-                Tuko Pamoja
+               {filmData?.title}
               </Typography>
             </div>
-            <Typography className="font-[Roboto-Regular] pl-4 text-base text-whites-40 ">
-              Tuko Pamoja
-            </Typography>
+            {
+              !filmData?.type?.toLowerCase()?.includes("series") &&
+              !filmData?.type?.toLowerCase()?.includes("movie") ? (
+                <Typography className="font-[Roboto-Regular] pl-4 text-base text-whites-40 ">
+                  {filmData?.season?.title} S{filmData?.season?.season} - E{filmData?.episode}
+                </Typography>
+              ) : null
+            }
+           
           </div>
 
           {/** Play Buttons */}
@@ -236,7 +252,11 @@ const FullCustomPlayer = ({ videoSrc, title }) => {
                 replayVideo={replayVideo}
                 handleVolumeChange={handleVolumeChange}
                 volumestate={volumestate}
-                
+                handleMuteVideo={handleMuteVideo}
+                isVideoMuted={isVideoMuted}
+                allVideos={allVideos}
+                handleResolution={handleResolution}
+                videoSrc={videoSrc}
               />
             </div>
           </div>

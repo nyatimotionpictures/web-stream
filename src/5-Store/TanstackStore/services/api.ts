@@ -228,6 +228,19 @@ export const getSimilarFilms = async (filmId: String) => {
   }
 }
 
+/** query for film video source */
+export const getVideoSourceFilm = async (trackId: String) => {
+  try {
+      const response = await apiRequest.get(`/v1/film/track/${trackId}`);  
+      return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+}
+
+/**  */
+
 
 
 

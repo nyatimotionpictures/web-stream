@@ -2,12 +2,17 @@ import React from 'react'
 
 import styled from 'styled-components';
 
-const CustomLoader = () => {
+const CustomLoader = ({text}) => {
   return (
-    <div className="w-full h-full flex items-center justify-center bg-secondary-800 absolute top-0 left-0 bg-opacity-70 text-red-500">
-      <LoaderContainer>
+    <div className="w-full h-full flex flex-col  items-center justify-center bg-secondary-800 absolute top-0 left-0 bg-opacity-70 text-red-500">
+      <LoaderContainer className='flex flex-col gap-3  items-center justify-center'>
         <div className="loader"></div>
+        
+        {
+          text &&  <div className="mt-4 text-whites-40 text-sm md:text-lg">{text}</div>
+        }
       </LoaderContainer>
+     
     </div>
   );
 }
