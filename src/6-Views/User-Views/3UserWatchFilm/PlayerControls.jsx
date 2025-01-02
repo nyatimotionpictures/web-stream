@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from '../../../2-Components/Buttons/Button'
 import { Slider, Typography } from '@mui/material'
 import formatDuration from './formatDuration'
 import { Menu, MenuItem } from "@mui/material";
+import { current } from '@reduxjs/toolkit';
 
-const PlayerControls = ({togglePlayPause,  duration, currentTime, isVideoPlaying,handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc }) => {
+const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying,handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading }) => {
   //  const [volumestate, setVolumeState] = React.useState(40);
   const [anchorEl, setAnchorEl] = React.useState(null);
    const isMenuOpen = Boolean(anchorEl);
@@ -27,10 +28,36 @@ const PlayerControls = ({togglePlayPause,  duration, currentTime, isVideoPlaying
     };
   
     const handleResolutionChange = (video) => {
-      handleResolution(video);
+      if(videoRef.current){
+
+        const currentTime = videoRef.current.currentTime; // Save current time
+        const isPlaying = !videoRef.current.paused;
+
+        handleResolution(video);
+        setIsLoading(true);
+
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current.currentTime = currentTime; // Restore playback time
+          if (isPlaying) videoRef.current.play(); // Resume playback if it was playing
+          setIsLoading(false);
+        };
+      }
+      
       setAnchorEl(null);
     };
 
+    useEffect(() => {
+      if (allVideos.length > 0) {
+        const order = ["SD", "HD", "FHD", "UHD"];
+        allVideos.sort(
+          (a, b) => order.indexOf(a.resolution) - order.indexOf(b.resolution)
+        );
+      }
+  
+      return () => {
+       
+      };
+    }, [allVideos]);
 
   return (
     <div className="w-full flex flex-row justify-between items-center ">
@@ -101,23 +128,41 @@ const PlayerControls = ({togglePlayPause,  duration, currentTime, isVideoPlaying
       {/** settings & resize */}
       <div className="flex flex-row gap-4 items-center">
        
-        <Button onClick={handleSettingsClick} className="flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40  ">
+        <Button id="basic-button" aria-controls={isMenuOpen ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={isMenuOpen ? 'true' : undefined} onClick={handleSettingsClick} className="basic-button flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40 relative ">
           <span className="icon-[solar--settings-bold] h-6 w-6  text-whites-40"></span>
+          <div className='absolute -top-2 -right-2 w-max h-max flex flex-col justify-center items-center px-1 py-1 bg-opacity-90 bg-primary-500 rounded-full'><span className=" text-whites-40 text-[9px] font-[Inter-Bold] uppercase">
+            {
+              videoSrc?.resolution
+            }
+            </span></div>
         </Button>
 
         {/** settings menu */}
         <Menu
+        id="basic-menu"
           anchorEl={anchorEl}
           open={isMenuOpen}
           onClose={handleMenuClose}
           MenuListProps={{
             'aria-labelledby': 'basic-button',
           }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
         >
-          <MenuItem onClick={() => handleResolutionChange(allVideos[0])}>SD</MenuItem>
-          <MenuItem onClick={() => handleResolutionChange(allVideos[1])}>HD</MenuItem>
-          <MenuItem onClick={() => handleResolutionChange(allVideos[2])}>FHD</MenuItem>
-          <MenuItem onClick={() => handleResolutionChange(allVideos[3])}>UHD</MenuItem>
+          {
+            allVideos.map((data, index) => {
+              return (
+                <MenuItem key={index} onClick={() => handleResolutionChange({...data, currentTime: currentTime})}>{data.resolution}</MenuItem>
+              );
+            })
+          }
+          
         </Menu>
         {/** full screen */}
         <Button

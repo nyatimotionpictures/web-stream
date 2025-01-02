@@ -15,13 +15,14 @@ const UFilmTabs = ({ filmData }) => {
     const [currentTabValue, setCurrentTabValue] = React.useState(null);
     const [displayTabs, setDisplayTabs] = React.useState([]);
 
+    console.log(filmData?.type )
     React.useEffect(() => {
       if (filmData !== null) {
         if (
           filmData?.type?.toLowerCase() === "movie" ||
-          filmData?.type?.toLowerCase() === "film"
+          filmData?.type?.toLowerCase() === "film" || filmData?.type?.toLowerCase() === 'episode'
         ) {
-          setFilmType(() => filmData?.type);
+          setFilmType(() => filmData?.type );
           setDisplayTabs(() => [
             {
               title: "Details",

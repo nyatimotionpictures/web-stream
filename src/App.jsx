@@ -27,6 +27,7 @@ import SearchAll from "./6-Views/User-Views/12UFilmSearchPages/SearchAll.jsx";
 import SearchFilms from "./6-Views/User-Views/12UFilmSearchPages/SearchFilms.jsx";
 import SearchShows from "./6-Views/User-Views/12UFilmSearchPages/SearchShows.jsx";
 import UWatchFilm from "./6-Views/User-Views/3UserWatchFilm/UWatchFilm.jsx";
+import UEpisodeDetailPage from "./6-Views/User-Views/2UserViewFilm/UEpisodeDetailPage.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -43,7 +44,7 @@ function App() {
               <Route path="/" element={<UserHome />} />
               <Route path="/film/:id" element={<UFilmDetailPage />} />
               <Route path="/series/:id" element={<UFilmDetailPage />} />
-              <Route path="/episode/:id" element={<UFilmDetailPage />} />
+              <Route path="/episode/:episodeid/:seriesid/:seasonid" element={<UEpisodeDetailPage />} />
               <Route path="/payment" element={<FilmPayment />} />
               <Route
                 path="/payment/validate/:orderTrackingId"

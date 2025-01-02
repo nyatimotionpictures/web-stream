@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Button from '../../2-Components/Buttons/Button';
 
 const EpisodeContent = ({
-    seriesdata,
+    seasondata,
     episodedata,
     openModal,
     setSelectedTrailer,
@@ -14,9 +14,11 @@ const EpisodeContent = ({
 }) => {
     const [trailerLink, setTrailerLink] = React.useState(null);
     const [playActions, setPlayActions] = React.useState(false);
-    let routeNavigate = useNavigate()
+    let navigate = useNavigate()
 
     let ref = React.useRef();
+
+    console.log(seasondata, episodedata)
 
     React.useEffect(() => {
         const handler = (event) => {
@@ -80,7 +82,7 @@ const EpisodeContent = ({
         <Stack spacing={"30px"} className="sm:w-[300px] md:w-full">
           <Stack>
             <Typography className="font-[Inter-SemiBold] text-base md:text-xl text-whites-40">
-              {`S${seriesdata?.season}`}{" "}
+              {`S${seasondata?.season}`}{" "}
               {episodedata && `E${episodedata?.episode}`} -{" "}
               {episodedata?.title}
             </Typography>
@@ -95,7 +97,7 @@ const EpisodeContent = ({
             <Stack spacing={"20px"} className="flex flex-row">
               <Button
                 onClick={() =>
-                    navigate(`/episode/${episodedata?.id}`)
+                    navigate(`/episode/${episodedata?.id}/${seasondata?.filmId}/${seasondata?.id}`)
  
                 }
                className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"

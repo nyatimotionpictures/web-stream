@@ -77,7 +77,7 @@ const EpisodeTab = ({
                   <EpisodeContent
                     openModal={openModal}
                     key={index}
-                    seriesdata={selectedSeason}
+                    seasondata={selectedSeason}
                     episodedata={data}
                     setSelectedTrailer={setSelectedTrailer}
                     openLocalModal={openLocalModal}
