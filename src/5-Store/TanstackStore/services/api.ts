@@ -228,7 +228,7 @@ export const getSimilarFilms = async (filmId: String) => {
   }
 }
 
-/** query for film video source */
+/** query for film video source - not working as expected */
 export const getVideoSourceFilm = async (trackId: String) => {
   try {
       const response = await apiRequest.get(`/v1/film/track/${trackId}`);  
@@ -239,8 +239,15 @@ export const getVideoSourceFilm = async (trackId: String) => {
   }
 }
 
-/**  */
-
-
-
-
+/** make film payment */
+export const makeFilmPurchase = async (paymentData: any) => {
+  try {
+    let {videoId, userId, ...rest} = paymentData;
+    const response = await apiRequest.post(`/v1/film/purchase/${userId}/${videoId}`, rest);
+    return response.data
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+} 

@@ -6,40 +6,38 @@ import { FormContainer } from "../Stacks/InputFormStack";
 import ErrorMessage from "./ErrorMessage";
 
 const resolutionData = {
-  "SD": {
+  SD: {
     resolution: "480p",
     name: "SD (480p)",
   },
-  "HD": {
+  HD: {
     resolution: "720p",
     name: "HD (720p)",
   },
-  "FHD": {
+  FHD: {
     resolution: "1080p",
     name: "Full HD (1080p)",
   },
-  "UHD": {
+  UHD: {
     resolution: "2160p",
     name: "Ultra HD (2160p)",
   },
-}
+};
 
-const UVideoResolutionForm = ({ innerref, handleStepNext, film }) => {
-
-  console.log("film", film)
-console.log("videos", film?.video)
+const UVideoResolutionForm = ({ innerref, handleStepNext, film, allAvailableResolutions }) => {
+  console.log("film", film);
+  console.log("videos", film?.video);
   const validationSchema = yup.object().shape({
-  
     resolution: yup.string().required("required"),
     filmId: yup.string().required("required"),
     videoId: yup.string().required("required"),
   });
 
-const initialValues = {
+  const initialValues = {
     resolution: "",
     filmId: film?.id,
     videoId: "",
-};
+  };
   return (
     <Formik
       innerRef={innerref}
@@ -72,52 +70,64 @@ const initialValues = {
 
             {/** Season Number */}
             <FormContainer>
-            
-            <CustomStack className="flex flex-col gap-2">
-              {
-                film?.video?.map((data, index) => {
+              <CustomStack className="flex flex-col gap-2">
+                {allAvailableResolutions?.map((data, index) => {
                   return (
                     <div key={index} className="flex gap-2 items-center ">
-                      <input
-                      checked={values.resolution === data.resolution}
-                        id="resolution"
-                        type="radio"
-                        value={data.resolution}
-                        name="resolution"
-                        onChange={()=> {
-                          setFieldValue("resolution", data.resolution);
-                          setFieldValue("resolutionInfo", `${resolutionData[data.resolution].name} - ${data.videoPrice?.currency} ${data.videoPrice?.price}`);
-                          setFieldValue("videoId", data.id);
-                        }}
-                        placeholder="Resolution"
-                        onBlur={handleBlur}
-                      />
-                      <label
-                        htmlFor="resolution"
-                        className="label font-[Inter-Regular] text-base text-whites-100 text-opacity-75"
-                      >
-                        {resolutionData[data.resolution].name} - <span className="uppercase !text-opacity-100 !text-whites-40">{data.videoPrice?.currency + " " +data.videoPrice?.price}</span>
-                      </label>
+                      
+                        <label className="flex flex-row w-max gap-4 items-center">
+                          <input
+                            checked={values.resolution === data.resolution}
+                            id="resolution"
+                            type="radio"
+                            value={data.resolution}
+                            name="resolution"
+                            className="h-max w-max"
+                            onChange={() => {
+                              setFieldValue("resolution", data.resolution);
+                              setFieldValue(
+                                "resolutionInfo",
+                                `${resolutionData[data.resolution].name} - ${
+                                  data.videoPrice?.currency
+                                } ${data.videoPrice?.price}`
+                              );
+                              setFieldValue("videoId", data.id);
+                            }}
+                            placeholder="Resolution"
+                            onBlur={handleBlur}
+                          />
+
+                          <div
+                            htmlFor="resolution"
+                            className="label w-full font-[Inter-Regular] text-base text-whites-100 text-opacity-75"
+                          >
+                            {resolutionData[data.resolution].name} -{" "}
+                            <span className="uppercase  !text-opacity-100 !text-whites-40">
+                              {data.videoPrice?.currency +
+                                " " +
+                                data.videoPrice?.price}
+                            </span>
+                          </div>
+                        </label>
+                     
                     </div>
                   );
-                })
-              }
-            </CustomStack>
-             
+                })}
+              </CustomStack>
 
               <ErrorMessage
-                errors={touched?.resolution && errors?.resolution ? true : false}
+                errors={
+                  touched?.resolution && errors?.resolution ? true : false
+                }
                 name="season"
                 message={errors?.resolution && errors.resolution}
               />
             </FormContainer>
-
-           
           </CustomStack>
         </Form>
       )}
     </Formik>
   );
-}
+};
 
-export default UVideoResolutionForm
+export default UVideoResolutionForm;

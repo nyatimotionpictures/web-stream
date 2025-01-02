@@ -19,9 +19,9 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
   const heroRef = React.useRef(null)
   
 
-  const handlevideoEnd = () => {
-    setShowVideo(false);
-  };
+  // const handlevideoEnd = () => {
+  //   setShowVideo(false);
+  // };
 
  console.log(filmData)
 
