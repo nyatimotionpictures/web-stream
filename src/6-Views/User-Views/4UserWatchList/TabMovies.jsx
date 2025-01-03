@@ -16,16 +16,16 @@ const TabMovies = ({filmsWatched}) => {
     let moviedata = FilmJson
   return (
     <Container className="w-full h-full relative">
-      {moviedata.length > 0 ? (
+      {filmsWatched?.length > 0 ? (
         <>
         <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
-         {moviedata?.map((data, index) => {
+         {filmsWatched?.map((data, index) => {
            return <MovieCard3 key={index} data={data} />;
          })}
        </Stack>
 
        <Stack className="flex md:hidden flex-row flex-wrap gap-5 items-center justify-center mb-10">
-         {moviedata?.map((data, index) => {
+         {filmsWatched?.map((data, index) => {
            return <MovieCard4 key={index} data={data} />;
          })}
        </Stack>

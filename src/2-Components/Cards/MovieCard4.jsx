@@ -37,6 +37,7 @@ const  MovieCard4 = ({data}) => {
           return data;
         }
       });
+     
       const shuffledItems = shuffleArray(filteredPosters);
       let selectedlink = shuffledItems[0];
       setPosterLink(selectedlink);
@@ -44,7 +45,7 @@ const  MovieCard4 = ({data}) => {
       let selectedlink = data.posters[0];
       setPosterLink(selectedlink);
     } else {
-      setPosterLink(() => "");
+      setPosterLink(() => data?.poster ?? "");
     }
   }, [data]);
 

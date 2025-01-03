@@ -18,14 +18,17 @@ const UWatchList = () => {
 
   const watchedQuery = useGetWatchList(userData?.currentUser?.user?.id);
 
+  console.log("watchedQuery", watchedQuery?.data);
+
+  console.log(watchedQuery?.data?.watched);
   let allWatched =  React.useMemo(()=>{
-    return watchedQuery?.data?.watched.filter((film)=> {
+    return watchedQuery?.data?.watchlist?.SAVED?.filter((film)=> {
       return film
     })
   },[watchedQuery?.data])
 
   let filmsWatched =  React.useMemo(()=>{
-    return watchedQuery?.data?.watched.filter((film)=> {
+    return watchedQuery?.data?.watchlist?.SAVED?.filter((film)=> {
      if (film.type === "film" || film.type === "movie" ) {
       return film
      }
@@ -33,8 +36,8 @@ const UWatchList = () => {
   },[watchedQuery?.data])
 
   let showsWatched =  React.useMemo(()=>{
-    return watchedQuery?.data?.watched.filter((film)=> {
-      if (film.type === "episode"  ) {
+    return watchedQuery?.data?.watchlist?.SAVED?.filter((film)=> {
+      if (film?.type === "episode" || film?.type === "series" || film?.type !== "movie" ) {
        return film
       }
      })

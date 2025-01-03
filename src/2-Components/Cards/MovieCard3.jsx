@@ -5,13 +5,46 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import posterImage from "../../1-Assets/Posterimage.png";
 
-const MovieCard3 = ({data}) => {
-    const [isImgBroken, setIsImgBroken] = React.useState(false);
-    let navigate = useNavigate()
+const MovieCard3 = ({ data }) => {
+  const [isImgBroken, setIsImgBroken] = React.useState(false);
+   const [posterlink, setPosterLink] = React.useState("");
+  let navigate = useNavigate();
 
-    const handleImgError = () => {
-        setIsImgBroken(true)
+  const handleImgError = () => {
+    setIsImgBroken(true);
+  };
+
+  //shuffleArray
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const endItems = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[endItems]] = [
+        shuffledArray[endItems],
+        shuffledArray[i],
+      ];
     }
+    return shuffledArray;
+  };
+
+  React.useEffect(() => {
+    if (data?.posters?.length > 0 && data?.posters?.length > 1) {
+      let filteredPosters = data?.posters?.filter((data) => {
+        if (data.isCover) {
+          return data;
+        }
+      });
+      
+      const shuffledItems = shuffleArray(filteredPosters);
+      let selectedlink = shuffledItems[0];
+      setPosterLink(selectedlink);
+    } else if (data?.posters?.length > 0 && data?.posters?.length === 1) {
+      let selectedlink = data.posters[0];
+      setPosterLink(selectedlink);
+    } else {
+      setPosterLink(() => data?.poster ?? "");
+    }
+  }, [data]);
   return (
     <MovieContainer
       className={
@@ -22,16 +55,21 @@ const MovieCard3 = ({data}) => {
       <div className="bg-secondary-200 h-[172.42px] sm:h-[302px] md:h-[280px] lg:h-[310px]  2xl:h-[389px] w-full p-0 m-0 overflow-hidden rounded-tl-lg rounded-tr-lg">
         <img
           onError={handleImgError}
-          src={posterImage}
+          src={posterlink?.url}
           alt={"movie"}
-         className="object-fit h-full w-full"
+          className="object-fit h-full w-full"
         />
       </div>
 
-{/** access type */}
+      {/** access type */}
+      {
+
+      }
       <Stack className="flex flex-row p-0 m-0 items-center justify-center gap-2 lg:pt-3">
-        <Stack direction="row" className="gap-2">
-          {data?.filmModel?.toLowerCase()?.includes("free") ? (
+      {
+        data?.type !== "series" && (
+          <Stack direction="row" className="gap-2">
+          {data?.access?.toLowerCase()?.includes("free") ? (
             <Typography className="font-[Inter-Medium] text-sm md:text-base text-whites-40">
               Free to watch
             </Typography>
@@ -44,6 +82,9 @@ const MovieCard3 = ({data}) => {
             </Stack>
           )}
         </Stack>
+        )
+      }
+        
       </Stack>
       <div className="flex flex-row space-x-4 items-center">
         <Button className="flex py-2 px-2 rounded-full h-full w-full">
@@ -51,12 +92,12 @@ const MovieCard3 = ({data}) => {
         </Button>
 
         <Typography className="font-[Inter-Medium] text-sm md:text-base text-whites-40">
-          2022
+        {data?.yearOfProduction}
         </Typography>
       </div>
 
       <Typography className="font-[Inter-Medium] line-clamp-4  text-sm sm:text-base 2xl:text-lg text-whites-40">
-       {data?.plotSummary}
+        {data?.plotSummary}
       </Typography>
     </MovieContainer>
   );

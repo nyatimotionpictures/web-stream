@@ -23,12 +23,9 @@ const SearchShows = () => {
     const [itemsPerPage, setItemsPerPage] = React.useState(10);
   
     const [error, setError] = React.useState(false);
-    const [errorMessage, setErrorMessage] = React.useState(null);
-  
-    
+    const [errorMessage, setErrorMessage] = React.useState(null); 
     let getallfilms = useGetAllFilms();
   
-    console.log(getallfilms?.data?.films)
     React.useEffect(() => {
    
       setLoading(true);
