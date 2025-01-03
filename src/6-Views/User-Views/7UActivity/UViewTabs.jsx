@@ -4,7 +4,7 @@ import React from "react";
 import UVTabLists from "./UVTabLists";
 import { TabContext, TabPanel } from "@mui/lab";
 
-const UViewTabs = () => {
+const UViewTabs = ({watchlistData}) => {
  const [currentTabValue, setCurrentTabValue] = React.useState("one");
  const [displayTabs, setDisplayTabs] = React.useState([
    {
@@ -26,7 +26,7 @@ const UViewTabs = () => {
           case "Watched":
             return <UVTabLists type={"Watched"} loggedIn={true} />;
           case "Watchlist":
-            return <UVTabLists type={"Watchlist"} loggedIn={true} />;
+            return <UVTabLists type={"Watchlist"} watchlistData={watchlistData} loggedIn={true} />;
           case "Rated":
             return <UVTabLists type={"Rated"} loggedIn={true} />;
 

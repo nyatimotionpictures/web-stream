@@ -42,7 +42,7 @@ const UserHome = () => {
 
 
 
-  console.log(filmsQuery?.data?.films);
+  // console.log(filmsQuery?.data?.films);
   return (
     <Container className="space-y-0 flex-col relative w-full h-full overflow-x-hidden">
       <WebNavigation isLoggedIn={true} />
