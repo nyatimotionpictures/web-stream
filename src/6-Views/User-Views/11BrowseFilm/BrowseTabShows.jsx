@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import MovieCard4 from '../../../2-Components/Cards/MovieCard4';
 import FilmJson from "../../../1-Assets/data/film_metadata.json"
 
-const BrowseTabShows = () => {
+const BrowseTabShows = ({allFilteredTvShows}) => {
 //   const [moviedata, setMovieData] = React.useState([{
 //     title: '1'
 // }]);
@@ -14,10 +14,10 @@ const BrowseTabShows = () => {
 let moviedata = FilmJson
   return (
     <Container className=" h-full relative">
-    {moviedata.length > 0 ? (
+    {allFilteredTvShows?.length > 0 ? (
            <Stack className="flex flex-row flex-wrap gap-5 items-center justify-center mb-10">
            {
-               moviedata?.map((data, index)=>{
+               allFilteredTvShows?.map((data, index)=>{
                  return  <MovieCard4 key={index} data={data} />
                })
              }

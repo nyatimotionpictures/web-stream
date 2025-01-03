@@ -133,7 +133,7 @@ const FilmPayment = () => {
 
           }
           handlePayMutation.mutate(newValues);
-          console.log("values", newValues);
+          // console.log("values", newValues);
         }}
       >
         {({

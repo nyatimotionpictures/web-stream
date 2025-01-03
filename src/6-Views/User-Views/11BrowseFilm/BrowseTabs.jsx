@@ -7,7 +7,7 @@ import { TabContext, TabPanel } from '@mui/lab';
 import { FormContainer, SingleWrapper } from '../../../2-Components/Stacks/InputFormStack';
 
 
-const BrowseTabs = () => {
+const BrowseTabs = ({query, setQuery, allFilteredFilms, allFilteredTvShows, allFilteredMovies}) => {
   const [currentTabValue, setCurrentTabValue] = React.useState("one");
   const [displayTabs, setDisplayTabs] = React.useState([
     {
@@ -23,16 +23,16 @@ const BrowseTabs = () => {
       position: "three",
     },
   ]);
-  const [query, setQuery] = React.useState('');
+  // const [query, setQuery] = React.useState('');
 
   const TabDisplay = (datakey) => {
     switch (datakey) {
       case "All":
-        return <BrowseTabAll  loggedIn={true} />;
+        return <BrowseTabAll allFilteredFilms={allFilteredFilms}  />;
       case "Films":
-        return <BrowseTabFilms  loggedIn={true} />;
+        return <BrowseTabFilms allFilteredMovies={allFilteredMovies}  loggedIn={true} />;
       case "TV shows":
-        return <BrowseTabShows  loggedIn={true} />;
+        return <BrowseTabShows allFilteredTvShows={allFilteredTvShows}   loggedIn={true} />;
       
       default:
         break;

@@ -43,6 +43,11 @@ const UFilmDetailPage = () => {
   const [errorMessage, setErrorMessage] = React.useState(null);
   const userData = useContext(AuthContext);
 
+  let params = useParams();
+  const formRef = React.useRef();
+  const filmsQuery = useGetFilm(params?.id);
+  let navigate = useNavigate();
+
   React.useEffect(() => {
     if (userData.currentUser !== null) {
       setCurrentUserData(userData.currentUser?.user);
@@ -69,10 +74,7 @@ const UFilmDetailPage = () => {
       }
     }
   }, [filmsQuery?.data?.film]);
-  let params = useParams();
-  const formRef = React.useRef();
-  const filmsQuery = useGetFilm(params?.id);
-  let navigate = useNavigate();
+ 
 
   // console.log(FilmJson[3]);
   // React.useEffect(() => {

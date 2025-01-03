@@ -118,6 +118,10 @@ const UWatchFilm = () => {
               } else {
                 console.log("not free", checkEpisode[0]?.access);
                 //setVideoUrl(filmsQuery?.data?.film?.url)
+
+                setErrorVideo(true);
+                setErrorMessage("No access");
+                setCheckingAccess(false);
               }
             } else {
               setCheckingAccess(false);
