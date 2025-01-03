@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useLocation, } from 'react-router-dom';
 import styled from 'styled-components';
-const UserDropdown = ({dropdown, userRef}) => {
+const UserDropdown = ({dropdown, userRef, mutation,currentUserData}) => {
   
   let location = useLocation()
   return (
@@ -30,17 +30,20 @@ const UserDropdown = ({dropdown, userRef}) => {
       </li>
 
       <li className="h-[40px] w-[200px] ">
-        <NavLink
+        <div
           role="button"
-          to={"user/account"}
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center px-6 h-full w-full bg-primary-100 font-[Inter-SemiBold] text-sm capitalize lg:text-base"
-              : "flex items-center px-6 h-full w-full border-b-2 border-b-transparent font-[Inter-Regular] text-sm lg:text-base hover:bg-secondary-200 capitalize text-whites-50"
-          }
+          disabled={mutation.isPending ? true : false}
+          onClick={() => mutation.mutate(
+            currentUserData && currentUserData?.id ? currentUserData?.id : null
+          )}
+          
+          className={"flex items-center px-6 h-full w-full border-b-2 border-b-transparent font-[Inter-Regular] text-sm lg:text-base hover:bg-secondary-200 capitalize text-whites-50"}
         >
-          Sign out
-        </NavLink>
+          {
+             mutation.isPending ? "signing out..." : "Sign Out"
+          }
+       
+        </div>
       </li>
     </SubMenuWrap>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CustomStack from "../Stacks/CustomStack";
@@ -11,14 +11,45 @@ import MobileItems from "./MobileItems.jsx";
 // import { Avatar, Wrap, WrapItem } from "@chakra-ui/react";
 import UserDropdown from "./UserDropdown.jsx";
 import Button from "../Buttons/Button.tsx";
+import { AuthContext } from "../../5-Store/AuthContext.jsx";
+import { useMutation } from "@tanstack/react-query";
+import { postAuthLogout } from "../../5-Store/TanstackStore/services/api.ts";
+import { queryClient } from "../../lib/tanstack.ts";
 
 const WebNavigation = ({ isLoggedIn }) => {
   const [nav, setNav] = React.useState(false);
   const [navSolid, setNavSolid] = React.useState(false);
   const [dropDown, setDropDown] = React.useState(false);
+  const [currentUserData, setCurrentUserData] = React.useState(null);
+  const userData = useContext(AuthContext);
   let ref = React.useRef();
-
   let routeNavigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: postAuthLogout,
+    onSuccess: (data) => {
+      queryClient.clear();
+      localStorage.clear();
+      //localStorage.removeItem("user");
+      routeNavigate("/login", { replace: true });
+    },
+    onError: (error) => {
+      // setErroressage(()=> `Login Failed: ${error.message}`)
+    },
+  });
+
+  
+
+  React.useEffect(() => {
+    if (userData.currentUser !== null) {
+      setCurrentUserData(userData.currentUser?.user);
+    } else {
+      navigate("/login", { replace: true });
+    }
+    //console.log("userData", userData);
+  
+  }, [userData.currentUser?.user?.id]);
+
+ 
   const handleNav = () => {
     setNav(!nav);
   };
@@ -108,7 +139,7 @@ const WebNavigation = ({ isLoggedIn }) => {
                 </Button>
               </div>
               
-              <UserDropdown dropdown={dropDown} userRef={ref} />
+              <UserDropdown dropdown={dropDown} userRef={ref} mutation={mutation} currentUserData={currentUserData} />
               
               
             </div>
@@ -182,10 +213,20 @@ const WebNavigation = ({ isLoggedIn }) => {
               <div className="h-max w-[80%] flex items-center justify-center  mb-[0%] select-none">
                 <div className="flex flex-col w-full items-center space-y-3">
                   <MobileButton
+                  disabled={mutation.isPending ? true : false}
+                  onClick={() => mutation.mutate(
+                    currentUserData && currentUserData?.id ? currentUserData?.id : null
+                  )}
                     as={"button"}
                     className="rounded-full w-full max-w-[300px] py-4 font-[Sans-Bold] text-md"
                   >
-                    <span>Sign Out</span>
+                    {
+                      mutation.isPending ? (<span>signing out...</span>)
+                      : (
+                        <span>Sign Out</span>
+                      )
+                    }
+                    
                   </MobileButton>
                 </div>
               </div>
