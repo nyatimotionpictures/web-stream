@@ -38,7 +38,7 @@ const UserHome = () => {
 
  // console.log("featuredFilkms", FilmJSON)
 
-
+  let Categories = []
 
 
 
@@ -62,7 +62,12 @@ const UserHome = () => {
           </div>
         </div>
 
-        <UserCategory />
+{
+  Categories?.length > 0 && (
+    <UserCategory />
+  )
+}
+       
       </CustomStack>
 
       <Footer />
