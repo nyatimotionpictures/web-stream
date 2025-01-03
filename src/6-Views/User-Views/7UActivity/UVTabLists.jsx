@@ -38,7 +38,7 @@ const UVTabLists = ({ type, watchlistData }) => {
           {watchlistData?.length > 0 ? (
             <>
               {watchlistData?.map((data, index) => {
-                console.log("data", data);
+                
                 return (
                   <Stack key={data?.id} className="border-b-2 pb-4 border-b-secondary-500 min-h-[52px] flex flex-row items-center justify-between ">
                     <Box className="flex flex-row gap-4 md:gap-10 flex-grow-1 text-whites-40">
