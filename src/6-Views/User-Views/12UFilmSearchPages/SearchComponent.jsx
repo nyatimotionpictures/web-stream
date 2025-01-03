@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import FilmJson from "../../../1-Assets/data/film_metadata.json"
 import MovieCard4 from '../../../2-Components/Cards/MovieCard4';
 
-const SearchComponent = ({type, }) => {
+const SearchComponent = ({type, films,query, setQuery, loading, error, errorMessage, currentPage, itemsPerPage, setCurrentPage, setItemsPerPage }) => {
    
-    const [query, setQuery] = React.useState('');
+    
   let moviedata = FilmJson
     
     
@@ -41,10 +41,10 @@ const SearchComponent = ({type, }) => {
       </SingleWrapper>
 
       <Container className=" h-full relative">
-      {moviedata.length > 0 ? (
+      {films?.length > 0 ? (
               <Stack className="flex flex-row flex-wrap gap-5 items-center justify-center mb-10">
                 {
-                  moviedata?.map((data, index)=>{
+                  films?.map((data, index)=>{
                     return  <MovieCard4 key={index} data={data} />
                   })
                 }
