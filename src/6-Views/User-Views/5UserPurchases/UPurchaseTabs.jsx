@@ -9,7 +9,7 @@ import PTabShows from "./PTabShows";
 import PTabMovies from "./PTabMovies";
 import PTabAll from "./PTabAll";
 
-const UPurchaseTabs = () => {
+const UPurchaseTabs = ({allPurchased, filmsPurchased, showsPurchased}) => {
     const [currentTabValue, setCurrentTabValue] = React.useState("one");
     const [displayTabs, setDisplayTabs] = React.useState([
       {
@@ -29,11 +29,11 @@ const UPurchaseTabs = () => {
     const TabDisplay = (datakey) => {
       switch (datakey) {
         case "All":
-          return <PTabAll loggedIn={true} />;
+          return <PTabAll allPurchased={allPurchased} loggedIn={true} />;
         case "Movies":
-          return <PTabMovies loggedIn={true} />;
+          return <PTabMovies filmsPurchased={filmsPurchased} loggedIn={true} />;
         case "TV shows":
-          return <PTabShows loggedIn={true} />;
+          return <PTabShows showsPurchased={showsPurchased} loggedIn={true} />;
 
         default:
           break;

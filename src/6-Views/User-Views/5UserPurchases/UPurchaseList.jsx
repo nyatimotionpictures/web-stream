@@ -14,15 +14,17 @@ const UPurchaseList = () => {
 
   const purchaselistQuery = useGetPurchaseList(userData?.currentUser?.user?.id);
 
+  console.log(purchaselistQuery?.data)
+
 
   let allPurchased =  React.useMemo(()=>{
-    return purchaselistQuery?.data?.purchased.filter((film)=> {
+    return purchaselistQuery?.data?.films?.filter((film)=> {
       return film
     })
   },[purchaselistQuery?.data])
 
   let filmsPurchased =  React.useMemo(()=>{
-    return purchaselistQuery?.data?.purchased.filter((film)=> {
+    return purchaselistQuery?.data?.films?.filter((film)=> {
      if (film.type === "film" || film.type === "movie" ) {
       return film
      }
@@ -30,8 +32,8 @@ const UPurchaseList = () => {
   },[purchaselistQuery?.data])
 
   let showsPurchased =  React.useMemo(()=>{
-    return purchaselistQuery?.data?.purchased.filter((film)=> {
-      if (film.type === "episode"  ) {
+    return purchaselistQuery?.data?.films?.filter((film)=> {
+      if (film?.type === "episode" || film?.type === "series" || film?.type !== "movie"  ) {
        return film
       }
      })

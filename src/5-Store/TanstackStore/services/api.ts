@@ -157,7 +157,7 @@ export const getAllFilms = async () => {
 
 export const getUserPurchaseList = async (UserId: String) => {
   try {
-      const response = await apiRequest.get(`/v1/film/watchlist/${UserId}`);
+      const response = await apiRequest.get(`/v1/film/purchaselist/${UserId}`);
 
       return response.data
   } catch (error) {

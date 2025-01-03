@@ -6,22 +6,22 @@ import MovieCard3 from "../../../2-Components/Cards/MovieCard3";
 import MovieCard4 from "../../../2-Components/Cards/MovieCard4";
 
 
-const PTabShows = () => {
+const PTabShows = ({showsPurchased}) => {
      const [moviedata, setMovieData] = React.useState([
       
      ]);
   return (
     <Container className=" h-full relative">
-      {moviedata.length > 0 ? (
+      {showsPurchased?.length > 0 ? (
        <>
        <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
-        {moviedata?.map((data, index) => {
+        {showsPurchased?.map((data, index) => {
           return <MovieCard3 key={index} data={data} />;
         })}
       </Stack>
 
       <Stack className="flex md:hidden flex-row flex-wrap gap-5 items-center justify-center mb-10">
-        {moviedata?.map((data, index) => {
+        {showsPurchased?.map((data, index) => {
           return <MovieCard4 key={index} data={data} />;
         })}
       </Stack>
