@@ -179,7 +179,7 @@ const UFilmDetailPage = () => {
 
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
-      {!isSmallScreen && <WebNavigation isLoggedIn={true} />}
+      {!isSmallScreen && <WebNavigation blur={true} isLoggedIn={true} />}
 
       <Stack className="flex-col w-full h-full space-y-0">
         {isSmallScreen ? (

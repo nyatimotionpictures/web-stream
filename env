@@ -1,0 +1,59 @@
+# mongo url
+#MONGO_L_URL="mongodb://127.0.0.1:27017/PaymentSchedule"
+MONGO_L_URL="mongodb+srv://admin_usr
+:dDLcZzK3qOEYOoDE@api.qs2ug.mongodb.net/paymentSchedule?retryWrites=true&w=majority&appName=api"
+MONGO_R_URL="mongodb+srv://admin_usr:dDLcZzK3qOEYOoDE@api.qs2ug.mongodb.net/paymentSchedule?retryWrites=true&w=majority&appName=api"
+SECRETVA="#DJFH4_84HWQL:FHB#%TEG79__."
+
+
+# Momo Keys & links
+MoMo_Prod_BASEURL="https://proxy.momoapi.mtn.com"
+MoMo_SandboxURL="https://sandbox.momodeveloper.mtn.com"
+MoMo_Callback_BaseURL="https://api.nyatimotionpictures.com"
+#Momo Module Usage
+# MoMouserSecret="8404046114c54d4d8f738b5815efe5d8"
+# MoMouserId="6183b3f7-c771-44cc-bbfa-cfbe46337062"
+# Momo Keys
+# MoMo_Widget_Primary="3cb21ff4d5b34d558fffe75c7e4b18a3"
+# MoMo_Widget_Secondary="aa48d855d0a249c695dccfcfff342ef9"
+
+
+# MoMo_Widget_Name="nyatitest"
+# MoMo_Collect_Name="nyatifilm"
+#production keys Momo
+MoMo_Prod_Collect_Primary="fedc2d49cbdb42328a2e94e846818ab8"
+MoMo_Prod_Collect_Secondary="1d39618f61d449df9526e87fcb114d53"
+MoMo_Prod_ApiUser="85af7ed9-1586-491d-912c-38d9b6d54b59"
+MoMo_Prod_ApiKey="cf85686292d84774ac470370d997bae2"
+
+#momo Environment
+TargetEnvSandBox="sandbox"
+TargetEnvProd="mtnuganda"
+#sandbox keys Momo
+MoMo_Collect_Primary="e1b44c6a2ca84bc1aed83a9c3e6e5fe3"
+MoMo_Collect_Secondary="1c7411a52ef24733898cc41b350502b4"
+
+# callback host
+CALLBACK_HOST="localhost:8000"
+MoMo_CALLBACK_HOST_RM="api.nyatimotionpictures.com"
+CLIENT_URL="https://staging.nyatimotionpictures.com"
+# Pesapal Keys
+SANDBOX_PESA_KEY="TDpigBOOhs+zAl8cwH2Fl82jJGyD8xev"
+SANDBOX_PESA_SECRET="1KpqkfsMaihIcOlhnBo/gBZ5smw="
+LIVE_PESA_KEY="4j60srX3o+vDqeojlZab9Z4p1DyzJ0oI"
+LIVE_PESA_SECRET="k0oXHWm7xVAHVz0I+N5zCyNIYBE="
+PESA_Sandbox_URL="https://cybqa.pesapal.com/pesapalv3"
+PESA_LIVE_URL="https://pay.pesapal.com/v3"
+NG_Pesa_Callback="https://api.nyatimotionpictures.com/nyatipay/tansact_statuses"
+# Gmail accounts
+gUser2="joshuakimbareeba@gmail.com"
+gPass2="svjsvtpetnehqqsn"
+# Airtel keys and links
+Airtel_Staging_Url="https://openapiuat.airtel.africa"
+Airtel_Production_Url="https://openapi.airtel.africa"
+Airtel_ConsumerKey="ythrhgbryvyvtyrhdhdsdhyrf2hh"
+Airtel_ConsumerSecret="uerherffsdhsdgdhruyrfhsdh"
+Airtel_Test_ConsumerKey="ythrhgbryvyvtyrhdhdsdhyrf2hh"
+Airtel_Test_ConsumerSecret="uerherffsdhsdgdhruyrfhsdh"
+# Production_State
+Production_State="production"

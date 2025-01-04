@@ -1,8 +1,12 @@
 import React from 'react'
 import { Icon } from "@iconify/react"; 
 import Button from '../../../2-Components/Buttons/Button';
+import { useNavigate } from 'react-router-dom';
 
 const PesaCancel = () => {
+
+  let navigate = useNavigate();
+  let path = localStorage.getItem("filmPath") ?? "/"
   return (
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
            <div className="flex flex-col  items-center text-whites-40  max-w-[287px] gap-40">
@@ -30,25 +34,12 @@ const PesaCancel = () => {
       </div>
 
       <div className="w-full relative flex flex-col justify-center items-center gap-3">
-        <Button
-          className="w-full rounded-full hover:bg-primary-500/95"
-          onClick={() => {
-            if (window.ReactNativeWebView) {
-              window.ReactNativeWebView.postMessage("failedretry");
-            }
-          }}
-        >
-          Retry
-        </Button>
+       
         <Button
           className="w-full rounded-full hover:bg-secondary-600 bg-secondary-700"
-          onClick={() => {
-            if (window.ReactNativeWebView) {
-              window.ReactNativeWebView.postMessage("failedcancel");
-            }
-          }}
+          onClick={() => navigate(path, { replace: true })}
         >
-          Cancel
+          Back to Films
         </Button>
       </div>
     </div>

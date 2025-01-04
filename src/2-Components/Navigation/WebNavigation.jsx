@@ -16,7 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postAuthLogout } from "../../5-Store/TanstackStore/services/api.ts";
 import { queryClient } from "../../lib/tanstack.ts";
 
-const WebNavigation = ({ isLoggedIn }) => {
+const WebNavigation = ({ isLoggedIn, blur }) => {
   const [nav, setNav] = React.useState(false);
   const [navSolid, setNavSolid] = React.useState(false);
   const [dropDown, setDropDown] = React.useState(false);
@@ -87,10 +87,10 @@ const WebNavigation = ({ isLoggedIn }) => {
     setDropDown(!dropDown);
   };
   return (
-    <NavContainer className="absolute items-center h-[85px] w-full mx-auto px-5 lg:px-14 z-50">
-      <CustomStack className="w-full h-full justify-between items-center max-w-[1280px] mx-auto overflow-hidden">
+    <NavContainer className={`absolute items-center h-[85px] w-full mx-auto px-5 lg:px-14 z-50 ${blur ? "bg-secondary-900 bg-opacity-20" : ""}`}>
+      <CustomStack className="w-full h-full justify-between  items-center max-w-[1280px] mx-auto overflow-hidden">
         {/** menu logo & items */}
-        <CustomStack className="bg-transparent space-x-20 items-center">
+        <CustomStack className="bg-transparent  space-x-20 items-center">
           <div
             className="mx-0 mt-0 select-none cursor-pointer lg:w-24 lg:h-24"
             onClick={() => routeNavigate("/", { replace: true })}

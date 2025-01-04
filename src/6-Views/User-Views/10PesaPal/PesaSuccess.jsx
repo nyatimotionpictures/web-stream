@@ -2,24 +2,29 @@ import { Button } from '@mui/material';
 import React from 'react'
 import { BaseUrl } from '../../../3-Middleware/apiRequest';
 import { Icon } from "@iconify/react";
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const PesaSuccess = () => {
     const [responseData, setResponseData] = React.useState(null)
     let [searchParams] = useSearchParams();
     let getOrderId = searchParams.get("OrderTrackingId");
+     let navigate = useNavigate();
+      let path = localStorage.getItem("filmPath") ?? "/"
 
     let GetTransaction = async (Id) => {
         //console.log("id", Id)
         let getStatus = await axios.get(`${BaseUrl}/film/pesapal/checkpaymentstatus?OrderTrackingId=${Id}`, { headers: { "content-type": "application/json" } });
         //console.log("getStatus", getStatus.data)
         if (getStatus.data) {
+
             setResponseData(() => getStatus.data)
+            
         }
     }
 
     const handleClose = () => {
-        window.ReactNativeWebView.postMessage("returntofilm");
+      localStorage.removeItem("filmPath");
+      navigate(path, { replace: true })
       };
 
       React.useEffect(() => {

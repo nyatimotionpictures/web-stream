@@ -28,6 +28,9 @@ import SearchFilms from "./6-Views/User-Views/12UFilmSearchPages/SearchFilms.jsx
 import SearchShows from "./6-Views/User-Views/12UFilmSearchPages/SearchShows.jsx";
 import UWatchFilm from "./6-Views/User-Views/3UserWatchFilm/UWatchFilm.jsx";
 import UEpisodeDetailPage from "./6-Views/User-Views/2UserViewFilm/UEpisodeDetailPage.jsx";
+import PesaPalPayments from "./6-Views/User-Views/10PesaPal/PesaPalPayments.jsx";
+import PesaSuccess from "./6-Views/User-Views/10PesaPal/PesaSuccess.jsx";
+import PesaCancel from "./6-Views/User-Views/10PesaPal/PesaCancel.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -44,12 +47,20 @@ function App() {
               <Route path="/" element={<UserHome />} />
               <Route path="/film/:id" element={<UFilmDetailPage />} />
               <Route path="/series/:id" element={<UFilmDetailPage />} />
-              <Route path="/episode/:episodeid/:seriesid/:seasonid" element={<UEpisodeDetailPage />} />
+              <Route
+                path="/episode/:episodeid/:seriesid/:seasonid"
+                element={<UEpisodeDetailPage />}
+              />
               <Route path="/payment" element={<FilmPayment />} />
+              <Route path="/process/pesapal" element={<PesaPalPayments />} />
               <Route
                 path="/payment/validate/:orderTrackingId"
                 element={<PaymentValidation />}
               />
+
+              <Route path="/pesapay/success" element={<PesaSuccess />} />
+              {/** Add cancel page for pesapal */}
+              <Route path="/pesapay/cancel" element={<PesaCancel />} />
 
               <Route path="/watch/:id" element={<UWatchFilm />} />
 
