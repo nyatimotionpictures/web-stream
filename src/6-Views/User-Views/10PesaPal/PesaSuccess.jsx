@@ -13,7 +13,7 @@ const PesaSuccess = () => {
 
     let GetTransaction = async (Id) => {
         //console.log("id", Id)
-        let getStatus = await axios.get(`${BaseUrl}/film/pesapal/checkpaymentstatus?OrderTrackingId=${Id}`, { headers: { "content-type": "application/json" } });
+        let getStatus = await axios.get(`${BaseUrl}/v1/film/pesapal/checkpaymentstatus?OrderTrackingId=${Id}`, { headers: { "content-type": "application/json" } });
         //console.log("getStatus", getStatus.data)
         if (getStatus.data) {
 

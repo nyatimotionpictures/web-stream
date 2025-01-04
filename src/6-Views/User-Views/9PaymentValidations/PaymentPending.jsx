@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 
 
+
 const PaymentPending = ({errorMessage}) => {
   return (
     <div className="flex flex-col  items-center text-whites-40 gap-4 max-w-[287px]">

@@ -41,8 +41,8 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route
-              // element={<ProtectedRoutes />}
-              element={<OrdinaryRoutes />}
+              element={<ProtectedRoutes />}
+              // element={<OrdinaryRoutes />}
             >
               <Route path="/" element={<UserHome />} />
               <Route path="/film/:id" element={<UFilmDetailPage />} />

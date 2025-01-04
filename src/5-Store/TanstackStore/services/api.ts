@@ -1,7 +1,7 @@
 //register
 //login
-import { AxiosError } from "axios";
-import apiRequest from "../../../3-Middleware/apiRequest";
+import axios, { AxiosError } from "axios";
+import apiRequest, { BaseUrl } from "../../../3-Middleware/apiRequest";
 import {
   UserLoginRequest,
   UserLoginResponse,
@@ -251,3 +251,26 @@ export const makeFilmPurchase = async (paymentData: any) => {
     throw axiosError.response?.data ?? { message: "An unknown error occurred" };
   }
 } 
+
+export const getPaymentStatus = async (
+  orderId: string
+) => {
+  try {
+    console.log("orderId", orderId);
+    let token = localStorage.getItem("token");
+    const response = await axios.get(
+    `${BaseUrl}/v1/film/checkpaymentstatus/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+    );
+  
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+};

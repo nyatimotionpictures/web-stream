@@ -5,14 +5,15 @@ import PaymentFailed from './PaymentFailed';
 import PaymentTimedout from './PaymentTimedout';
 import { useParams } from 'react-router-dom';
 import PropTypes from "prop-types";
+import { getPaymentStatus } from '../../../5-Store/TanstackStore/services/api';
 
 const PaymentValidation = () => {
     const params = useParams();
     const [errorMessage, setErrorMessage] = useState("");
   
     const { data, status, error, refetch } = useQuery({
-      queryKey: ["paymentStatus", params.orderTrackingId],
-      queryFn: () => getPaymentStatus(params.orderTrackingId),
+      queryKey: ["paymentStatus", params?.orderTrackingId],
+      queryFn: () => getPaymentStatus(params?.orderTrackingId),
       enabled: !!params.orderTrackingId,
       refetchOnMount: false,
       refetchOnWindowFocus: false,
@@ -38,7 +39,7 @@ const PaymentValidation = () => {
       console.log("unmount");
      
     };
-  }, [data, params.orderTrackingId, status]);
+  }, [data, params?.orderTrackingId, status]);
   return (
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
     {

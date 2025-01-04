@@ -37,12 +37,12 @@ const PaymentFailed = () => {
         >
           Retry
         </Button>
-        <Buttons
+        <Button
           className="w-full rounded-full hover:bg-secondary-600 bg-secondary-700"
           onClick={() =>  navigate("/", { replace: true })}
         >
           Cancel
-        </Buttons>
+        </Button>
       </div>
     </div>
   )
