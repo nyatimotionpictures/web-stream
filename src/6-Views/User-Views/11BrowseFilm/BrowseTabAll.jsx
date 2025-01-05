@@ -1,43 +1,89 @@
-import { Box, Stack, Typography } from '@mui/material';
-import React from 'react'
-import styled from 'styled-components';
+import { Box, Pagination, Stack, Typography } from "@mui/material";
+import React from "react";
+import styled from "styled-components";
 // import MovieCard2 from '../../../2-Components/Cards/MovieCard2';
 
-import MovieCard4 from '../../../2-Components/Cards/MovieCard4';
-import FilmJson from "../../../1-Assets/data/film_metadata.json"
+import MovieCard4 from "../../../2-Components/Cards/MovieCard4";
+import FilmJson from "../../../1-Assets/data/film_metadata.json";
 
 
-const BrowseTabAll = ({allFilteredFilms}) => {
-//   const [moviedata, setMovieData] = React.useState([{
-//     title: '1'
-// }]);
+const BrowseTabAll = ({
+  allFilteredFilms,
+  loading,
+  itemsPerPage,
+  setItemsPerPage,
+  loggedIn,
+}) => {
+  //pagination
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-// let moviedata = FilmJson
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = allFilteredFilms?.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Container className="w-full h-full relative">
-      {allFilteredFilms?.length > 0 ? (
-              <Stack className="flex flex-row flex-wrap gap-5 items-center justify-center mb-10">
-              {
-                 allFilteredFilms?.map((data, index)=>{
-                    return  <MovieCard4 key={index} data={data} />
-                  })
-                }
-              
-              </Stack>
+      {currentItems?.length > 0 ? (
+        <Stack className="flex flex-row flex-wrap gap-5 items-center justify-center mb-10">
+          {currentItems?.map((data, index) => {
+            return <MovieCard4 key={index} data={data} />;
+          })}
+        </Stack>
       ) : (
         <Box className="h-[100%]">
           <Stack className="flex flex-col h-full w-full min-h-[45vh] items-center justify-center my-auto">
             <Typography className="text-whites-40 font-[Inter-Medium] text-lg">
               Search list is currently empty
             </Typography>
-            
           </Stack>
         </Box>
       )}
+
+      {/** pagination */}
+     
+     
+      {allFilteredFilms?.length > itemsPerPage && (
+        <div className="flex flex-row justify-center items-center gap-2 mt-0 text-whites-40 ">
+        <Pagination
+          count={Math.ceil(allFilteredFilms?.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          variant="outlined"
+         
+          sx={{
+            "& .MuiPaginationItem-root": {
+              color: "white", // Change text color to white
+              borderColor: "white", // Change border color to white for outlined variant
+            },
+            "& .Mui-selected": {
+              backgroundColor: "white", // Change selected background color to white
+              color: "black", // Change selected text color to black for contrast
+            },
+            "& .MuiPaginationItem-root:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.1)", // Slight white hover effect
+              color: "white", // Change hover text color to white
+            },
+          }}
+        />
+  
+        </div>
+      )
+     }
+     
+    
     </Container>
-  )
-}
+  );
+};
 
-export default BrowseTabAll
+export default BrowseTabAll;
 
-const Container = styled.div``;
+const Container = styled.div`
+
+`;

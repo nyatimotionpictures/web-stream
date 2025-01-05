@@ -10,17 +10,13 @@ import { useGetWatchList } from "../../../5-Store/TanstackStore/services/queries
 import { AuthContext } from "../../../5-Store/AuthContext";
 
 const UWatchList = () => {
-  // const [allWatched, setAllWatched] = React.useState([]);
-  // const [filmsWatched, setFilmsWatched] = React.useState([]);
-  // const [showsWatched, setShowsWatched] = React.useState([]);
+   const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const userData = useContext(AuthContext);
-
-
   const watchedQuery = useGetWatchList(userData?.currentUser?.user?.id);
 
-  console.log("watchedQuery", watchedQuery?.data);
+  // console.log("watchedQuery", watchedQuery?.data);
 
-  console.log(watchedQuery?.data?.watched);
+  // console.log(watchedQuery?.data?.watched);
   let allWatched =  React.useMemo(()=>{
     return watchedQuery?.data?.watchlist?.SAVED?.filter((film)=> {
       return film
@@ -50,7 +46,7 @@ const UWatchList = () => {
       <WebNavigation isLoggedIn={true} />
       <Stack className="flex-col w-full h-full space-y-0">
         <div className="px-4 pt-28 md:px-16 md:pt-36">
-          <UWatchTabs allWatched={allWatched} filmsWatched={filmsWatched} showsWatched={showsWatched}   />
+          <UWatchTabs allWatched={allWatched} filmsWatched={filmsWatched} showsWatched={showsWatched} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage}  />
         </div>
       </Stack>
       <Footer />

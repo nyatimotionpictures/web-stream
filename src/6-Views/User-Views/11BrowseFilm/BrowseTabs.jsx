@@ -7,7 +7,7 @@ import { TabContext, TabPanel } from '@mui/lab';
 import { FormContainer, SingleWrapper } from '../../../2-Components/Stacks/InputFormStack';
 
 
-const BrowseTabs = ({query, setQuery, allFilteredFilms, allFilteredTvShows, allFilteredMovies}) => {
+const BrowseTabs = ({query, setQuery, allFilteredFilms, allFilteredTvShows, allFilteredMovies, loading, itemsPerPage, setItemsPerPage}) => {
   const [currentTabValue, setCurrentTabValue] = React.useState("one");
   const [displayTabs, setDisplayTabs] = React.useState([
     {
@@ -28,11 +28,11 @@ const BrowseTabs = ({query, setQuery, allFilteredFilms, allFilteredTvShows, allF
   const TabDisplay = (datakey) => {
     switch (datakey) {
       case "All":
-        return <BrowseTabAll allFilteredFilms={allFilteredFilms}  />;
+        return <BrowseTabAll allFilteredFilms={allFilteredFilms} loading={loading} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
       case "Films":
-        return <BrowseTabFilms allFilteredMovies={allFilteredMovies}  loggedIn={true} />;
+        return <BrowseTabFilms allFilteredMovies={allFilteredMovies} loading={loading}  itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
       case "TV shows":
-        return <BrowseTabShows allFilteredTvShows={allFilteredTvShows}   loggedIn={true} />;
+        return <BrowseTabShows allFilteredTvShows={allFilteredTvShows}  loading={loading} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
       
       default:
         break;

@@ -28,7 +28,7 @@ const BrowsePage = () => {
   
   let getallfilms = useGetAllFilms();
 
-  console.log(getallfilms?.data?.films)
+  // console.log(getallfilms?.data?.films)
   React.useEffect(() => {
  
     setLoading(true);
@@ -108,7 +108,7 @@ const BrowsePage = () => {
     <WebNavigation isLoggedIn={true} />
     <Stack className="flex-col w-full h-full space-y-0">
       <div className="px-4 pt-28 md:px-16 md:pt-36">
-        <BrowseTabs query={query} setQuery={setQuery} allFilteredFilms={allFilteredFilms} allFilteredTvShows={allFilteredTvShows} allFilteredMovies={allFilteredMovies} />
+      <BrowseTabs query={query} setQuery={setQuery} allFilteredFilms={allFilteredFilms} allFilteredTvShows={allFilteredTvShows} allFilteredMovies={allFilteredMovies} loading={loading} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} />
       </div>
     </Stack>
     <Footer />

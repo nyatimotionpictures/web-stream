@@ -10,6 +10,7 @@ import { AuthContext } from '../../../5-Store/AuthContext';
 import { useGetPurchaseList } from '../../../5-Store/TanstackStore/services/queries';
 
 const UPurchaseList = () => {
+   const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const userData = useContext(AuthContext)
 
   const purchaselistQuery = useGetPurchaseList(userData?.currentUser?.user?.id);
@@ -43,7 +44,7 @@ const UPurchaseList = () => {
       <WebNavigation isLoggedIn={true} />
       <Stack className="flex-col w-full h-full space-y-0">
         <div className="px-4 pt-28 md:px-16 md:pt-36">
-          <UPurchaseTabs allPurchased={allPurchased} filmsPurchased={filmsPurchased} showsPurchased={showsPurchased} />
+          <UPurchaseTabs allPurchased={allPurchased} filmsPurchased={filmsPurchased} showsPurchased={showsPurchased} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage}  />
         </div>
       </Stack>
       <Footer />

@@ -58,9 +58,9 @@ const SearchAll = () => {
             setAllFilms(() => [...queryMovies, ...queryEpisodes, ...queryShows]);
            
       
-            console.log(queryEpisodes);
+            // console.log(queryEpisodes);
       
-            console.log(querySeasons);
+            // console.log(querySeasons);
             setLoading(false);
           } else {
             setLoading(false);

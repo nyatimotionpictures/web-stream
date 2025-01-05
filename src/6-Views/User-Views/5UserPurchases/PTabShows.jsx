@@ -1,31 +1,35 @@
-
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import MovieCard3 from "../../../2-Components/Cards/MovieCard3";
 import MovieCard4 from "../../../2-Components/Cards/MovieCard4";
 
+const PTabShows = ({ showsPurchased, itemsPerPage, setItemsPerPage }) => {
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-const PTabShows = ({showsPurchased}) => {
-     const [moviedata, setMovieData] = React.useState([
-      
-     ]);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = showsPurchased?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
   return (
     <Container className=" h-full relative">
-      {showsPurchased?.length > 0 ? (
-       <>
-       <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
-        {showsPurchased?.map((data, index) => {
-          return <MovieCard3 key={index} data={data} />;
-        })}
-      </Stack>
+      {currentItems?.length > 0 ? (
+        <>
+          <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
+            {currentItems?.map((data, index) => {
+              return <MovieCard3 key={index} data={data} />;
+            })}
+          </Stack>
 
-      <Stack className="flex md:hidden flex-row flex-wrap gap-5 items-center justify-center mb-10">
-        {showsPurchased?.map((data, index) => {
-          return <MovieCard4 key={index} data={data} />;
-        })}
-      </Stack>
-      </>
+          <Stack className="flex md:hidden flex-row flex-wrap gap-5 items-center justify-center mb-10">
+            {currentItems?.map((data, index) => {
+              return <MovieCard4 key={index} data={data} />;
+            })}
+          </Stack>
+        </>
       ) : (
         <Box className="h-[100%]">
           <Stack className="flex flex-col h-full w-full min-h-[45vh] items-center justify-center my-auto">
@@ -38,6 +42,32 @@ const PTabShows = ({showsPurchased}) => {
             </Typography>
           </Stack>
         </Box>
+      )}
+
+      {/** pagination */}
+      {showsPurchased?.length > itemsPerPage && (
+        <div className="flex flex-row justify-center items-center gap-2 mt-0 text-whites-40 ">
+          <Pagination
+            count={Math.ceil(showsPurchased?.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            sx={{
+              "& .MuiPaginationItem-root": {
+                color: "white", // Change text color to white
+                borderColor: "white", // Change border color to white for outlined variant
+              },
+              "& .Mui-selected": {
+                backgroundColor: "white", // Change selected background color to white
+                color: "black", // Change selected text color to black for contrast
+              },
+              "& .MuiPaginationItem-root:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.1)", // Slight white hover effect
+                color: "white", // Change hover text color to white
+              },
+            }}
+          />
+        </div>
       )}
     </Container>
   );

@@ -8,7 +8,7 @@ import TabAll from "./TabAll";
 import TabMovies from "./TabMovies";
 import TabShows from "./TabShows";
 
-const UWatchTabs = ({allWatched, filmsWatched, showsWatched}) => {
+const UWatchTabs = ({allWatched, filmsWatched, showsWatched, itemsPerPage, setItemsPerPage}) => {
   const [currentTabValue, setCurrentTabValue] = React.useState("one");
   const [displayTabs, setDisplayTabs] = React.useState([
     {
@@ -28,11 +28,11 @@ const UWatchTabs = ({allWatched, filmsWatched, showsWatched}) => {
   const TabDisplay = (datakey) => {
     switch (datakey) {
       case "All":
-        return <TabAll  allWatched={allWatched} loggedIn={true} />;
+        return <TabAll  allWatched={allWatched} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
       case "Films":
-        return <TabMovies filmsWatched={filmsWatched}  loggedIn={true} />;
+        return <TabMovies filmsWatched={filmsWatched} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage}  loggedIn={true} />;
       case "TV shows":
-        return <TabShows showsWatched={showsWatched} loggedIn={true} />;
+        return <TabShows showsWatched={showsWatched} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
       
       default:
         break;
