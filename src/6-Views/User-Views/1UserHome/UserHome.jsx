@@ -7,24 +7,30 @@ import UserCategory from "./UserCategory";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
 import { useGetAllFilms } from "../../../5-Store/TanstackStore/services/queries";
 import useEmblaCarousel from "embla-carousel-react";
-import FilmJSON from '../../../1-Assets/data/film_metadata.json'
-import "./slider.css"
-import Autoplay from 'embla-carousel-autoplay';
-
+import FilmJSON from "../../../1-Assets/data/film_metadata.json";
+import "./slider.css";
+import Autoplay from "embla-carousel-autoplay";
+import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 
 const UserHome = () => {
   const autoplayOptions = { delay: 10000 };
   const autoplay = Autoplay(autoplayOptions);
-  const [featuredFilms, setFeaturedFilms] = React.useState([FilmJSON[0], FilmJSON[1]])
+  const [featuredFilms, setFeaturedFilms] = React.useState([
+    FilmJSON[0],
+    FilmJSON[1],
+  ]);
   let filmsQuery = useGetAllFilms();
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    draggable: true,
-    align: "start",
-    startIndex: 0,
-    snapSize: 1,
-    gap: 0,
-  },[autoplay]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      draggable: true,
+      align: "start",
+      startIndex: 0,
+      snapSize: 1,
+      gap: 0,
+    },
+    [autoplay]
+  );
 
   const FeaturedData = React.useMemo(() => {
     return filmsQuery?.data?.films?.filter((film) => {
@@ -36,13 +42,19 @@ const UserHome = () => {
     });
   }, [filmsQuery?.data?.films]);
 
- // console.log("featuredFilkms", FilmJSON)
+  // console.log("featuredFilkms", FilmJSON)
 
-  let Categories = []
-
-
+  let Categories = [];
 
   // console.log(filmsQuery?.data?.films);
+
+  if (filmsQuery?.isLoading) {
+    return (
+      <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
+        <CustomLoader text={"Loading..."} />
+      </CustomStack>
+    );
+  }
   return (
     <Container className="space-y-0 flex-col relative w-full h-full overflow-x-hidden">
       <WebNavigation isLoggedIn={true} />
@@ -62,12 +74,7 @@ const UserHome = () => {
           </div>
         </div>
 
-{
-  Categories?.length > 0 && (
-    <UserCategory />
-  )
-}
-       
+        {Categories?.length > 0 && <UserCategory />}
       </CustomStack>
 
       <Footer />

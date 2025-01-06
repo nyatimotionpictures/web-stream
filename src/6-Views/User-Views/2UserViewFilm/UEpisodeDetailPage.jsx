@@ -29,6 +29,7 @@ import {
 } from "../../../5-Store/TanstackStore/services/api";
 import { useMutation } from "@tanstack/react-query";
 import { AuthContext } from "../../../5-Store/AuthContext";
+import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 
 const UEpisodeDetailPage = () => {
   const [selectedFilm, setSelectedFilm] = React.useState(null);
@@ -189,6 +190,14 @@ const UEpisodeDetailPage = () => {
 
   console.log(filmsQuery?.data?.film);
   console.log(selectedFilm);
+
+  if (filmsQuery?.isLoading) {
+    return (
+      <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
+        <CustomLoader text={"Loading..."} />
+      </CustomStack>
+    );
+  }
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
       {!isSmallScreen && <WebNavigation isLoggedIn={true} />}
