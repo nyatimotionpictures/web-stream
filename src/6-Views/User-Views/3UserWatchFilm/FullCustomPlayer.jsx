@@ -180,6 +180,7 @@ const FullCustomPlayer = ({
         <div className="flex w-full h-[100vh]">
           <video
             ref={videoRef}
+            preload="metadata"
             className="video-player w-full h-full"
             onTimeUpdate={handleTimeUpdate}
             src={videoSrc && videoSrc?.id ? videoSrc?.url : null}

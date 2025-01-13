@@ -34,7 +34,7 @@ const UserHome = () => {
 
   const FeaturedData = React.useMemo(() => {
     return filmsQuery?.data?.films?.filter((film) => {
-      if (film.type === "movie") {
+      if (film.type === "movie" || film.type?.includes("film")) {
         return film;
       } else if (film.type === "series") {
         return film;

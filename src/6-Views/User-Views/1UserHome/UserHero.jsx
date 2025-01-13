@@ -29,7 +29,7 @@ const UserHero = ({ filmData }) => {
 //console.log("backdropData", filmData)
   return (
     <div
-      className={`flex flex-col  !h-screen w-screen bg-cover bg-no-repeat bg-fixed relative`}
+      className={`flex flex-col  !h-[90vh] md:!h-screen w-screen bg-cover bg-no-repeat bg-fixed relative`}
     >
       <img
         src={backdropData[0]?.url ? backdropData[0]?.url : ""}
@@ -43,8 +43,8 @@ const UserHero = ({ filmData }) => {
 
       <div className="flex absolute top-0 object-cover h-full w-full select-none  bg-gradient-to-b from-transparent to-secondary-800" />
 
-      <div className="mx-auto h-screen px-5 md:px-16 py-32 flex items-center">
-        <div className="flex flex-col relative  h-screen w-screen ">
+      <div className="mx-auto h-[90vh] md:h-screen px-5 md:px-16 py-32 flex items-center">
+        <div className="flex flex-col relative h-[90vh]  md:h-screen w-screen ">
           <div className="w-max absolute left-0 bottom-20">
             <Stack
               spacing={"24px"}
@@ -79,7 +79,7 @@ const UserHero = ({ filmData }) => {
                   <li className="w-max">
                     {filmData?.type === "series"
                       ? "series"
-                      : filmData?.type === "movie"
+                      : filmData?.type === "movie" || filmData?.type?.includes("film")
                       ? "film"
                       : null}{" "}
                   </li>
@@ -123,7 +123,7 @@ const UserHero = ({ filmData }) => {
 
                 <Button
                   onClick={() =>
-                    filmData?.type === "movie"
+                    filmData?.type === "movie" || filmData?.type?.includes("film")
                       ? navigate(`/film/${filmData?.id}`)
                       : filmData?.type === "series"
                       ? navigate(`/series/${filmData?.id}`)
