@@ -66,7 +66,7 @@ function App() {
 
               <Route path="/browse" element={<BrowsePage />} />
               <Route path="/browse/genre/all" element={<SearchAll />} />
-              <Route path="/browse/genre/movies" element={<SearchFilms />} />
+              <Route path="/browse/genre/films" element={<SearchFilms />} />
               <Route path="/browse/genre/shows" element={<SearchShows />} />
               <Route path="/mylist/watchlist" element={<UWatchList />} />
 

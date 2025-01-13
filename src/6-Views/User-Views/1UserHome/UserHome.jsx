@@ -34,11 +34,14 @@ const UserHome = () => {
 
   const FeaturedData = React.useMemo(() => {
     return filmsQuery?.data?.films?.filter((film) => {
-      if (film.type === "movie" || film.type?.includes("film")) {
-        return film;
-      } else if (film.type === "series") {
-        return film;
+      if(film?.featured){
+        if (film.type === "movie" || film.type?.includes("film")) {
+          return film;
+        } else if (film.type === "series") {
+          return film;
+        }
       }
+      
     });
   }, [filmsQuery?.data?.films]);
 
@@ -60,19 +63,28 @@ const UserHome = () => {
       <WebNavigation isLoggedIn={true} />
       <CustomStack className="flex-col w-full h-full">
         {/** carousel */}
-        <div className="embla !min-h-[70vh] ">
-          <div className="embla__viewport !overflow-hidden" ref={emblaRef}>
-            <div className="embla__container flex flex-row !space-x-0 !gap-0 px-0 pr-0">
-              {FeaturedData?.map((data, index) => {
-                return (
-                  <div key={index} className="embla__slide space-x-0 ">
-                    <UserHero filmData={data} />
-                  </div>
-                );
-              })}
+        {
+          FeaturedData?.length > 0 ? (
+            <div className="embla !min-h-[70vh] ">
+            <div className="embla__viewport !overflow-hidden" ref={emblaRef}>
+              <div className="embla__container flex flex-row !space-x-0 !gap-0 px-0 pr-0">
+                {FeaturedData?.map((data, index) => {
+                  return (
+                    <div key={index} className="embla__slide space-x-0 ">
+                      <UserHero filmData={data} />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
+          ): (
+            <div className="w-full h-full flex flex-col justify-center items-center min-h-[70vh] bg-secondary-900 ">
+              <h1 className="text-lg text-whites-40">No featured films</h1>
+            </div>
+          )
+        }
+      
 
         {Categories?.length > 0 && <UserCategory />}
       </CustomStack>

@@ -44,8 +44,8 @@ export const MENULOGIN = [
     path: "/browse/genre/all",
   },
   {
-    title: "Movies",
-    path: "/browse/genre/movies",
+    title: "Films",
+    path: "/browse/genre/films",
   },
   {
     title: "TV Shows",
