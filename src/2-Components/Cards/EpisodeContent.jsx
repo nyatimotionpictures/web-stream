@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material';
 import React from 'react'
 
 import { useNavigate } from "react-router-dom";
-import Button from '../../2-Components/Buttons/Button';
+import Button from '../Buttons/Button';
 
 const EpisodeContent = ({
     seasondata,

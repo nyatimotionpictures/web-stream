@@ -7,9 +7,10 @@ import ContentTab from "../../../2-Components/TabLists/ContentTab";
 import MoreLikeTab from "../../../2-Components/TabLists/MoreLikeTab";
 import EpisodeTab from "../../../2-Components/TabLists/EpisodeTab";
 import ExploreTab from "../../../2-Components/TabLists/ExploreTab";
+import SegmentTab from "../../../2-Components/TabLists/SegmentTab";
 
 
-const UFilmTabs = ({ filmData }) => {
+const UFilmTabs = ({ filmData, allSeasonData }) => {
     const [filmType, setFilmType] = React.useState(null);
     const [loadingFilmData, setLoadingFilmData] = React.useState(true);
     const [currentTabValue, setCurrentTabValue] = React.useState(null);
@@ -39,6 +40,27 @@ const UFilmTabs = ({ filmData }) => {
           filmData?.type?.toLowerCase() === "segments" ||
           filmData?.type?.toLowerCase().includes("series")
         ) {
+          setFilmType(() => filmData?.type);
+          setDisplayTabs(() => [
+            {
+              title: "Segments",
+              position: "one",
+            },
+            {
+              title: "Details",
+              position: "two",
+            },
+            {
+              title: "More like",
+              position: "three",
+            },
+            filmData?.InTheatres?.length > 0 && {
+              title: "Explore",
+              position: "four",
+            },
+          ]);
+          setCurrentTabValue(() => "one");
+        } else {
           setFilmType(() => filmData?.type);
           setDisplayTabs(() => [
             {
@@ -79,7 +101,9 @@ const UFilmTabs = ({ filmData }) => {
         case "Details":
           return <ContentTab filmdata={filmData} loggedIn={true} />;
         case "More like":
-          return <MoreLikeTab filmdata={filmData} loggedIn={true} />;
+          return <MoreLikeTab filmdata={filmData} allSeasonData={allSeasonData} loggedIn={true} />;
+          case "Segments":
+          return <SegmentTab filmdata={filmData} loggedIn={true} />;
         case "Episodes":
           return <EpisodeTab filmdata={filmData} loggedIn={true} />;
         case "Explore":

@@ -1,7 +1,7 @@
 //import { Stack } from '@chakra-ui/react';
 import React from 'react'
 import styled from 'styled-components';
-import EpisodeContent from './EpisodeContent';
+import EpisodeContent from '../Cards/EpisodeContent';
 import { Autocomplete, Select, Stack, TextField, Typography } from '@mui/material';
 import CustomStack from '../Stacks/CustomStack';
 import { FormContainer } from '../Stacks/InputFormStack';
@@ -17,26 +17,28 @@ const EpisodeTab = ({
 }) => {
     const [seasonData, setSeasonData] = React.useState([]);
     const [selectedSeason, setSelectedSeason] = React.useState(null);
-    console.log("filmData", filmdata.season);
+    console.log("filmData", filmdata);
 
     React.useEffect(() => {
-        if (filmdata?.season ) {
-            setSeasonData(() => filmdata?.season);
-            setSelectedSeason(() => filmdata?.season[0])
+        if (filmdata ) {
+            // setSeasonData(() => filmdata);
+            setSelectedSeason(() => filmdata)
         } else {
-            setSeasonData(() => []);
+            setSeasonData(() => null);
+            setSelectedSeason(() => null);
         }
 
         return () => {
-            setSeasonData(() => []);
+            setSeasonData(() => null);
+            setSelectedSeason(() => null);
         }
       
     }, [filmdata, filmdata?.title, filmdata?.filmType, filmdata?.season]);
   return (
     <Container>
-      {seasonData?.length > 0 && filmdata?.season ? (
+      {selectedSeason !== null && filmdata !== null ? (
         <div className="flex flex-col gap-4 w-full">
-          <EpisodeFormContainer className="flex flex-col gap-2 w-[200px] font-[Inter-Regular] !text-base !text-whites-40">
+          {/* <EpisodeFormContainer className="flex flex-col gap-2 w-[200px] font-[Inter-Regular] !text-base !text-whites-40">
           
             <Select
               className=" h-[40px] bg-secondary-300 bg-opacity-65 text-base text-whites-40 capitalize font-[Inter-Regular] outline-none border-none focus:outline-none focus:border-none md:text-xl"
@@ -69,8 +71,8 @@ const EpisodeTab = ({
                 );
               })}
             </Select>
-          </EpisodeFormContainer>
-          {filmdata?.season[0]?.episodes?.length > 0 && (
+          </EpisodeFormContainer> */}
+          {filmdata?.episodes?.length > 0 && (
             <Stack className="flex flex-col gap-[63px]">
               {selectedSeason?.episodes?.map((data, index) => {
                 return (
