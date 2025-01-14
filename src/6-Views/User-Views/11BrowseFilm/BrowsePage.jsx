@@ -35,7 +35,7 @@ const BrowsePage = () => {
     if (getallfilms?.data?.films) {
      
       // get all movies
-      let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie");
+      let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie" || data?.type?.includes("film"));
       setMovies(() => queryMovies);
 
       // get all shows
@@ -43,7 +43,12 @@ const BrowsePage = () => {
 
       //query episodes
       let querySeasons = queryShows.map((data) => {
-        return data?.season;
+        return data?.season?.map((season)=> {
+          return {
+            ...season,
+            type: "season",
+          }
+        });
       }).flat();
 
       let queryEpisodes = querySeasons.map((data) => {
@@ -61,12 +66,12 @@ const BrowsePage = () => {
         }); 
       }).flat();
 
-      setAllFilms(() => [...queryMovies, ...queryEpisodes, ...queryShows]);
-      setTvShows(() => [...queryShows, ...queryEpisodes]);
+      setAllFilms(() => [...queryMovies, ...querySeasons, ...queryShows]);
+      setTvShows(() => [...queryShows, ...querySeasons]);
 
       console.log(queryEpisodes);
 
-      console.log(querySeasons);
+      console.log("seasons" ,querySeasons);
       setLoading(false);
     } else {
       setLoading(false);

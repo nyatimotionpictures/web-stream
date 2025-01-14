@@ -31,7 +31,7 @@ const SearchFilms = () => {
       if (getallfilms?.data?.films) {
        
         // get all movies
-        let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie");
+        let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie" || data?.type?.includes("film"));
         setMovies(() => queryMovies);
   
         setLoading(false);

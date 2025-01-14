@@ -47,6 +47,8 @@ function App() {
               <Route path="/" element={<UserHome />} />
               <Route path="/film/:id" element={<UFilmDetailPage />} />
               <Route path="/series/:id" element={<UFilmDetailPage />} />
+              <Route path="/segments/:id" element={<UFilmDetailPage />} />
+
               <Route
                 path="/episode/:episodeid/:seriesid/:seasonid"
                 element={<UEpisodeDetailPage />}

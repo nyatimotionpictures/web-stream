@@ -29,7 +29,7 @@ const SearchAll = () => {
           if (getallfilms?.data?.films) {
            
             // get all movies
-            let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie");
+            let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie" || data?.type?.includes("film"));
             
       
             // get all shows
@@ -37,7 +37,12 @@ const SearchAll = () => {
       
             //query episodes
             let querySeasons = queryShows.map((data) => {
-              return data?.season;
+              return data?.season?.map((season)=> {
+                return {
+                  ...season,
+                  type: "season",
+                }
+              });
             }).flat();
       
             let queryEpisodes = querySeasons.map((data) => {
@@ -55,7 +60,7 @@ const SearchAll = () => {
               }); 
             }).flat();
       
-            setAllFilms(() => [...queryMovies, ...queryEpisodes, ...queryShows]);
+            setAllFilms(() => [...queryMovies, ...querySeasons, ...queryShows]);
            
       
             // console.log(queryEpisodes);

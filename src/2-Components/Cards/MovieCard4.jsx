@@ -51,6 +51,7 @@ const  MovieCard4 = ({data}) => {
 
   return (
     <MovieContainer
+    onClick={() => data?.type.includes("film") || data?.type.includes("movie")  ? navigate(`/film/${data?.id}`) : data?.type.includes("series") ? navigate(`/series/${data?.id}`) : data?.type.includes("episode") ? navigate(`/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`) : data?.type?.includes("season") ? navigate(`/segments/${data?.id}`) : null}
       className={
         "min-h-[250px] h-max w-[152.42px] sm:w-[292px] md:w-[280px] lg:min-h-[510px] 2xl:w-[300px] flex flex-col items-start gap-3 pixelated"
       }

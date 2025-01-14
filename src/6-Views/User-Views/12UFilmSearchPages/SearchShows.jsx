@@ -38,7 +38,12 @@ const SearchShows = () => {
   
         //query episodes
         let querySeasons = queryShows.map((data) => {
-          return data?.season;
+          return data?.season?.map((season)=> {
+            return {
+              ...season,
+              type: "season",
+            }
+          });
         }).flat();
   
         let queryEpisodes = querySeasons.map((data) => {
@@ -57,7 +62,7 @@ const SearchShows = () => {
         }).flat();
   
       
-        setTvShows(() => [...queryShows, ...queryEpisodes]);
+        setTvShows(() => [...queryShows, ...querySeasons]);
   
         setLoading(false);
       } else {
