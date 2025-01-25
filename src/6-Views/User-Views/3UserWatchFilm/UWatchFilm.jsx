@@ -199,7 +199,7 @@ const UWatchFilm = () => {
                     errorMessage.includes("No access") && (
                       <div className="flex flex-col gap-2 items-center justify-center">
                         <p className="mt-4 text-sm text-whites-40">
-                          You have accessibility to this film. Please Pay for
+                          You have no accessibility to this film. Please Pay for
                           film or contact support for more information.
                         </p>
 

@@ -27,7 +27,7 @@ const Footer = () => {
         </div>
 
         {/* Watch Footer Section */}
-        <div className="flex flex-col gap-[20px] text-center mx-auto lg:text-left select-none">
+        {/* <div className="flex flex-col gap-[20px] text-center mx-auto lg:text-left select-none">
           {" "}
           <h1 className="text-[18px] font-[Inter-Bold] text-[#F2F2F2] tracking-wide">
             Watch
@@ -62,7 +62,7 @@ const Footer = () => {
             </div>
             
           </div>
-        </div>
+        </div> */}
 
         {/* About Section */}
         <div className="flex flex-col gap-[20px] text-center mx-auto lg:text-left select-none">
@@ -72,41 +72,41 @@ const Footer = () => {
           </h1>
           <div className="flex flex-col gap-4">
             <div className="text-[#8b8789] font-[Inter-Medium] text-[16px]">
-              <NavLink to="/about">
+              <a href="https://nyatimotionpictures.com/about">
                 <span className="hover:text-[#dcdbdc]">Company</span>
-              </NavLink>
+              </a>
             </div>
 
             <div className="text-[#8b8789] font-[Inter-Medium] text-[16px]">
-              <NavLink to="/team">
+              <a href="https://nyatimotionpictures.com/team">
                 <span className="hover:text-[#dcdbdc]">Team</span>
-              </NavLink>
+              </a>
             </div>
 
-            <div className="text-[#8b8789] font-[Inter-Medium] text-[16px]">
+            {/* <div className="text-[#8b8789] font-[Inter-Medium] text-[16px]">
               <NavLink to="/film">
                 <span className="hover:text-[#dcdbdc]">
                  In Theatre
                 </span>
               </NavLink>
-            </div>
+            </div> */}
            
             <div className="text-[#8b8789] font-[Inter-Medium] text-[16px]">
-              <NavLink to="/contact">
+              <a href="https://nyatimotionpictures.com/contact">
                 <span className="hover:text-[#dcdbdc]">Contact Us</span>
-              </NavLink>
+              </a>
             </div>
 
             <div className="text-[#8b8789] font-[Inter-Medium] text-[16px]">
-              <NavLink to="/internetarchive">
+              <a href="https://nyatimotionpictures.com/internetarchive">
                 <span className="hover:text-[#dcdbdc]">Archives</span>
-              </NavLink>
+              </a>
             </div>
 
             <div className="text-[#8b8789] font-[Inter-Medium] text-[16px]">
-              <NavLink to="/policies/termsofservice">
+              <a href="https://nyatimotionpictures.com/policies/termsofservice">
                 <span className="hover:text-[#dcdbdc]">Terms & Policies</span>
-              </NavLink>
+              </a>
             </div>
           
           </div>

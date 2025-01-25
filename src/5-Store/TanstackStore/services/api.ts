@@ -274,3 +274,27 @@ export const getPaymentStatus = async (
     throw axiosError.response?.data ?? { message: "An unknown error occurred" };
   }
 };
+
+/** query: Get Categories */
+
+export const getAllCategories = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4500/api/v1/studio/categories"
+    );
+
+
+    return response.data;
+  } catch (error) {
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
+  }
+}

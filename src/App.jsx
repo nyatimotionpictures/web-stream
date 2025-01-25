@@ -32,6 +32,7 @@ import PesaPalPayments from "./6-Views/User-Views/10PesaPal/PesaPalPayments.jsx"
 import PesaSuccess from "./6-Views/User-Views/10PesaPal/PesaSuccess.jsx";
 import PesaCancel from "./6-Views/User-Views/10PesaPal/PesaCancel.jsx";
 import USeasonDetailPage from "./6-Views/User-Views/2UserViewFilm/USeasonDetailPage.jsx";
+import TestPlayerCaptions from "./6-Views/User-Views/3UserWatchFilm/TestPlayerCaptions.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -66,6 +67,8 @@ function App() {
               <Route path="/pesapay/cancel" element={<PesaCancel />} />
 
               <Route path="/watch/:id" element={<UWatchFilm />} />
+
+              {/* <Route path="/testplayer" element={<TestPlayerCaptions />} /> */}
 
               <Route path="/browse" element={<BrowsePage />} />
               <Route path="/browse/genre/all" element={<SearchAll />} />

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import UserHero from "./UserHero";
 import UserCategory from "./UserCategory";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
-import { useGetAllFilms } from "../../../5-Store/TanstackStore/services/queries";
+import { useGetAllCategories, useGetAllFilms } from "../../../5-Store/TanstackStore/services/queries";
 import useEmblaCarousel from "embla-carousel-react";
 import FilmJSON from "../../../1-Assets/data/film_metadata.json";
 import "./slider.css";
@@ -15,11 +15,11 @@ import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 const UserHome = () => {
   const autoplayOptions = { delay: 10000 };
   const autoplay = Autoplay(autoplayOptions);
-  const [featuredFilms, setFeaturedFilms] = React.useState([
-    FilmJSON[0],
-    FilmJSON[1],
-  ]);
+ 
   let filmsQuery = useGetAllFilms();
+  let categoryQuery = useGetAllCategories();
+
+  console.log(categoryQuery?.data?.categories);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -86,7 +86,7 @@ const UserHome = () => {
         }
       
 
-        {Categories?.length > 0 && <UserCategory />}
+        {categoryQuery?.data?.categories?.length > 0 && <UserCategory categories={categoryQuery?.data?.categories} />}
       </CustomStack>
 
       <Footer />

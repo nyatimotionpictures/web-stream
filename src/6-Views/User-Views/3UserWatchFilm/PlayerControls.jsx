@@ -5,10 +5,12 @@ import formatDuration from './formatDuration'
 import { Menu, MenuItem } from "@mui/material";
 import { current } from '@reduxjs/toolkit';
 
-const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying,handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading }) => {
+const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying,handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading, handleExitFullScreen }) => {
   //  const [volumestate, setVolumeState] = React.useState(40);
   const [anchorEl, setAnchorEl] = React.useState(null);
-   const isMenuOpen = Boolean(anchorEl);
+  const [isSubtitleMenuOpen, setIsSubtitleMenuOpen] = React.useState(false);
+  const [isQualityMenuOpen, setIsQualityMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     let volumeRef = React.useRef()
 
     React.useEffect(()=>{
@@ -19,9 +21,9 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
     //     setVolumeState(e.target.value)
     // }
 
-    const handleSettingsClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
+    // const handleSettingsClick = (event) => {
+    //   setAnchorEl(event.currentTarget);
+    // };
   
     const handleMenuClose = () => {
       setAnchorEl(null);
@@ -45,6 +47,27 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
       
       setAnchorEl(null);
     };
+
+
+    const handleSettingsClick = (event) => {
+      setAnchorEl(setAnchorEl);
+      setIsMenuOpen(!isMenuOpen);
+    };
+
+    const handleSubtitlesOpen = () => {
+      setIsSubtitleMenuOpen(true);
+    };
+  
+    const handleQualityOpen = () => {
+      setIsQualityMenuOpen(true);
+    };
+    const handleSubSettingsClose = () => {
+      setIsSubtitleMenuOpen(false);
+      setIsQualityMenuOpen(false);
+    };
+
+
+  
 
     useEffect(() => {
       if (allVideos.length > 0) {
@@ -127,8 +150,219 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
       {/** settings & resize */}
       <div className="flex flex-row gap-4 items-center">
-       
-        <Button id="basic-button" aria-controls={isMenuOpen ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={isMenuOpen ? 'true' : undefined} onClick={handleSettingsClick} className="basic-button flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40 relative ">
+      {isMenuOpen && (
+          <div
+            id="multi-dropdown"
+            className="absolute bottom-0 h-max right-4 -translate-y-16 z-50 flex flex-col gap-2 items-center"
+          >
+            {!isSubtitleMenuOpen && !isQualityMenuOpen && (
+              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-gray-900 bg-opacity-40 ">
+                {/** subtitle button */}
+                <Button
+                  onClick={handleSubtitlesOpen}
+                  className="text-white flex w-full justify-between flex-row items-center gap-2 "
+                >
+                  <div className="flex flex-row items-center gap-2 ">
+                    <span className="icon-[gg--captions] h-5 w-5  text-white"></span>
+                    <Typography className="text-white !text-xs font-sans ">
+                      Subtitles/CC
+                    </Typography>
+                  </div>
+
+                  <div className="flex flex-row items-center gap-1 ">
+                    <p className="text-white text-xs ">
+                      {subtitle !== "Off" ? subtitle : "Off"}
+                    </p>
+                    {/** icon- arrow left */}
+                    <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-white"></span>
+                  </div>
+                </Button>
+                {/** quality button */}
+                <Button
+                  onClick={handleQualityOpen}
+                  className="text-white flex w-full justify-between flex-row items-center gap-2 "
+                >
+                  <div className="flex flex-row items-center gap-2 ">
+                    <span className="icon-[mdi--mixer-settings-vertical] rotate-90 h-5 w-5  text-white"></span>
+                    <Typography className="text-white  !text-xs font-sans ">
+                      Quality
+                    </Typography>
+                  </div>
+
+                  <div className="flex flex-row items-center gap-1 ">
+                    <p className="text-white text-xs ">
+                      {subtitle !== "Off" ? subtitle : "Off"}
+                    </p>
+                    {/** icon- arrow left */}
+                    <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-white"></span>
+                  </div>
+                </Button>
+              </div>
+            )}
+
+            {/** submenu for subtitles */}
+            {isSubtitleMenuOpen && (
+              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-gray-900 bg-opacity-40 ">
+                {/** back button */}
+                <Button
+                  onClick={handleSubSettingsClose}
+                  className="text-white flex w-full  flex-row items-center gap-2 "
+                >
+                  <div className="flex flex-row items-center gap-1 ">
+                    {/** icon- arrow left */}
+                    <span className="icon-[solar--arrow-left-bold] h-5 w-5  text-white"></span>
+                  </div>
+
+                  <div className="flex flex-row items-center gap-2 ">
+                    <Typography className="text-white !text-xs font-sans ">
+                      Subtitles/CC
+                    </Typography>
+                  </div>
+                </Button>
+
+                <Divider className="w-full bg-white" />
+                {/** quality button */}
+                <div className="text-white cursor-pointer flex w-full py-2 flex-row items-center gap-2 ">
+                  <input
+                    type="radio"
+                    id="off"
+                    name="subtitle"
+                    value="off"
+                    className="hidden"
+                  />
+                  <label htmlFor="off" className="text-white text-xs flex flex-row gap-2 items-center">
+                  <div className="w-4 h-4">
+                      {
+                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
+                      }
+                    </div>
+                    <span>off</span>
+                  </label>
+                </div>
+
+                {subtitles.map((item, index) => {
+                  return (
+                    <div className="text-white cursor-pointer flex w-full py-2 flex-row items-center gap-2 ">
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="subtitle"
+                        value={item.id}
+                        className="hidden"
+                      />
+                      <label htmlFor={item.id} className="text-white text-xs flex flex-row gap-2 items-center">
+                      <div className="w-4 h-4">
+                      {
+                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
+                      }
+                    </div>
+                        <span>{item.name}</span>
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/** quality menu */}
+            {isQualityMenuOpen && (
+              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-gray-900 bg-opacity-40  ">
+                {/** back button */}
+                <Button
+                  onClick={handleSubSettingsClose}
+                  className="text-white flex w-full  flex-row items-center gap-2 "
+                >
+                  <div className="flex flex-row items-center gap-1 ">
+                    {/** icon- arrow left */}
+                    <span className="icon-[solar--arrow-left-bold] h-5 w-5  text-white"></span>
+                  </div>
+
+                  <div className="flex flex-row items-center gap-2 ">
+                    <Typography className="text-white !text-xs font-sans ">
+                      Quality
+                    </Typography>
+                  </div>
+                </Button>
+
+                <Divider className="w-full bg-white" />
+                {/** quality button */}
+                <div
+                  onClick={() => handleResolution(item.id)}
+                  className="text-white cursor-pointer flex w-full py-2 flex-row items-center gap-2 "
+                >
+                  <input
+                    type="radio"
+                    id="auto"
+                    name="quality"
+                    value="auto"
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="auto"
+                    className="text-white text-xs flex flex-row gap-2 items-center"
+                  >
+                    <div className="w-4 h-4">
+                      {
+                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
+                      }
+                    </div>
+
+                    <span>auto</span>
+                  </label>
+                </div>
+
+                {allVideos?.map((item, index) => {
+                  return (
+                    <div
+                      onClick={() => handleResolution(item.id)}
+                      className="text-white cursor-pointer flex w-full py-2 flex-row items-center gap-2 "
+                    >
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="quality"
+                        value={item.id}
+                        className="hidden"
+                      />
+                      <label htmlFor={item.id} className="text-white text-xs flex flex-row gap-2 items-center">
+                      <div className="w-4 h-4">
+                      {
+                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
+                      }
+                    </div>
+                        <span>{item.name}</span>
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        <Button
+          id="basic-button"
+          data-dropdown-toggle="multi-dropdown"
+          onClick={handleSettingsClick}
+          className="basic-button flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40 relative "
+        >
+          <div
+            className={`flex flex-row items-center gap-1  delay-75 transition-all duration-75`}
+          >
+            <span
+              className={`icon-[material-symbols-light--settings] ${
+                isMenuOpen ? "-rotate-90" : "rotate-0"
+              }  h-6 w-6  text-white`}
+            ></span>
+          </div>
+
+          <div className="absolute -top-2 -right-2 w-max h-max flex flex-col justify-center items-center px-1 py-1 bg-opacity-90 bg-primary-500 rounded-full">
+            <span className=" text-white text-[9px] font-[Inter-Bold] uppercase">
+              {videoSrc?.resolution}
+            </span>
+          </div>
+        </Button>
+        {/* <Button id="basic-button" aria-controls={isMenuOpen ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={isMenuOpen ? 'true' : undefined} onClick={handleSettingsClick} className="basic-button flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40 relative ">
           <span className="icon-[solar--settings-bold] h-6 w-6  text-whites-40"></span>
           <div className='absolute -top-2 -right-2 w-max h-max flex flex-col justify-center items-center px-1 py-1 bg-opacity-90 bg-primary-500 rounded-full'><span className=" text-whites-40 text-[9px] font-[Inter-Bold] uppercase">
             {
@@ -137,7 +371,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
             </span></div>
         </Button>
 
-        {/** settings menu */}
+    
         <Menu
         id="basic-menu"
           anchorEl={anchorEl}
@@ -163,9 +397,32 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
             })
           }
           
-        </Menu>
+        </Menu> */}
+        
         {/** full screen */}
-        <Button
+
+        {
+          isFullScreen ? (
+            <Button
+            onClick={handleExitFullScreen}
+            className="flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40  "
+          >
+            
+              <span className="icon-[solar--quit-full-screen-linear] h-6 w-6  text-whites-40"></span>
+            
+          </Button>
+          ) : (
+            <Button
+            onClick={handleFullScreen}
+            className="flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40  "
+          >
+            
+              <span className="icon-[solar--full-screen-linear] h-6 w-6  text-whites-40"></span>
+           
+          </Button>
+          )
+        }
+        {/* <Button
           onClick={handleFullScreen}
           className="flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40  "
         >
@@ -174,7 +431,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
           ) : (
             <span className="icon-[solar--full-screen-linear] h-6 w-6  text-whites-40"></span>
           )}
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

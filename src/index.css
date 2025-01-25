@@ -76,3 +76,7 @@
     font-family: 'Inter-Thin';
     src: local('Inter-Thin'), url('./1-Assets/fonts/static/Inter-Thin.ttf') format('truetype');
 }
+
+body {
+    @apply bg-secondary-500;
+}

@@ -59,7 +59,7 @@ const MovieCarousel = ({ displayData = [], cardtype }) => {
         <div className="emblaA w-full">
             <div className="embla__viewportA !w-full" ref={emblaRef}>
                 <div className="embla__containerA flex  !items-start !justify-start gap-5  !w-full !pl-0 first:!ml-[-5rem] md:first:!ml-0">
-                    {allMovies.map((data, index) => {
+                    {displayData.map((data, index) => {
                         return (
                             <div
                                 key={index}

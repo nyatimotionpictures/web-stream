@@ -648,6 +648,14 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify/json@^2.2.299":
+  version "2.2.299"
+  resolved "https://registry.yarnpkg.com/@iconify/json/-/json-2.2.299.tgz#6739675481a163dcb309a5fb11b7d8db5e27c56f"
+  integrity sha512-YsHoXNK4tBfY1aABlnAxGv8BFNsXBRfTuhRqkXLC0AK+amM+IDPLpVyOPCttcEHKuAsmh0OVPsrCZe2bC0puTA==
+  dependencies:
+    "@iconify/types" "*"
+    pathe "^1.1.2"
+
 "@iconify/react@^5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@iconify/react/-/react-5.1.0.tgz#99fcfbb383dd8da84f6cf7b009faf7c71773631c"
@@ -3007,6 +3015,11 @@ path-type@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
+
+pathe@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.1.2.tgz#6c4cb47a945692e48a1ddd6e4094d170516437ec"
+  integrity sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==
 
 picocolors@^1.0.0:
   version "1.0.0"
