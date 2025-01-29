@@ -33,6 +33,9 @@ import PesaSuccess from "./6-Views/User-Views/10PesaPal/PesaSuccess.jsx";
 import PesaCancel from "./6-Views/User-Views/10PesaPal/PesaCancel.jsx";
 import USeasonDetailPage from "./6-Views/User-Views/2UserViewFilm/USeasonDetailPage.jsx";
 import TestPlayerCaptions from "./6-Views/User-Views/3UserWatchFilm/TestPlayerCaptions.jsx";
+import MainDonationPage from "./6-Views/User-Views/13Donations/MainDonationPage.jsx";
+import IndividualFilmDonate from "./6-Views/User-Views/14FilmDonations/IndividualFilmDonate.jsx";
+import GeneralDonationValidation from "./6-Views/User-Views/9PaymentValidations/GeneralDonationValidation.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -49,7 +52,10 @@ function App() {
               <Route path="/" element={<UserHome />} />
               <Route path="/film/:id" element={<UFilmDetailPage />} />
               <Route path="/series/:id" element={<UFilmDetailPage />} />
-              <Route path="/segments/:id/:seriesid" element={<USeasonDetailPage />} />
+              <Route
+                path="/segments/:id/:seriesid"
+                element={<USeasonDetailPage />}
+              />
 
               <Route
                 path="/episode/:episodeid/:seriesid/:seasonid"
@@ -84,6 +90,16 @@ function App() {
               <Route path="/account" element={<YourAccountPage />} />
 
               <Route path="/settings/activity" element={<UViewActivity />} />
+              <Route path="/donate" element={<MainDonationPage />} />
+              <Route path="/donate/:id" element={<IndividualFilmDonate />} />
+
+              {/* <Route path="/process/pesapal" element={<PesaPalPayments />} /> */}
+              <Route
+                path="/generaldonation/validate/:orderTrackingId"
+                element={<GeneralDonationValidation />}
+              />
+
+              <Route path="/pesapay/generaldonation/success" element={<PesaSuccess />} />
 
               {/*              
 

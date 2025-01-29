@@ -136,7 +136,7 @@ const Login = () => {
                 <SingleWrapper>
                   <FormContainer>
                     <label className="text-[#bdb8b8] text-[12.56px]">
-                      Email, phoneNumber
+                      Email
                     </label>
                     <input
                       name="contact"

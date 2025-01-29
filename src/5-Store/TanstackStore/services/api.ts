@@ -239,6 +239,75 @@ export const getVideoSourceFilm = async (trackId: String) => {
   }
 }
 
+/** Donations on streaming site */
+/** make general Donations on streaming site */
+export const makeGeneralDonation = async (paymentData: any) => {
+  try {
+    let { payType,...rest} = paymentData;
+    const response = await apiRequest.post(`/v1/payment/${payType}/donate`, rest);
+    return response.data
+    
+  } catch (error) {
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
+  }
+}
+
+/** get general donation status */
+export const getGeneralDonationStatus = async (
+  orderId: string
+) => {
+  try {
+    console.log("orderId", orderId);
+    let token = localStorage.getItem("token");
+    const response = await axios.get(
+    `${BaseUrl}/v1/payment/mtn/transact_statuses/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+    );
+  
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+};
+
+/** make film Donation Payment */
+export const makeFilmDonation = async (paymentData: any) => {
+  try {
+    let {filmId, userId, ...rest} = paymentData;
+    const response = await apiRequest.post(`/v1/film/donate/${userId}/${filmId}`, rest);
+    return response.data
+    
+  } catch (error) {
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
+  }
+}
+
+
+
 /** make film payment */
 export const makeFilmPurchase = async (paymentData: any) => {
   try {
