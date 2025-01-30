@@ -4,8 +4,8 @@ import WebNavigation from '../../../2-Components/Navigation/WebNavigation';
 import BrowseTabs from './BrowseTabs';
 import styled from 'styled-components';
 import Footer from '../../../2-Components/Footer/Footer';
-import { useGetAllFilms } from '../../../5-Store/TanstackStore/services/queries';
-import { all } from 'axios';
+import { useGetAllFilms, useGetAllSeasons } from '../../../5-Store/TanstackStore/services/queries';
+
 
 const BrowsePage = () => {
   //get all films
@@ -27,6 +27,7 @@ const BrowsePage = () => {
 
   
   let getallfilms = useGetAllFilms();
+  let getallseasons = useGetAllSeasons();
 
   // console.log(getallfilms?.data?.films)
   React.useEffect(() => {
@@ -52,44 +53,40 @@ const BrowsePage = () => {
             return data
           }
         }
-        });
+        }); 
 
       //query episodes
-      let querySeasons = queryShows.map((data) => {
-        return data?.season?.map((season)=> {
-          return {
-            ...season,
-            type: "season",
-          }
-        });
-      }).flat();
+      let querySeasons = getallseasons?.data?.seasons?.map((season) => {
+        return {
+          ...season,
+          type: "season",
+        }
+      }).flat() ?? [];
 
-      let queryEpisodes = querySeasons.map((data) => {
-        return data?.episodes?.map((episode)=> {
-          return {
-            ...episode,
-            type: "episode",
-            seasonData: {
-              seasonId: data?.id,
-              season: data?.season,
-              title: data?.title,
-              filmId: data?.id,
-            }
-          }
-        }); 
-      }).flat();
+      // let queryEpisodes = querySeasons.map((data) => {
+      //   return data?.episodes?.map((episode)=> {
+      //     return {
+      //       ...episode,
+      //       type: "episode",
+      //       seasonData: {
+      //         seasonId: data?.id,
+      //         season: data?.season,
+      //         title: data?.title,
+      //         filmId: data?.id,
+      //       }
+      //     }
+      //   }); 
+      // }).flat();
 
       setAllFilms(() => [...queryMovies, ...querySeasons, ...queryShows]);
       setTvShows(() => [...queryShows, ...querySeasons]);
 
-      console.log(queryEpisodes);
-
-      console.log("seasons" ,querySeasons);
+     
       setLoading(false);
     } else {
       setLoading(false);
     }
-  }, [getallfilms?.data?.films]);
+  }, [getallfilms?.data?.films, getallseasons?.data?.seasons]);
 
   //DebouncedSearch
   const debouncedSearch = useCallback(

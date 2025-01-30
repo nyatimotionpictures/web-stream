@@ -49,7 +49,7 @@ const  MovieCard4 = ({data}) => {
     }
   }, [data]);
 
-  // console.log("data", data);
+   console.log("data", data);
   return (
     <MovieContainer
     onClick={() => data?.type.includes("film") || data?.type.includes("movie")  ? navigate(`/film/${data?.id}`) : data?.type.includes("series") ? navigate(`/series/${data?.id}`) : data?.type.includes("episode") ? navigate(`/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`) : data?.type?.includes("season") ? navigate(`/segments/${data?.id}/${data?.filmId}`) : null}

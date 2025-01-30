@@ -83,7 +83,7 @@ const SearchShows = () => {
       } else {
         setLoading(false);
       }
-    }, [getallfilms?.data?.films]);
+    }, [getallfilms?.data?.films, getallseasons?.data?.seasons]);
   
     //DebouncedSearch
     const debouncedSearch = useCallback(
