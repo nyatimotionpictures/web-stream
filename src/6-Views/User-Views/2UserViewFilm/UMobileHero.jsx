@@ -377,7 +377,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
           filmData?.type?.toLowerCase()?.includes("segment") ? (
             <Typography className="font-[Inter-Regular] line-clamp-1 md:line-clamp-0 text-lg md:text-2xl text-whites-40 select-none">
               {filmData?.season?.length}{" "}
-              {filmData?.season?.length > 2 ? "Seasons" : "Season"}
+              {filmData?.season?.length > 2 ? "Segments" : "Segment"}
             </Typography>
           ) : null}
         </div>

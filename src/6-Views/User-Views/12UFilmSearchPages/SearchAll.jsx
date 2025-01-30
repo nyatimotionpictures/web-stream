@@ -53,15 +53,15 @@ const SearchAll = () => {
               });
       
             //query episodes
-            console.log(queryShows)
-            let querySeasons = getallseasons?.data?.seasons.map((data) => {
+            // console.log(queryShows)
+            let querySeasons = getallseasons?.data?.seasons?.map((data) => {
               
                 return {
                   ...data,
                   type: "season",
                 }
             
-            }).flat();
+            }) ?? [];
       
             // let queryEpisodes = querySeasons.map((data) => {
             //   return data?.episodes?.map((episode)=> {

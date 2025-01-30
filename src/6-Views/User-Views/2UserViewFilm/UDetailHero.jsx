@@ -236,7 +236,8 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
                 <div>
                   {filmData?.season?.length > 0 && (
                     <Typography className="font-[Inter-Regular] text-[#EEF1F4] text-sm md:text-base text-ellipsis select-none">
-                      {filmData?.season[0]?.title}
+                      {filmData?.season?.length}{" "}
+                      {filmData?.season?.length > 2 ? "Segments" : "Segment"}
                     </Typography>
                   )}
                 </div>

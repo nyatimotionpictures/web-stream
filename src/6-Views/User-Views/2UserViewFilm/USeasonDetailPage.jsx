@@ -3,6 +3,7 @@ import { AuthContext } from "../../../5-Store/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetFilm,
+  useGetSeason,
   useGetWatchList,
 } from "../../../5-Store/TanstackStore/services/queries";
 import { Alert, Snackbar, Typography, useMediaQuery } from "@mui/material";
@@ -42,6 +43,7 @@ const USeasonDetailPage = () => {
   let params = useParams();
   const formRef = React.useRef();
   const filmsQuery = useGetFilm(params?.seriesid);
+  let seasonQuery = useGetSeason(params?.id)
   let navigate = useNavigate();
 
   React.useEffect(() => {
