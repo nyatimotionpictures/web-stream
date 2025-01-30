@@ -14,7 +14,7 @@ const UpcomingFilmDonations = ({films}) => {
                 Featured Pre-production
             </h1>
 
-            <div className='w-full flex-col flex-wrap gap-4'>
+            <div className='w-full flex flex-row flex-wrap gap-4'>
               {
                 films?.map((film, index) => {
                   return (

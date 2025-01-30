@@ -33,7 +33,9 @@ const Category = ({categoryInfo}) => {
       </Typography>
 
       <Stack className="flex w-full  gap-0 items-center justify-center mx-auto !overflow-hidden">
-      <MovieCarousel displayData={films}  cardtype="genre" />
+        {
+          films.length > 0 && <MovieCarousel displayData={films}  cardtype="genre" />
+        }
       </Stack>
     </Stack>
   </div>

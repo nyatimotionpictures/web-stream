@@ -151,6 +151,30 @@ export const getAllFilms = async () => {
   }
 };
 
+/** query: Fetch all Seasons  */
+export const getAllSeasons = async () => {
+  try {
+    const response = await apiRequest.get(`/v1/film/season/all`);
+
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+};
+
+/** query: Fetch Single Season */
+export const getSeasonContent = async (seasonId: String) => {
+  try {
+    const response = await apiRequest.get(`/v1/film/season/${seasonId}`);
+
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+  }
+};
+
 
 
 /** query: Get purchases of user - new-not tested with data */

@@ -31,7 +31,13 @@ const SearchFilms = () => {
       if (getallfilms?.data?.films) {
        
         // get all movies
-        let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie" || data?.type?.includes("film"));
+        let queryMovies = getallfilms?.data?.films.filter((data) => {
+          if (data?.visibility === "published"){
+            if(data?.type === "movie" || data?.type?.includes("film")){
+              return data
+            }
+          }
+          });
         setMovies(() => queryMovies);
   
         setLoading(false);

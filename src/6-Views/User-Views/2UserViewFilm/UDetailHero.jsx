@@ -125,7 +125,7 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
         filmId: filmData?.id,
         userId: currentUserData?.id,
         likeType: "THUMBS_UP",
-        type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+        type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
       }
       rateMutation.mutate(dataValues);
     } else {
@@ -133,7 +133,7 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
         filmId: filmData?.id,
         userId: currentUserData?.id,
         likeType: "THUMBS_DOWN",
-        type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+        type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
 
       }
       rateMutation.mutate(dataValues);

@@ -35,11 +35,24 @@ const BrowsePage = () => {
     if (getallfilms?.data?.films) {
      
       // get all movies
-      let queryMovies = getallfilms?.data?.films.filter((data) => data?.type === "movie" || data?.type?.includes("film"));
+      let queryMovies = getallfilms?.data?.films.filter((data) => {
+        if(data?.visibility === "published"){
+            if ( data?.type === "movie" || data?.type?.includes("film")) {
+              return data
+            }
+        }
+       
+      } );
       setMovies(() => queryMovies);
 
       // get all shows
-      let queryShows = getallfilms?.data?.films.filter((data) => data?.type === "series");
+      let queryShows = getallfilms?.data?.films.filter((data) => {
+        if (data?.visibility === "published") {
+          if(data?.type === "series") {
+            return data
+          }
+        }
+        });
 
       //query episodes
       let querySeasons = queryShows.map((data) => {

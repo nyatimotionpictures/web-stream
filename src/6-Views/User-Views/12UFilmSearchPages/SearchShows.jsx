@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import WebNavigation from '../../../2-Components/Navigation/WebNavigation';
 import SearchComponent from './SearchComponent';
 import Footer from '../../../2-Components/Footer/Footer';
-import { useGetAllFilms } from '../../../5-Store/TanstackStore/services/queries';
+import { useGetAllFilms, useGetAllSeasons } from '../../../5-Store/TanstackStore/services/queries';
 
 const SearchShows = () => {
 
@@ -25,6 +25,9 @@ const SearchShows = () => {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState(null); 
     let getallfilms = useGetAllFilms();
+    let getallseasons = useGetAllSeasons();
+
+    console.log("getallseasons", getallseasons?.data?.seasons)
   
     React.useEffect(() => {
    
@@ -34,32 +37,44 @@ const SearchShows = () => {
       
   
         // get all shows
-        let queryShows = getallfilms?.data?.films.filter((data) => data?.type === "series");
+        let queryShows = getallfilms?.data?.films.filter((data) => {
+          if(data?.visibility === "published"){
+            if(data?.type === "series"){
+              return data
+            }
+          }
+          });
+
+
   
         //query episodes
-        let querySeasons = queryShows.map((data) => {
-          return data?.season?.map((season)=> {
-            return {
-              ...season,
-              type: "season",
+        let querySeasons = queryShows?.map((data) => {
+          return getallseasons?.data?.seasons?.map((season)=> {
+            if(data?.id === season?.film?.id){
+              return {
+                ...season,
+                type: "season",
+              }
             }
+            
           });
         }).flat();
   
-        let queryEpisodes = querySeasons.map((data) => {
-          return data?.episodes?.map((episode)=> {
-            return {
-              ...episode,
-              type: "episode",
-              seasonData: {
-                seasonId: data?.id,
-                season: data?.season,
-                title: data?.title,
-                filmId: data?.id,
-              }
-            }
-          }); 
-        }).flat();
+        // console.log("querySeasons", querySeasons);
+        // let queryEpisodes = querySeasons.map((data) => {
+        //   return data?.episodes?.map((episode)=> {
+        //     return {
+        //       ...episode,
+        //       type: "episode",
+        //       seasonData: {
+        //         seasonId: data?.id,
+        //         season: data?.season,
+        //         title: data?.title,
+        //         filmId: data?.id,
+        //       }
+        //     }
+        //   }); 
+        // }).flat();
   
       
         setTvShows(() => [...queryShows, ...querySeasons]);

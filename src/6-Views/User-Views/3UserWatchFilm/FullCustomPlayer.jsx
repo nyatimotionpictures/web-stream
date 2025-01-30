@@ -246,7 +246,7 @@ const FullCustomPlayer = ({
                 </Typography>
               </div>
               {!filmData?.type?.toLowerCase()?.includes("series") &&
-              !filmData?.type?.toLowerCase()?.includes("movie") ? (
+              !filmData?.type?.toLowerCase()?.includes("movie") && !filmData?.type?.toLowerCase()?.includes("film") ? (
                 <Typography className="font-[Roboto-Regular] pl-4 text-base text-whites-40 ">
                   {filmData?.seasonData?.title} S{filmData?.seasonData?.season}{" "}
                   - E{filmData?.episode}

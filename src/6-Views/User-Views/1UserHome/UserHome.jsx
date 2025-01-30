@@ -35,11 +35,14 @@ const UserHome = () => {
   const FeaturedData = React.useMemo(() => {
     return filmsQuery?.data?.films?.filter((film) => {
       if(film?.featured){
-        if (film.type === "movie" || film.type?.includes("film")) {
-          return film;
-        } else if (film.type === "series") {
-          return film;
+        if(film?.visibility === "published"){
+          if (film.type === "movie" || film.type?.includes("film")) {
+            return film;
+          } else if (film.type === "series") {
+            return film;
+          }
         }
+        
       }
       
     });

@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import posterImage from "../../1-Assets/Posterimage.png";
+import noImage from "../../1-Assets/no-image.svg";
 
 
 const  MovieCard4 = ({data}) => {
@@ -49,6 +49,7 @@ const  MovieCard4 = ({data}) => {
     }
   }, [data]);
 
+  // console.log("data", data);
   return (
     <MovieContainer
     onClick={() => data?.type.includes("film") || data?.type.includes("movie")  ? navigate(`/film/${data?.id}`) : data?.type.includes("series") ? navigate(`/series/${data?.id}`) : data?.type.includes("episode") ? navigate(`/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`) : data?.type?.includes("season") ? navigate(`/segments/${data?.id}/${data?.filmId}`) : null}
@@ -56,12 +57,12 @@ const  MovieCard4 = ({data}) => {
         "min-h-[250px] h-max w-[152.42px] sm:w-[292px] md:w-[280px] lg:min-h-[510px] 2xl:w-[300px] flex flex-col items-start gap-3 pixelated"
       }
     >
-      <div className="bg-secondary-200 h-[172.42px] sm:h-[302px] md:h-[280px] lg:h-[310px] 2xl:h-[389px] w-full p-0 m-0 overflow-hidden md:rounded-tl-lg md:rounded-tr-lg">
+      <div className="bg-secondary-200 h-[172.42px] sm:h-[302px] md:h-[280px] lg:h-[310px] 2xl:h-[389px] w-full p-0 m-0 overflow-hidden md:rounded-tl-lg md:rounded-tr-lg object-cover">
         <img
           onError={handleImgError}
-          src={posterlink?.url}
+          src={isImgBroken ? noImage : posterlink?.url}
           alt={data?.title}
-          className=" size-fit  h-full w-full "
+          className=" size-fit object-cover  h-full w-full "
         />
       </div>
 
@@ -93,7 +94,7 @@ const  MovieCard4 = ({data}) => {
         </div>
 
         <Typography className="font-[Inter-Medium] text-sm sm:text-base text-whites-40">
-          {data?.yearOfProduction}
+          { data?.type === "season" ? data?.film?.yearOfProduction : data?.yearOfProduction}
         </Typography>
       </div>
     </MovieContainer>

@@ -1,5 +1,5 @@
 import React from "react";
-import posterImage from "../../1-Assets/Posterimage.png";
+import noImage from "../../1-Assets/no-image.svg";
 import styled from "styled-components";
 import { Typography, Stack } from "@mui/material";
 
@@ -7,9 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Button from "../Buttons/Button";
 
 const MovieCard5 = ({ data, stylecard }) => {
-    const [playActions, setPlayActions] = React.useState(false);
+  const [isImgBroken, setIsImgBroken] = React.useState(false);
+  const [playActions, setPlayActions] = React.useState(false);
   const [posterlink, setPosterLink] = React.useState("");
   const [openModal, setOpenModal] = React.useState(false);
+
+  console.log(data);
 
   let ref = React.useRef();
   let navigate = useNavigate();
@@ -30,13 +33,15 @@ const MovieCard5 = ({ data, stylecard }) => {
   }, [playActions]);
 
   const onMouseEnter = () => {
-   
     window.innerWidth > 960 && setPlayActions(true);
   };
 
   const onMouseLeave = () => {
-   
     window.innerWidth > 960 && setPlayActions(false);
+  };
+
+  const handleImgError = () => {
+    setIsImgBroken(true);
   };
 
   //shuffleArray
@@ -82,8 +87,23 @@ const MovieCard5 = ({ data, stylecard }) => {
       )}m ${leadingZeroFormatter.format(seconds)}s`;
     }
   };
+
+  // console.log(data);
   return (
     <MovieContainer
+      onClick={() =>
+        data?.type.includes("film") || data?.type.includes("movie")
+          ? navigate(`/film/${data?.id}`)
+          : data?.type.includes("series")
+          ? navigate(`/series/${data?.id}`)
+          : data?.type.includes("episode")
+          ? navigate(
+              `/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`
+            )
+          : data?.type?.includes("season")
+          ? navigate(`/segments/${data?.id}/${data?.filmId}`)
+          : null
+      }
       ref={ref}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -91,46 +111,41 @@ const MovieCard5 = ({ data, stylecard }) => {
         "min-h-[250px] h-max w-[194px] sm:w-[292px] md:min-h-[510px] md:w-[300px] flex flex-col items-start gap-3 pixelated div-border select-none overflow-hidden "
       }
     >
-      <div
-        onClick={() => navigate(`/film/${data?._id.$oid}`)}
-        className="bg-secondary-200 h-[252px] sm:h-[389px] w-full p-0 m-0 overflow-hidden rounded-tl-lg rounded-tr-lg"
-      >
+      <div className="bg-secondary-200 h-[252px] sm:h-[389px] w-full p-0 m-0 overflow-hidden rounded-tl-lg rounded-tr-lg">
         <img
-         // src={posterlink}
-         src={posterImage}
+          onError={handleImgError}
+          // src={posterlink}
+          src={isImgBroken ? noImage : posterlink.url}
           alt={""}
           className="object-cover sm:object-cover object-top size-fit h-full  w-full"
         />
       </div>
 
       <Stack className="flex flex-row p-0 m-0 items-center justify-center gap-2 lg:pt-3">
-        <Stack direction="row" className="gap-2">
-          {data?.filmModel?.toLowerCase()?.includes("free") ? (
-            <Typography className="font-[Inter-Medium] text-sm md:text-base text-whites-40">
-              Free to watch
-            </Typography>
-          ) : (
-            <Stack direction="row" className="gap-2">
-              <span className="icon-[solar--bag-heart-outline] h-6 w-6 text-primary-500"></span>
+        {data?.type !== "series" && (
+          <Stack direction="row" className="gap-2">
+            {data?.access?.toLowerCase()?.includes("free") ? (
               <Typography className="font-[Inter-Medium] text-sm md:text-base text-whites-40">
-                Rent to watch
+                Free to watch
               </Typography>
-            </Stack>
-          )}
-        </Stack>
+            ) : (
+              <Stack direction="row" className="gap-2">
+                <span className="icon-[solar--bag-heart-outline] h-6 w-6 text-primary-500"></span>
+                <Typography className="font-[Inter-Medium] text-sm md:text-base text-whites-40">
+                  Rent to watch
+                </Typography>
+              </Stack>
+            )}
+          </Stack>
+        )}
       </Stack>
 
-      <div className="min-h-[75px] w-[100%] flex flex-row justify-between items-center gap-4 relative pb-0">
-   
-    
-      </div>
-
-      
+      <div className="min-h-[75px] w-[100%] flex flex-row justify-between items-center gap-4 relative pb-0"></div>
     </MovieContainer>
-  )
-}
+  );
+};
 
-export default MovieCard5
+export default MovieCard5;
 
 const MovieContainer = styled.div`
   &&.pixelated > img {

@@ -12,7 +12,7 @@ import MovieCard5 from "../Cards/MovieCard5";
 
 const MovieCarousel = ({ displayData = [], cardtype }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true, loop: true });
-    const [allMovies, setAllMovies] = React.useState([]);
+    // const [allMovies, setAllMovies] = React.useState([]);
     const [viewportWidth, setViewportWidth] = React.useState(window.innerWidth);
 
     React.useEffect(() => {
@@ -28,9 +28,9 @@ const MovieCarousel = ({ displayData = [], cardtype }) => {
         };
     }, []);
 
-    React.useEffect(() => {
-      setAllMovies(() => FilmJson);
-    }, [FilmJson]);
+    // React.useEffect(() => {
+    //   setAllMovies(() => FilmJson);
+    // }, [FilmJson]);
 
     // const breakpoints = {
     //     mobile: 480,
@@ -58,22 +58,23 @@ const MovieCarousel = ({ displayData = [], cardtype }) => {
     return (
         <div className="emblaA w-full">
             <div className="embla__viewportA !w-full" ref={emblaRef}>
-                <div className="embla__containerA flex  !items-start !justify-start gap-5  !w-full !pl-0 first:!ml-[-5rem] md:first:!ml-0">
+                <div className="embla__containerA flex  !items-start !justify-start gap-5  !w-full !pl-0 first:!ml-[-1rem] md:first:!ml-0">
                     {displayData.map((data, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className={`embla__slideA h-full flex-none ${cardtype === "genre" && "md:w-[340px]"
-                                    } ${cardtype === undefined && "md:w-[340px]"}`}
-                            >
-                                <div className="embla__slide__movie w-max gap-0">
-                                    {cardtype === "genre" && <MovieCard5 data={data} />}
-                                    {cardtype === undefined && <MovieCard1 data={data} />}
-                                  
+                        if (data?.visibility === "published") {
+                            return (
+                                <div
+                                    key={index}
+                                    className={`embla__slideA h-full flex-none ${cardtype === "genre" && "md:w-[340px]"
+                                        } ${cardtype === undefined && "md:w-[340px]"}`}
+                                >
+                                    <div className="embla__slide__movie w-max gap-0">
+                                        {cardtype === "genre" && <MovieCard5 data={data} />}
+                                        {cardtype === undefined && <MovieCard1 data={data} />}
 
+                                    </div>
                                 </div>
-                            </div>
-                        );
+                            );
+                        }
                     })}
                 </div>
             </div>

@@ -26,10 +26,12 @@ const UWatchFilm = () => {
   let navigate = useNavigate();
   const filmsQuery = useGetFilm(params?.id);
 
+
+
   const handleCheckingVideo = () => {
     if (filmsQuery?.data?.film) {
       if(filmsQuery?.data?.film?.type !== "series"){
-        if(filmsQuery?.data?.film?.access?.includes("Free")){
+        if(filmsQuery?.data?.film?.access?.includes("free")){
           let videoArray = filmsQuery?.data?.film?.video?.filter(video => !video.isTrailer);
           // console.log("videoArray", videoArray);
           //check if we have videos to watch
@@ -64,6 +66,15 @@ const UWatchFilm = () => {
         }
         else{
           console.log("not free",filmsQuery?.data?.film?.access);
+          console.log("filmsQuery", filmsQuery?.data?.film?.videoPurchased);
+
+          if(filmsQuery?.data?.film?.videoPurchased){
+            // setVideoUrl(filmsQuery?.data?.film?.url)
+          }else {
+            setErrorVideo(true);
+            setErrorMessage("No access");
+            setCheckingAccess(false);
+          }
           //setVideoUrl(filmsQuery?.data?.film?.url)
         }
       }else {
@@ -155,7 +166,7 @@ const UWatchFilm = () => {
 
   return (
     <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
-      <FullCustomPlayer filmData={filmsQuery?.data?.film?.type === "movie"? filmsQuery?.data?.film : episodeData}  videoSrc={selectedVideoUrl} allVideos={allVideos} handleResolution={handleResolution}  />
+      <FullCustomPlayer filmData={filmsQuery?.data?.film?.type === "movie" || filmsQuery?.data?.film?.type?.includes("film") ? filmsQuery?.data?.film : episodeData}  videoSrc={selectedVideoUrl} allVideos={allVideos} handleResolution={handleResolution}  />
 
       {isCheckingAccess && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
@@ -198,7 +209,7 @@ const UWatchFilm = () => {
                   {errorMessage !== null &&
                     errorMessage.includes("No access") && (
                       <div className="flex flex-col gap-2 items-center justify-center">
-                        <p className="mt-4 text-sm text-whites-40">
+                        <p className="mt-4 text-sm text-whites-40 max-w-[300px]">
                           You have no accessibility to this film. Please Pay for
                           film or contact support for more information.
                         </p>
@@ -211,7 +222,7 @@ const UWatchFilm = () => {
 
                   <div className="flex flex-col gap-2 items-center justify-center">
                     <Button
-                      onClick={() => navigate(`/film/${params?.id}`)}
+                      onClick={() => filmsQuery?.data?.film?.type === "movie" || filmsQuery?.data?.film?.type?.includes("film") ? navigate(`/film/${params?.id}`, { replace: true }) : navigate(-1, { replace: true })}
                       className="w-full bg-transparent border border-primary-500 min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
                     >
                       Back to Film{" "}

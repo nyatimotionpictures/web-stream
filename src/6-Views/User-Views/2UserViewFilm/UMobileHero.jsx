@@ -4,6 +4,7 @@ import { Box, Slider, Stack, Typography } from "@mui/material";
 import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import TextClamped from "../../../2-Components/Stacks/TextClamped";
+import { useNavigate } from "react-router-dom";
 
 const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist, videoPurchased, handleWatchVideo }) => {
    const [backDropUrl, setBackdropUrl] = React.useState(null);
@@ -13,6 +14,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
      const [isVideoLoaded, setIsVideoLoaded] = React.useState(false)
     const [isVideoPlayed, setIsVideoPlayed] = React.useState(false);
     const [isVideoMuted, setIsVideoMuted] = React.useState(false)
+    let navigate = useNavigate();
     
     const videoRef = React.useRef(null);
     const heroRef = React.useRef(null);
@@ -69,7 +71,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
     }, []);
 
 
-    console.log(filmData)
+    // console.log(filmData)
 
     {
       //Plays the video after the page loads
@@ -195,7 +197,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
             filmId: filmData?.id,
             userId: currentUserData?.id,
             likeType: "THUMBS_UP",
-            type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+            type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
           }
           rateMutation.mutate(dataValues);
         } else {
@@ -203,7 +205,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
             filmId: filmData?.id,
             userId: currentUserData?.id,
             likeType: "THUMBS_DOWN",
-            type: filmData?.type === "series" || filmData?.type === "movie" ? "film" : "episode",
+            type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
 
           }
           rateMutation.mutate(dataValues);
@@ -229,8 +231,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
          }
        }
 
-     
-    
+     console.log("videoPurchased", videoPurchased)
   return (
     <div
       ref={heroRef}
@@ -299,7 +300,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
             </div>
             {/** Close Button */}
             <div className="absolute flex right-2 top-2 z-50 w-max  h-max   ">
-              <div className="flex flex-col justify-center items-start px-2 py-2 max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ">
+              <div onClick={()=> navigate(-1)} className="flex flex-col justify-center items-start px-2 py-2 max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ">
                 <span className="icon-[carbon--close] h-6 w-6 text-whites-40 hover:text-whites-40"></span>
               </div>
             </div>
@@ -397,7 +398,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
             ) : (
               <div className="flex flex-col gap-2 w-full">
                 {
-                  videoPurchased ? (
+                  !videoPurchased ? (
                     <Button  onClick={handlePaymentModel} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
                     <span className="icon-[solar--play-bold] h-6 w-6 text-secondary-900"></span>
                     <Typography className="font-[Inter-Bold] text-base">

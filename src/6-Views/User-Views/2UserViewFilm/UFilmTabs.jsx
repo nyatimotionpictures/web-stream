@@ -21,7 +21,7 @@ const UFilmTabs = ({ filmData, allSeasonData }) => {
       if (filmData !== null) {
         if (
           filmData?.type?.toLowerCase() === "movie" ||
-          filmData?.type?.toLowerCase() === "film" || filmData?.type?.toLowerCase() === 'episode'
+          filmData?.type?.toLowerCase()?.includes("film") || filmData?.type?.toLowerCase() === 'episode'
         ) {
           setFilmType(() => filmData?.type );
           setDisplayTabs(() => [
