@@ -75,7 +75,7 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
   },  [filmData]);
 
   const handleOnLoad = (e) => {
-    console.log("loaded", e.target)
+    // console.log("loaded", e.target)
     //setIsVideoPlaying(true)
    videoRef.current.play()
   }

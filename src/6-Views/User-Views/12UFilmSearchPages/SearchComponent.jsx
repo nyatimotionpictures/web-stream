@@ -56,7 +56,7 @@ const SearchComponent = ({
 
         <Container className=" h-full relative">
           {currentItems?.length > 0 ? (
-            <Stack className="flex flex-row flex-wrap gap-5 items-center justify-center mb-10">
+            <Stack className="flex flex-row flex-wrap gap-3 items-center justify-center mb-10">
               {currentItems?.map((data, index) => {
                 return <MovieCard4 key={index} data={data} />;
               })}

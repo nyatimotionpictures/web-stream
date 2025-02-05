@@ -7,6 +7,7 @@ import { BaseUrl } from "../../../3-Middleware/apiRequest";
 import { useGetVideoSource } from "../../../5-Store/TanstackStore/services/queries";
 import { useNavigate } from "react-router-dom";
 
+
 const FullCustomPlayer = ({
   videoSrc,
   filmData,
@@ -14,9 +15,9 @@ const FullCustomPlayer = ({
   handleResolution,
 }) => {
   const videoRef = useRef(null);
-
   let playerContainerRef = useRef(null);
   let progressRef = useRef(null);
+
   const [isVideoPlaying, setIsVideoPlaying] = React.useState(false);
   const [volumestate, setVolumeState] = React.useState(40);
   const [isVideoMuted, setIsVideoMuted] = React.useState(false);
@@ -30,6 +31,13 @@ const FullCustomPlayer = ({
   const [isLoading, setIsLoading] = useState(false);
   const timeoutRef = React.useRef(null);
   const [controlsVisible, setControlsVisible] = React.useState(false);
+
+  const sourceBufferRef = React.useRef(null);
+  const mediaSourceRef = React.useRef(new MediaSource());
+  const startByteRef = React.useRef(0);
+  const chunkSize = 1 * 1024 * 1024; // 1MB chunks
+
+
   let navigate = useNavigate();
 
   //pointer inactivity
@@ -83,16 +91,6 @@ const FullCustomPlayer = ({
     setDuration(videoRef.current.duration);
   };
 
-  // const handleProgressClick = (e) => {
-  //   console.log(e);
-  //   console.log("clicked", progressRef?.current);
-  //   console.log("normal", e.nativeEvent.offsetX);
-  //   const progressWidth = e.target.clientWidth;
-  //   const clickPosition = e.nativeEvent.offsetX;
-  //   const newTime = (clickPosition / progressWidth) * duration;
-  //   videoRef.current.currentTime = newTime;
-  // };
-
   const togglePlayPause = () => {
     if (isVideoPlaying) {
       videoRef.current.pause();
@@ -103,6 +101,7 @@ const FullCustomPlayer = ({
   };
 
   const handleLoadedData = (e) => {
+    // console.log("loadedData", e.target)
     setDuration(videoRef?.current?.duration);
     videoRef.current.currentTime = videoSrc?.currentTime
       ? videoSrc?.currentTime
@@ -150,19 +149,14 @@ const FullCustomPlayer = ({
 
   const handleExitFullScreen = () => {
     if (playerContainerRef?.current) {
-      console.log("exiting full screen");
 
       if (document?.exitFullscreen) {
-        console.log("exiti");
         document?.exitFullscreen();
       } else if (document?.webkitExitFullscreen) {
-        console.log("full screen");
         document?.webkitExitFullscreen();
       } else if (document?.msExitFullscreen) {
-        console.log("screen");
         document?.msExitFullscreen();
       } else if (document?.mozExitFullscreen) {
-        console.log("screen");
         document?.mozExitFullscreen();
       } else {
       }
@@ -208,10 +202,12 @@ const FullCustomPlayer = ({
         <div className="flex w-full h-[100vh]">
           <video
             ref={videoRef}
-            preload="metadata"
+            preload="auto"
+            // preload="metadata"
             className="video-player w-full h-full"
             onTimeUpdate={handleTimeUpdate}
             src={videoSrc && videoSrc?.id ? videoSrc?.url : null}
+            // src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}` : null}
             // src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}` : null}
             onProgress={handleBufferedProgress}
             onLoadedData={handleLoadedData}

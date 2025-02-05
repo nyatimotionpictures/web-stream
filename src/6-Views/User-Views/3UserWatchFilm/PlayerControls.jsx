@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react'
 import Button from '../../../2-Components/Buttons/Button'
-import { Slider, Typography } from '@mui/material'
+import { Divider, Slider, Typography } from '@mui/material'
 import formatDuration from './formatDuration'
 import { Menu, MenuItem } from "@mui/material";
 import { current } from '@reduxjs/toolkit';
 
-const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying,handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading, handleExitFullScreen }) => {
+const subtitles = [
+  { id: "english", name: "English" },
+  { id: "spanish", name: "Spanish" },
+  { id: "french", name: "French" },
+];
+
+const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying,handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading,  subtitle = "off", handleExitFullScreen }) => {
   //  const [volumestate, setVolumeState] = React.useState(40);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isSubtitleMenuOpen, setIsSubtitleMenuOpen] = React.useState(false);
@@ -52,6 +58,8 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
     const handleSettingsClick = (event) => {
       setAnchorEl(setAnchorEl);
       setIsMenuOpen(!isMenuOpen);
+      handleSubSettingsClose();
+
     };
 
     const handleSubtitlesOpen = () => {
@@ -156,15 +164,15 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
             className="absolute bottom-0 h-max right-4 -translate-y-16 z-50 flex flex-col gap-2 items-center"
           >
             {!isSubtitleMenuOpen && !isQualityMenuOpen && (
-              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-gray-900 bg-opacity-40 ">
+              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-secondary-200 bg-opacity-90 ">
                 {/** subtitle button */}
                 <Button
                   onClick={handleSubtitlesOpen}
-                  className="text-white flex w-full justify-between flex-row items-center gap-2 "
+                  className="text-whites-40 bg-secondary-900 flex w-full justify-between flex-row items-center gap-2 "
                 >
                   <div className="flex flex-row items-center gap-2 ">
                     <span className="icon-[gg--captions] h-5 w-5  text-white"></span>
-                    <Typography className="text-white !text-xs font-sans ">
+                    <Typography className="text-whites-40 !text-xs font-sans ">
                       Subtitles/CC
                     </Typography>
                   </div>
@@ -174,16 +182,16 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                       {subtitle !== "Off" ? subtitle : "Off"}
                     </p>
                     {/** icon- arrow left */}
-                    <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-white"></span>
+                    <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-whites-40"></span>
                   </div>
                 </Button>
                 {/** quality button */}
                 <Button
                   onClick={handleQualityOpen}
-                  className="text-white flex w-full justify-between flex-row items-center gap-2 "
+                  className="text-whites-40 bg-secondary-900 flex w-full justify-between flex-row items-center gap-2 "
                 >
                   <div className="flex flex-row items-center gap-2 ">
-                    <span className="icon-[mdi--mixer-settings-vertical] rotate-90 h-5 w-5  text-white"></span>
+                    <span className="icon-[mdi--mixer-settings-vertical] rotate-90 h-5 w-5  text-whites-40"></span>
                     <Typography className="text-white  !text-xs font-sans ">
                       Quality
                     </Typography>
@@ -194,7 +202,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                       {subtitle !== "Off" ? subtitle : "Off"}
                     </p>
                     {/** icon- arrow left */}
-                    <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-white"></span>
+                    <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-whites-40"></span>
                   </div>
                 </Button>
               </div>
@@ -202,11 +210,11 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
             {/** submenu for subtitles */}
             {isSubtitleMenuOpen && (
-              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-gray-900 bg-opacity-40 ">
+              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-secondary-200 bg-opacity-90 ">
                 {/** back button */}
                 <Button
                   onClick={handleSubSettingsClose}
-                  className="text-white flex w-full  flex-row items-center gap-2 "
+                  className="text-whites-40 bg-secondary-900 flex w-full  flex-row items-center gap-2 "
                 >
                   <div className="flex flex-row items-center gap-1 ">
                     {/** icon- arrow left */}
@@ -214,7 +222,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                   </div>
 
                   <div className="flex flex-row items-center gap-2 ">
-                    <Typography className="text-white !text-xs font-sans ">
+                    <Typography className="text-whites-40 !text-xs font-sans ">
                       Subtitles/CC
                     </Typography>
                   </div>
@@ -222,7 +230,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
                 <Divider className="w-full bg-white" />
                 {/** quality button */}
-                <div className="text-white cursor-pointer flex w-full py-2 flex-row items-center gap-2 ">
+                <div className="text-whites-40 font-[Inter-Regular] cursor-pointer flex w-full py-2 flex-row items-center gap-2 ">
                   <input
                     type="radio"
                     id="off"
@@ -230,7 +238,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                     value="off"
                     className="hidden"
                   />
-                  <label htmlFor="off" className="text-white text-xs flex flex-row gap-2 items-center">
+                  <label htmlFor="off" className="text-whites-40 text-xs flex flex-row gap-2 items-center">
                   <div className="w-4 h-4">
                       {
                         <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
@@ -266,19 +274,19 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
             {/** quality menu */}
             {isQualityMenuOpen && (
-              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-gray-900 bg-opacity-40  ">
+              <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-secondary-200 bg-opacity-90  ">
                 {/** back button */}
                 <Button
                   onClick={handleSubSettingsClose}
-                  className="text-white flex w-full  flex-row items-center gap-2 "
+                  className="text-whites-40 bg-secondary-800 flex w-full  flex-row items-center gap-2 "
                 >
                   <div className="flex flex-row items-center gap-1 ">
                     {/** icon- arrow left */}
-                    <span className="icon-[solar--arrow-left-bold] h-5 w-5  text-white"></span>
+                    <span className="icon-[solar--arrow-left-bold] h-5 w-5  text-whites-40"></span>
                   </div>
 
                   <div className="flex flex-row items-center gap-2 ">
-                    <Typography className="text-white !text-xs font-sans ">
+                    <Typography className="text-whites-40 !text-xs font-sans ">
                       Quality
                     </Typography>
                   </div>
@@ -286,7 +294,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
                 <Divider className="w-full bg-white" />
                 {/** quality button */}
-                <div
+                {/* <div
                   onClick={() => handleResolution(item.id)}
                   className="text-white cursor-pointer flex w-full py-2 flex-row items-center gap-2 "
                 >
@@ -299,7 +307,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                   />
                   <label
                     htmlFor="auto"
-                    className="text-white text-xs flex flex-row gap-2 items-center"
+                    className="text-whites-40 text-xs flex flex-row gap-2 items-center"
                   >
                     <div className="w-4 h-4">
                       {
@@ -309,13 +317,13 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
                     <span>auto</span>
                   </label>
-                </div>
+                </div> */}
 
                 {allVideos?.map((item, index) => {
                   return (
                     <div
-                      onClick={() => handleResolution(item.id)}
-                      className="text-white cursor-pointer flex w-full py-2 flex-row items-center gap-2 "
+                      onClick={() => handleResolutionChange(item)}
+                      className={`text-whites-40 font-[Inter-Regular] cursor-pointer flex w-full py-2 flex-row items-center gap-2 ${videoSrc?.resolution === item.resolution ? "bg-secondary-900 " : ""}`}
                     >
                       <input
                         type="radio"
@@ -324,13 +332,15 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                         value={item.id}
                         className="hidden"
                       />
-                      <label htmlFor={item.id} className="text-white text-xs flex flex-row gap-2 items-center">
+                      <label htmlFor={item.id} className="text-whites-40 text-xs flex flex-row gap-2 items-center">
                       <div className="w-4 h-4">
                       {
-                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
+                        videoSrc?.resolution === item.resolution ? (
+                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-whites-40"></span>
+                        ) : null
                       }
                     </div>
-                        <span>{item.name}</span>
+                        <span>{item.resolution}</span>
                       </label>
                     </div>
                   );
@@ -358,7 +368,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
           <div className="absolute -top-2 -right-2 w-max h-max flex flex-col justify-center items-center px-1 py-1 bg-opacity-90 bg-primary-500 rounded-full">
             <span className=" text-white text-[9px] font-[Inter-Bold] uppercase">
-              {videoSrc?.resolution}
+              {videoSrc?.resolution === "full_hd" ? "FHD" : videoSrc?.resolution === "ultra_hd" ? "UHD" : videoSrc?.resolution}
             </span>
           </div>
         </Button>
