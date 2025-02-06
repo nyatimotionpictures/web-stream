@@ -227,14 +227,20 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
        //handle add to watchlist
        const handleAddToWatchlist = () => {
          if (includedInWatchlist) {
-           removeFromWatchlistMutation.mutate({
-             filmId: filmData?.id,
-             userId: currentUserData?.id,
-           })
+          //  removeFromWatchlistMutation.mutate({
+          //    filmId: filmData?.id,
+          //    userId: currentUserData?.id,
+          //  })
+          addToWatchlistMutation.mutate({
+            resourceId: filmData?.id,
+            userId: currentUserData?.id,
+            type: filmData?.type?.includes("film") ? "film" : "season",
+          });
          } else {
            addToWatchlistMutation.mutate({
-             filmId: filmData?.id,
-             userId: currentUserData?.id,
+            resourceId: filmData?.id,
+            userId: currentUserData?.id,
+            type: filmData?.type?.includes("film") ? "film" : "season",
            })
          }
        }
@@ -475,8 +481,8 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
         {/** like buttons */}
         <div className="flex flex-row gap-2 w-full">
           {
-            includedInWatchlist ? (<Button onClick={handleAddToWatchlist} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-secondary-300">
-              <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-secondary-900"></span>
+            includedInWatchlist ? (<Button onClick={handleAddToWatchlist} className="flex w-full px-8 py-2 items-center border-2 border-primary-500  justify-center space-x-2 rounded-lg relative text-secondary-900 bg-secondary-300">
+              <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
             </Button>) : (<Button  onClick={handleAddToWatchlist}  className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
             <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-secondary-900"></span>
           </Button>)

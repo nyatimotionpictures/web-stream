@@ -166,7 +166,7 @@ const UFilmDetailPage = () => {
     } else {
       setIncludedInWatchlist(false);
     }
-  }, [watchlistQuery?.data?.watchlist?.SAVED]);
+  }, [watchlistQuery?.data?.watchlist?.SAVED, filmsQuery?.data?.film?.id]);
 
   //handle Watch Video
   const handleWatchVideo = () => {

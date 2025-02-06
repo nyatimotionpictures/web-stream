@@ -207,7 +207,7 @@ export const rateLikesFilm = async (likeContent: any) => {
 export const postAddToWatchlist = async (watchlistContent: any) => {
   try {
     let {filmId, userId, ...rest} = watchlistContent;
-    const response = await apiRequest.post(`/v1/film/watchlist/${filmId}/${userId}`, rest); 
+    const response = await apiRequest.post(`/v1/film/watchlist/add`, watchlistContent); 
     return response.data
     
   } catch (error) {

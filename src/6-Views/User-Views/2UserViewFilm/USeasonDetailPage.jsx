@@ -172,14 +172,14 @@ const USeasonDetailPage = () => {
   React.useEffect(() => {
     if (watchlistQuery?.data?.watchlist?.SAVED?.length > 0) {
       let watchlistArray = watchlistQuery?.data?.watchlist?.SAVED?.filter(
-        (data) => data?.id === filmsQuery?.data?.film?.id
+        (data) => data?.id === seasonQuery?.data?.season?.id
       );
 
       setIncludedInWatchlist(watchlistArray?.length > 0 ? true : false);
     } else {
       setIncludedInWatchlist(false);
     }
-  }, [watchlistQuery?.data?.watchlist?.SAVED]);
+  }, [watchlistQuery?.data?.watchlist?.SAVED, seasonQuery?.data?.season?.id]);
 
   //handle Watch Video
   const handleWatchVideo = () => {

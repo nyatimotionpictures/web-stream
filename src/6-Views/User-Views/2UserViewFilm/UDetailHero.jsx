@@ -164,19 +164,27 @@ const UDetailHero = ({
   //handle add to watchlist
   const handleAddToWatchlist = () => {
     if (includedInWatchlist) {
-      removeFromWatchlistMutation.mutate({
-        filmId: filmData?.id,
+      // removeFromWatchlistMutation.mutate({
+      //   filmId: filmData?.id,
+      //   userId: currentUserData?.id,
+      // });
+
+      addToWatchlistMutation.mutate({
+        resourceId: filmData?.id,
         userId: currentUserData?.id,
+        type: filmData?.type?.includes("film") ? "film" : "season",
       });
     } else {
       addToWatchlistMutation.mutate({
-        filmId: filmData?.id,
+        resourceId: filmData?.id,
         userId: currentUserData?.id,
+        type: filmData?.type?.includes("film") ? "film" : "season",
+
       });
     }
   };
 
-  console.log("filmData", filmData);
+  
   return (
     <HeroContent
       ref={heroRef}
