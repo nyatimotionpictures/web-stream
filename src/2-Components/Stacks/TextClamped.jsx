@@ -26,7 +26,7 @@ const TextClamped = ({text, lines = 3}) => {
         < p>
             <span ref={textRef} className={`${isExpanded ? "" : `line-clamp-${lines}`}`}>{text}  </span>
             {
-                isClamped ? ( <span onClick={()=> setIsExpanded(!isExpanded)} className="italic text-primary-500">{isExpanded ? "Read less" : "Read more"}</span>) : null
+                isClamped ? ( <span onClick={()=> setIsExpanded(!isExpanded)} className="italic text-primary-500 cursor-pointer">{isExpanded ? "Read less" : "Read more"}</span>) : null
             }
         </p>
     )

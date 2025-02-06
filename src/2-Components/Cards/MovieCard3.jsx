@@ -45,6 +45,10 @@ const MovieCard3 = ({ data }) => {
       setPosterLink(() => data?.poster ?? "");
     }
   }, [data]);
+
+  // className={
+  //   "min-h-[250px] h-max w-[152.42px] sm:w-[292px] md:w-[280px] lg:w-[270px] lg:min-h-[510px] 2xl:w-[300px] flex flex-col items-start gap-3 pixelated"
+  // }
   return (
     <MovieContainer
       className={

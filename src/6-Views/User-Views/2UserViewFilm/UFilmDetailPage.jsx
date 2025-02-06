@@ -60,12 +60,10 @@ const UFilmDetailPage = () => {
 
   React.useEffect(() => {
     if (filmsQuery?.data?.film) {
-      if (filmsQuery?.data?.film?.type?.toLowerCase()?.includes("movie")) {
-        let videoArray = filmsQuery?.data?.film?.video?.filter(
-          (video) => !video.isTrailer
-        );
-        if (videoArray.length > 0) {
-          setAllAvailableResolutions(() => videoArray);
+      if (filmsQuery?.data?.film?.type?.toLowerCase()?.includes("film")) {
+       
+        if (filmsQuery?.data?.film?.pricing?.length > 0) {
+          setAllAvailableResolutions(() => filmsQuery?.data?.film?.pricing[0]?.priceList);
           setErrorVideo(false);
           setErrorMessage(null);
         } else {
@@ -254,6 +252,7 @@ const UFilmDetailPage = () => {
                         innerref={formRef}
                         handleStepNext={handleAPISubmission}
                         film={filmsQuery?.data?.film}
+                        pricingData={filmsQuery?.data?.film?.pricing[0]}
                         allAvailableResolutions={allAvailableResolutions}
                       />
                     </div>

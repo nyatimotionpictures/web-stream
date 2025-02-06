@@ -24,6 +24,7 @@ import UFilmTabs from "./UFilmTabs";
 import UDetailHero from "./UDetailHero";
 import UMobileHero from "./UMobileHero";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
+import Logo from "../../../1-Assets/logos/Logo.svg";
 
 const USeasonDetailPage = () => {
     const [selectedFilm, setSelectedFilm] = React.useState(null);
@@ -68,6 +69,23 @@ const USeasonDetailPage = () => {
     }
   }, [seasonQuery?.data?.season]);
 
+  /** Get Pricing Data */
+    React.useEffect(() => {
+      if (seasonQuery?.data?.season) {
+       console.log("seasonQuery?.data?.season", seasonQuery?.data?.season)
+        
+          if (seasonQuery?.data?.season?.pricing?.length > 0) {
+            setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing[0]?.priceList);
+            setErrorVideo(false);
+            setErrorMessage(null);
+          } else {
+            setErrorVideo(true);
+            setErrorMessage("No videos available");
+          }
+        
+      }
+    }, [seasonQuery?.data?.season]);
+
   // console.log(FilmJson[3]);
   // React.useEffect(() => {
   //   setSelectedFilm(() => FilmJson[3]);
@@ -95,6 +113,7 @@ const USeasonDetailPage = () => {
       },
     });
   };
+
   const handlePaymentModel = () => {
     setPayModal(() => !payModal);
   };
@@ -247,7 +266,8 @@ const USeasonDetailPage = () => {
                       <UVideoResolutionForm
                         innerref={formRef}
                         handleStepNext={handleAPISubmission}
-                        film={filmsQuery?.data?.film}
+                        film={seasonQuery?.data?.season}
+                        pricingData={seasonQuery?.data?.season?.pricing[0]}
                         allAvailableResolutions={allAvailableResolutions}
                       />
                     </div>

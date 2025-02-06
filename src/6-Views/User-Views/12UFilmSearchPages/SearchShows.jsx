@@ -107,9 +107,9 @@ const SearchShows = () => {
       debouncedSearch(query);
     }, [query, debouncedSearch]);
   return (
-    <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
+    <Container className="w-full min-h-screen h-full relative flex-col space-y-0 bg-secondary-800">
     <WebNavigation isLoggedIn={true} />
-    <Stack className="flex-col w-full h-full space-y-0">
+    <Stack className="flex-col w-full h-full space-y-0 max-w-screen-2xl m-auto">
       <div className="px-4 pt-28 md:px-16 md:pt-36">
         <SearchComponent type={"series"} films={allFilteredTvShows} query={query} setQuery={setQuery} loading={loading} error={error} errorMessage={errorMessage} currentPage={currentPage} itemsPerPage={itemsPerPage} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} />
       </div>

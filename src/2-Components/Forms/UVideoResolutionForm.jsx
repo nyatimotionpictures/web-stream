@@ -24,19 +24,21 @@ const resolutionData = {
   },
 };
 
-const UVideoResolutionForm = ({ innerref, handleStepNext, film, allAvailableResolutions }) => {
+const UVideoResolutionForm = ({ innerref, handleStepNext, film, allAvailableResolutions, pricingData }) => {
   console.log("film", film);
   console.log("videos", film?.video);
   const validationSchema = yup.object().shape({
     resolution: yup.string().required("required"),
-    filmId: yup.string().required("required"),
-    videoId: yup.string().required("required"),
+    resolutionId: yup.string().required("required"),
+    resourceId: yup.string().required("required"),
+    type: yup.string().required("required"),
   });
 
   const initialValues = {
     resolution: "",
-    filmId: film?.id,
-    videoId: "",
+    resolutionId: "",
+    resourceId: film?.id,
+    type: film?.type?.includes("film") ? "film" : "season",
   };
   return (
     <Formik
@@ -72,6 +74,7 @@ const UVideoResolutionForm = ({ innerref, handleStepNext, film, allAvailableReso
             <FormContainer>
               <CustomStack className="flex flex-col gap-2">
                 {allAvailableResolutions?.map((data, index) => {
+                  console.log(data)
                   return (
                     <div key={index} className="flex gap-2 items-center ">
                       
@@ -88,10 +91,10 @@ const UVideoResolutionForm = ({ innerref, handleStepNext, film, allAvailableReso
                               setFieldValue(
                                 "resolutionInfo",
                                 `${resolutionData[data.resolution].name} - ${
-                                  data.videoPrice?.currency
-                                } ${data.videoPrice?.price}`
+                                  pricingData?.currency
+                                } ${data?.price}`
                               );
-                              setFieldValue("videoId", data.id);
+                              setFieldValue("resolutionId", data.id);
                             }}
                             placeholder="Resolution"
                             onBlur={handleBlur}
@@ -103,9 +106,9 @@ const UVideoResolutionForm = ({ innerref, handleStepNext, film, allAvailableReso
                           >
                             {resolutionData[data.resolution].name} -{" "}
                             <span className="uppercase  !text-opacity-100 !text-whites-40">
-                              {data.videoPrice?.currency +
+                              {pricingData?.currency +
                                 " " +
-                                data.videoPrice?.price}
+                                data?.price}
                             </span>
                           </div>
                         </label>

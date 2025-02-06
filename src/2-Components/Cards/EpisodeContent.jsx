@@ -1,99 +1,106 @@
 //import { Image, Stack } from '@chakra-ui/react';
-import { Stack, Typography } from '@mui/material';
-import React from 'react'
+import { Stack, Typography } from "@mui/material";
+import React from "react";
 
 import { useNavigate } from "react-router-dom";
-import Button from '../Buttons/Button';
+import Button from "../Buttons/Button";
+import TextClamped from "../Stacks/TextClamped";
 
 const EpisodeContent = ({
-    seasondata,
-    episodedata,
-    openModal,
-    setSelectedTrailer,
-    openLocalModal,
+  seasondata,
+  episodedata,
+  openModal,
+  setSelectedTrailer,
+  openLocalModal,
 }) => {
-    const [trailerLink, setTrailerLink] = React.useState(null);
-    const [playActions, setPlayActions] = React.useState(false);
-    let navigate = useNavigate()
+  const [trailerLink, setTrailerLink] = React.useState(null);
+  const [playActions, setPlayActions] = React.useState(false);
+  let navigate = useNavigate();
 
-    let ref = React.useRef();
+  let ref = React.useRef();
 
-    console.log(seasondata, episodedata)
+  console.log(seasondata, episodedata);
 
-    React.useEffect(() => {
-        const handler = (event) => {
-            if (playActions && ref.current && !ref.current.contains(event.target)) {
-                setPlayActions(false);
-            }
-        };
-        document.addEventListener("mousedown", handler);
-        document.addEventListener("touchstart", handler);
-
-        return () => {
-            document.removeEventListener("mousedown", handler);
-            document.removeEventListener("touchstart", handler);
-        };
-    }, [playActions]);
-
-    const onMouseEnter = () => {
-        window.innerWidth > 960 && setPlayActions(true);
+  React.useEffect(() => {
+    const handler = (event) => {
+      if (playActions && ref.current && !ref.current.contains(event.target)) {
+        setPlayActions(false);
+      }
     };
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("touchstart", handler);
 
-    const onMouseLeave = () => {
-        window.innerWidth > 960 && setPlayActions(false);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
     };
+  }, [playActions]);
 
-    React.useEffect(() => {
-      //console.log(episodedata?.youtubeTrailer)
-        if (episodedata?.youtubeTrailer !== " ") {
-            setTrailerLink(() => episodedata?.youtubeTrailer);
-        } else {
-            setTrailerLink(null);
-        }
-    }, [episodedata]);
+  const onMouseEnter = () => {
+    window.innerWidth > 960 && setPlayActions(true);
+  };
 
-    // console.log(trailerLink);
-    const playTrailer = () => {
-        if (trailerLink !== null) {
-            window.location.href = trailerLink
-        }
-    };
+  const onMouseLeave = () => {
+    window.innerWidth > 960 && setPlayActions(false);
+  };
 
-  
-    return (
-      <Stack
-        
-        className="flex-col md:flex-row w-full xs:w-[280px] gap-6 sm:w-full h-max justify-start items-start"
-        ref={ref}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        <div className="flex justify-start  items-start w-full sm:w-max h-max ">
-          <img
-            src={
-              episodedata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""
-            }
-            alt=""
-            //w-[280px] 
-            className="size-fit sm:size-fill w-full h-[250px] sm:w-[338px] sm:max-w-[338px] max-h-[250px] !object-cover mx-0 my-0 rounded-lg md:!w-[338px] xl:object-top xl:size-fit"
-          />
+  React.useEffect(() => {
+    //console.log(episodedata?.youtubeTrailer)
+    if (episodedata?.youtubeTrailer !== " ") {
+      setTrailerLink(() => episodedata?.youtubeTrailer);
+    } else {
+      setTrailerLink(null);
+    }
+  }, [episodedata]);
+
+  // console.log(trailerLink);
+  const playTrailer = () => {
+    if (trailerLink !== null) {
+      window.location.href = trailerLink;
+    }
+  };
+
+  return (
+    <Stack
+      className="flex-col md:flex-row w-full xs:w-[280px] gap-6 sm:w-full h-max justify-start items-start"
+      ref={ref}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <div className="flex justify-start  items-start w-full sm:max-w-[338px] max-h-[250px] relative rounded-lg overflow-hidden">
+        <img
+          src={
+            episodedata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""
+          }
+          alt=""
+          //w-[280px]
+          className="size-fit sm:size-fill w-full h-[250px] sm:w-[338px] sm:max-w-[338px] max-h-[250px] !object-cover mx-0 my-0 md:!w-[338px] xl:object-top xl:size-fit "
+        />
+
+        <div
+          className={`absolute w-full h-full flex items-center justify-center bg-secondary-900 bg-opacity-50 top-0 rounded-lg left-0 z-50`}
+        >
+          {/** play button */}
+          <Button className=" z-50 w-max h-max p-0  bg-opacity-60 bg-transparent hover:bg-transparent  ">
+            <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-primary-100"></span>
+          </Button>
         </div>
+      </div>
 
-        <Stack spacing={"30px"} className="sm:w-[300px] md:w-full">
-          <Stack>
-            <Typography className="font-[Inter-SemiBold] text-base md:text-xl text-whites-40">
-              {`S${seasondata?.season}`}{" "}
-              {episodedata && `E${episodedata?.episode}`} -{" "}
-              {episodedata?.title}
-            </Typography>
-            <Typography className="font-[Inter-Regular] text-[14px] md:text-base text-[#FFFAF6] text-opacity-70">
-              {episodedata?.released}
-            </Typography>
-            <Typography className="line-clamp-5 font-[Inter-Regular] text-sm md:text-base text-[#FFFAF6] text-opacity-70 text-justify">
-              {episodedata?.plotSummary}
-            </Typography>
-          </Stack>
-          <Stack spacing={"24px"}>
+      <Stack spacing={"30px"} className="sm:w-[300px] md:w-full">
+        <Stack>
+          <Typography className="font-[Inter-SemiBold] mb-2 text-base md:text-xl text-whites-40">
+            {`S${seasondata?.season}`}{" "}
+            {episodedata && `E${episodedata?.episode}`} - {episodedata?.title}
+          </Typography>
+          <Typography className="font-[Inter-Regular] text-[14px] md:text-base text-[#FFFAF6] text-opacity-70">
+            {episodedata?.released}
+          </Typography>
+          <Typography className=" font-[Inter-Regular] text-sm md:text-base text-[#FFFAF6] text-opacity-70 text-justify">
+            <TextClamped text={episodedata?.plotSummary} lines={3} />
+          </Typography>
+        </Stack>
+        {/* <Stack spacing={"24px"}>
             <Stack spacing={"20px"} className="flex flex-row">
               <Button
                 onClick={() =>
@@ -109,10 +116,10 @@ const EpisodeContent = ({
               </Button>
 
             </Stack>
-          </Stack>
-        </Stack>
+          </Stack> */}
       </Stack>
-    );
-}
+    </Stack>
+  );
+};
 
-export default EpisodeContent
+export default EpisodeContent;

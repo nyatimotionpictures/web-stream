@@ -15,7 +15,7 @@ const  MovieCard4 = ({data}) => {
     setIsImgBroken(true);
   };
 
-  console.log(data);
+  // console.log(data);
 
   //shuffleArray
   const shuffleArray = (array) => {
@@ -48,16 +48,18 @@ const  MovieCard4 = ({data}) => {
       setPosterLink(() => data?.poster ?? "");
     }
   }, [data]);
-
+  // className={
+  //   "min-h-[250px] h-max w-[152.42px] sm:w-[292px] md:w-[280px] lg:min-h-[510px] 2xl:w-[300px] flex flex-col items-start gap-3 pixelated"
+  // }
    console.log("data", data);
   return (
     <MovieContainer
     onClick={() => data?.type.includes("film") || data?.type.includes("movie")  ? navigate(`/film/${data?.id}`) : data?.type.includes("series") ? navigate(`/series/${data?.id}`) : data?.type.includes("episode") ? navigate(`/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`) : data?.type?.includes("season") ? navigate(`/segments/${data?.id}/${data?.filmId}`) : null}
       className={
-        "min-h-[250px] h-max w-[152.42px] sm:w-[292px] md:w-[280px] lg:min-h-[510px] 2xl:w-[300px] flex flex-col items-start gap-3 pixelated"
+        "min-h-[250px] h-max w-full  lg:h-[310px]  flex flex-col items-start gap-3 pixelated "
       }
     >
-      <div className="bg-secondary-200 h-[172.42px] sm:h-[302px] md:h-[280px] lg:h-[310px] 2xl:h-[389px] w-full p-0 m-0 overflow-hidden md:rounded-tl-lg md:rounded-tr-lg object-cover">
+      <div className="bg-secondary-200 h-[172.42px] sm:h-[302px] md:h-[280px] lg:h-[310px] 2xl:h-[389px] w-full p-0 m-0 overflow-hidden md:rounded-tl-md md:rounded-tr-md object-cover">
         <img
           onError={handleImgError}
           src={isImgBroken ? noImage : posterlink?.url}
@@ -78,7 +80,7 @@ const  MovieCard4 = ({data}) => {
                 direction="row"
                 className="gap-2 flex flex-row items-center"
               >
-                <span className="icon-[solar--bag-heart-outline] h-6 w-6 text-primary-500"></span>
+                {/* <span className="icon-[solar--bag-heart-outline] h-6 w-6 text-primary-500"></span> */}
                 <Typography className="font-[Inter-Medium] text-sm md:text-base text-whites-40">
                   Rent to watch
                 </Typography>

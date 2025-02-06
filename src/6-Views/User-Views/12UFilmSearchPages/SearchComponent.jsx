@@ -53,14 +53,20 @@ const SearchComponent = ({
             </div>
           </FormContainer>
         </SingleWrapper>
-
-        <Container className=" h-full relative">
-          {currentItems?.length > 0 ? (
-            <Stack className="flex flex-row flex-wrap gap-3 items-center justify-center mb-10">
+{/* 
+        <div className="flex flex-row flex-wrap gap-3 items-center justify-center mb-10">
               {currentItems?.map((data, index) => {
                 return <MovieCard4 key={index} data={data} />;
               })}
-            </Stack>
+            </div> */}
+
+        <Container className=" h-full relative">
+          {currentItems?.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6  gap-3 lg:gap-5 items-center justify-center mb-10">
+              {currentItems?.map((data, index) => {
+                return <MovieCard4 key={index} data={data} />;
+              })}
+            </div>
           ) : (
             <Box className="h-[100%]">
               <Stack className="flex flex-col h-full w-full min-h-[45vh] items-center justify-center my-auto">
