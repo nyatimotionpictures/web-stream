@@ -207,13 +207,14 @@ const FullCustomPlayer = ({
             className="video-player w-full h-full"
             onTimeUpdate={handleTimeUpdate}
             // src={videoSrc && videoSrc?.id ? videoSrc?.url : null}
-            src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}` : null}
+            src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}?currentTime=${currentTime}` : null}
             // src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}` : null}
             onProgress={handleBufferedProgress}
             onLoadedData={handleLoadedData}
             muted={isVideoMuted}
             onWaiting={handleBuffering}
             onPlaying={handleOnPlaying}
+            
             //onPlay={handleVideoPlayed}
             //onPause={handleVideoPaused}
           ></video>
