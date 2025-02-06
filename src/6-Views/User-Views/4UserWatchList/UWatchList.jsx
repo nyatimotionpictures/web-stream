@@ -34,13 +34,13 @@ const UWatchList = () => {
   let showsWatched =  React.useMemo(()=>{
     return watchedQuery?.data?.watchlist?.SAVED?.filter((film)=> {
       if (film?.type === "episode" || film?.type === "series" || !film?.type?.includes("film") ) {
-        console.log("film", film)
+        
        return film
       }
      })
   },[watchedQuery?.data?.watchlist?.SAVED])
 
-  console.log("showsWatched", showsWatched)
+  // console.log("showsWatched", showsWatched)
 
 
 

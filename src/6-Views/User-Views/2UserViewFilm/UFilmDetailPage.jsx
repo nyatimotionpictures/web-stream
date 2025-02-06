@@ -111,9 +111,10 @@ const UFilmDetailPage = () => {
   const rateMutation = useMutation({
     mutationFn: rateLikesFilm,
     onSuccess: (data, variables) => {
-      console.log("data", data);
+      // console.log("data", data);
       //setRated(true)
       setSnackbarMessage({ message: data.message, severity: "success" });
+      filmsQuery.refetch();
     },
     onError: (error) => {
       console.log("error", error);

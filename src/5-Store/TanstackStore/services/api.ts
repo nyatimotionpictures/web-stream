@@ -194,7 +194,7 @@ export const getUserPurchaseList = async (UserId: String) => {
 export const rateLikesFilm = async (likeContent: any) => {
   try {
     let {filmId, userId, ...rest} = likeContent;
-    const response = await apiRequest.put(`/v1/film/likerate/${filmId}/${userId}`, rest); 
+    const response = await apiRequest.post(`/v1/film/likerate`, likeContent); 
     return response.data
     
   } catch (error) {

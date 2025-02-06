@@ -65,14 +65,17 @@ const UDetailHero = ({
       }
     } else {
       // console.log("posters",filmData)
-      if(filmData?.posters?.length > 0){
+      if (filmData?.posters?.length > 0) {
         setBackdropUrl(() => filmData?.posters[0]?.url);
       }
     }
   }, [filmData]);
 
   React.useEffect(() => {
-    if (filmData?.type?.includes("film") || filmData?.type?.includes("series")){
+    if (
+      filmData?.type?.includes("film") ||
+      filmData?.type?.includes("series")
+    ) {
       if (filmData?.video?.length > 0) {
         filmData?.video?.filter((data) => {
           if (data?.isTrailer) {
@@ -84,7 +87,6 @@ const UDetailHero = ({
       // console.log("filmData", filmData);
       setTrailerUrl(() => filmData?.trailers[0]?.url);
     }
-   
   }, [filmData]);
 
   const handleOnLoad = (e) => {
@@ -134,7 +136,7 @@ const UDetailHero = ({
   const handleLikes = (type) => {
     if (type === "like") {
       let dataValues = {
-        filmId: filmData?.id,
+        resourceId: filmData?.id,
         userId: currentUserData?.id,
         likeType: "THUMBS_UP",
         type:
@@ -142,12 +144,12 @@ const UDetailHero = ({
           filmData?.type === "movie" ||
           filmData?.type?.includes("film")
             ? "film"
-            : "episode",
+            : "season",
       };
       rateMutation.mutate(dataValues);
-    } else {
+    } else if (type === "dislike") {
       let dataValues = {
-        filmId: filmData?.id,
+        resourceId: filmData?.id,
         userId: currentUserData?.id,
         likeType: "THUMBS_DOWN",
         type:
@@ -155,7 +157,20 @@ const UDetailHero = ({
           filmData?.type === "movie" ||
           filmData?.type?.includes("film")
             ? "film"
-            : "episode",
+            : "season",
+      };
+      rateMutation.mutate(dataValues);
+    } else {
+      let dataValues = {
+        resourceId: filmData?.id,
+        userId: currentUserData?.id,
+        likeType: "NONE",
+        type:
+          filmData?.type === "series" ||
+          filmData?.type === "movie" ||
+          filmData?.type?.includes("film")
+            ? "film"
+            : "season",
       };
       rateMutation.mutate(dataValues);
     }
@@ -179,12 +194,12 @@ const UDetailHero = ({
         resourceId: filmData?.id,
         userId: currentUserData?.id,
         type: filmData?.type?.includes("film") ? "film" : "season",
-
       });
     }
   };
 
-  
+  console.log("filmData", filmData);
+
   return (
     <HeroContent
       ref={heroRef}
@@ -386,20 +401,41 @@ const UDetailHero = ({
                       </Button>
                     )}
 
-                    <Button
-                      disabled={rateMutation.isPending ? true : false}
-                      onClick={() => handleLikes("like")}
-                      className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                    >
-                      <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
-                    </Button>
-                    <Button
-                      disabled={rateMutation.isPending ? true : false}
-                      onClick={() => handleLikes("dislike")}
-                      className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                    >
-                      <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
-                    </Button>
+                    {filmData?.likes[0]?.type === "THUMBS_UP" ? (
+                      <Button
+                        disabled={rateMutation.isPending ? true : false}
+                        onClick={() => handleLikes("none")}
+                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 border-2 border-primary-500  rounded-full relative bg-[#706e72]"
+                      >
+                        <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={rateMutation.isPending ? true : false}
+                        onClick={() => handleLikes("like")}
+                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                      >
+                        <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
+                      </Button>
+                    )}
+
+                    {filmData?.likes[0]?.type === "THUMBS_DOWN" ? (
+                      <Button
+                        disabled={rateMutation.isPending ? true : false}
+                        onClick={() => handleLikes("none")}
+                        className="flex w-max px-2 py-2 items-center justify-center border-2 border-primary-500  space-x-2 rounded-full relative bg-[#706e72]"
+                      >
+                        <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={rateMutation.isPending ? true : false}
+                        onClick={() => handleLikes("dislike")}
+                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                      >
+                        <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
+                      </Button>
+                    )}
                   </Stack>
                 </Stack>
               </Stack>

@@ -43,7 +43,7 @@ const USeasonDetailPage = () => {
 
   let params = useParams();
   const formRef = React.useRef();
-  const filmsQuery = useGetFilm(params?.seriesid);
+  // const seasonQuery  = useGetFilm(params?.seriesid);
   let seasonQuery = useGetSeason(params?.id)
   let navigate = useNavigate();
 
@@ -98,7 +98,7 @@ const USeasonDetailPage = () => {
       alert("No form");
     }
   };
-
+console.log("seasonQuery", seasonQuery?.data)
   const handleAPISubmission = (values) => {
     console.log("values", values);
     //  alert(`form submitted ${editInfo.title}`);
@@ -106,7 +106,7 @@ const USeasonDetailPage = () => {
     //handleFormSubmit()
     navigate("/payment", {
       state: {
-        filmId: filmsQuery?.data?.film?.id,
+        filmId: seasonQuery?.data?.season?.id,
         videoId: values.videoId,
         resolution: values.resolution,
         resolutionInfo: values.resolutionInfo,
@@ -127,6 +127,7 @@ const USeasonDetailPage = () => {
       console.log("data", data);
       //setRated(true)
       setSnackbarMessage({ message: data.message, severity: "success" });
+      seasonQuery.refetch();
     },
     onError: (error) => {
       console.log("error", error);
@@ -183,12 +184,12 @@ const USeasonDetailPage = () => {
 
   //handle Watch Video
   const handleWatchVideo = () => {
-    navigate(`/watch/${filmsQuery?.data?.film?.id}`);
+    navigate(`/watch/season/${seasonQuery?.data?.season?.id}`);
   };
 
-  console.log(filmsQuery?.data?.film);
+  console.log(seasonQuery?.data?.season);
 
-  if (filmsQuery?.isLoading) {
+  if (seasonQuery?.isLoading) {
     return (
       <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
         <CustomLoader text={"Loading..."} />
@@ -212,7 +213,7 @@ const USeasonDetailPage = () => {
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={filmsQuery?.data?.film?.videoPurchased}
+            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
           />
         ) : (
           <UDetailHero
@@ -225,14 +226,14 @@ const USeasonDetailPage = () => {
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={filmsQuery?.data?.film?.videoPurchased}
+            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
           />
         )}
 
         <div className="px-2 lg:px-16">
           <UFilmTabs
             filmData={selectedFilm}
-            allSeasonData={filmsQuery?.data?.film?.season ?? []}
+            allSeasonData={seasonQuery?.data?.film?.season ?? []}
             // filmData={selectedFilm}
           />
         </div>

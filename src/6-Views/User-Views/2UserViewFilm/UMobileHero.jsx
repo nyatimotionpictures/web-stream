@@ -201,21 +201,43 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
        //handle likes
        const handleLikes = (type) => {
         if (type === "like") {
-       let dataValues =   {
-            filmId: filmData?.id,
+          let dataValues = {
+            resourceId: filmData?.id,
             userId: currentUserData?.id,
             likeType: "THUMBS_UP",
-            type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
-          }
+            type:
+              filmData?.type === "series" ||
+              filmData?.type === "movie" ||
+              filmData?.type?.includes("film")
+                ? "film"
+                : "season",
+          };
           rateMutation.mutate(dataValues);
-        } else {
-          let dataValues =   {
-            filmId: filmData?.id,
+        } else if (type === "dislike") {
+          let dataValues = {
+            resourceId: filmData?.id,
             userId: currentUserData?.id,
             likeType: "THUMBS_DOWN",
-            type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
-
-          }
+            type:
+              filmData?.type === "series" ||
+              filmData?.type === "movie" ||
+              filmData?.type?.includes("film")
+                ? "film"
+                : "season",
+          };
+          rateMutation.mutate(dataValues);
+        } else {
+          let dataValues = {
+            resourceId: filmData?.id,
+            userId: currentUserData?.id,
+            likeType: "NONE",
+            type:
+              filmData?.type === "series" ||
+              filmData?.type === "movie" ||
+              filmData?.type?.includes("film")
+                ? "film"
+                : "season",
+          };
           rateMutation.mutate(dataValues);
         }
        }
@@ -489,12 +511,21 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
           }
           
         
-          <Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("like")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+        {
+          filmData?.likes[0]?.type === "THUMBS_UP" ? ( <Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("none")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 border-2 border-primary-500 bg-secondary-300">
+          <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
+        </Button>):( <Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("like")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
             <span className="icon-[solar--like-broken] h-6 w-6 text-secondary-900"></span>
-          </Button>
-          <Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("dislike")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
+          </Button>) 
+        }
+         {
+          filmData?.likes[0]?.type === "THUMBS_DOWN" ? (<Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("none")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 border-2 border-primary-500 bg-secondary-300">
+          <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
+        </Button>) : (<Button disabled={rateMutation.isPending ? true : false} onClick={() => handleLikes("dislike")} className="flex w-full px-8 py-2 items-center justify-center space-x-2 rounded-lg relative text-secondary-900 bg-whites-40">
             <span className="icon-[solar--dislike-broken] h-6 w-6 text-secondary-900"></span>
-          </Button>
+          </Button>)
+         }
+          
         </div>
       </div>
 
