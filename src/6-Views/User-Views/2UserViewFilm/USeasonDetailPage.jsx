@@ -46,6 +46,7 @@ const USeasonDetailPage = () => {
   let seasonQuery = useGetSeason(params?.id)
   let navigate = useNavigate();
 
+  console.log("seasons", seasonQuery?.data?.season)
   React.useEffect(() => {
     if (userData.currentUser !== null) {
       setCurrentUserData(userData.currentUser?.user);
@@ -56,19 +57,16 @@ const USeasonDetailPage = () => {
   }, [userData.currentUser?.user.id]);
 
   React.useEffect(() => {
-    if (filmsQuery?.data?.film) {
-      if (filmsQuery?.data?.film?.type?.toLowerCase()?.includes("series")) {
-        //get season
-        let season = filmsQuery?.data?.film?.season?.filter(
-          (data) => data?.id === params?.id
-        );
-
-        setSelectedFilm(() => season[0]);
+    if (seasonQuery?.data?.season) {
+      if (seasonQuery?.data?.season) {
+        
+       
+        setSelectedFilm(() => seasonQuery?.data?.season);
       } else {
        
       }
     }
-  }, [filmsQuery?.data?.film]);
+  }, [seasonQuery?.data?.season]);
 
   // console.log(FilmJson[3]);
   // React.useEffect(() => {

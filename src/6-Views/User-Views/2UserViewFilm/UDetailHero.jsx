@@ -1,41 +1,46 @@
- import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Box, Stack, Typography } from "@mui/material";
 import Button from "../../../2-Components/Buttons/Button";
-import heroImg from "../../../1-Assets/Hero.png"
+import heroImg from "../../../1-Assets/Hero.png";
 import { Player } from "video-react";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 
-
-
-const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutation, addToWatchlistMutation, removeFromWatchlistMutation, includedInWatchlist,videoPurchased, handleWatchVideo }) => {
+const UDetailHero = ({
+  filmData,
+  handlePaymentModel,
+  currentUserData,
+  rateMutation,
+  addToWatchlistMutation,
+  removeFromWatchlistMutation,
+  includedInWatchlist,
+  videoPurchased,
+  handleWatchVideo,
+}) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
   const [showVideo, setShowVideo] = React.useState(false);
   const [trailerUrl, setTrailerUrl] = React.useState(null);
-  const [isVideoPlayed, setIsVideoPlayed] = React.useState(false)
-  const [isVideoMuted, setIsVideoMuted] = React.useState(false)
+  const [isVideoPlayed, setIsVideoPlayed] = React.useState(false);
+  const [isVideoMuted, setIsVideoMuted] = React.useState(false);
   const [timer, setTimer] = React.useState(null);
   const videoRef = React.useRef(null);
-  const heroRef = React.useRef(null)
-  
+  const heroRef = React.useRef(null);
 
   // const handlevideoEnd = () => {
   //   setShowVideo(false);
   // };
 
- console.log(filmData)
+  console.log(filmData);
 
- React.useEffect(() => {
-  const timer = setTimeout(() => {
-    setShowVideo(true);
-   
-  }, 5000);
-  return () => {
-    clearTimeout(timer);
-    setShowVideo(false)
-    
-  }
- },[])
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowVideo(true);
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+      setShowVideo(false);
+    };
+  }, []);
   React.useEffect(() => {
     if (
       filmData?.type?.toLowerCase()?.includes("series") ||
@@ -50,7 +55,7 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
 
         setBackdropUrl(() => bklink);
       }
-    } else {
+    } else if (filmData?.type?.toLowerCase()?.includes("film")) {
       if (
         filmData?.type?.toLowerCase()?.includes("film") ||
         (filmData?.type?.toLowerCase()?.includes("movie") &&
@@ -58,53 +63,60 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
       ) {
         setBackdropUrl(() => filmData?.posters[0]?.url);
       }
+    } else {
+      // console.log("posters",filmData)
+      if(filmData?.posters?.length > 0){
+        setBackdropUrl(() => filmData?.posters[0]?.url);
+      }
     }
   }, [filmData]);
 
   React.useEffect(() => {
-    if (filmData?.video?.length > 0) {
-      filmData?.video?.filter((data) =>  {
-        if (data?.isTrailer) {
-          setTrailerUrl(() => data?.url);
-        }
-      } )
-      
+    if (filmData?.type?.includes("film") || filmData?.type?.includes("series")){
+      if (filmData?.video?.length > 0) {
+        filmData?.video?.filter((data) => {
+          if (data?.isTrailer) {
+            setTrailerUrl(() => data?.url);
+          }
+        });
+      }
+    } else {
+      // console.log("filmData", filmData);
+      setTrailerUrl(() => filmData?.trailers[0]?.url);
     }
-
    
-  },  [filmData]);
+  }, [filmData]);
 
   const handleOnLoad = (e) => {
     // console.log("loaded", e.target)
     //setIsVideoPlaying(true)
-   videoRef.current.play()
-  }
+    videoRef.current.play();
+  };
 
   const handleOnEnded = () => {
     setShowVideo(false);
-    setIsVideoPlayed(true)
+    setIsVideoPlayed(true);
   };
 
   const handleMuteVideo = () => {
-    setIsVideoMuted(!isVideoMuted)
-  }
+    setIsVideoMuted(!isVideoMuted);
+  };
 
   const handleReplayVideo = () => {
-   
-    setIsVideoPlayed(false)
-    setShowVideo(true)
-  }
+    setIsVideoPlayed(false);
+    setShowVideo(true);
+  };
 
   //handle the scroll behaviour
   useEffect(() => {
     const handleScroll = () => {
-      if (!videoRef.current || !heroRef.current ) return;
+      if (!videoRef.current || !heroRef.current) return;
 
       const heroBounds = heroRef.current.getBoundingClientRect();
-      const isHeroInView = heroBounds.top >= 0 && heroBounds.bottom <= window.innerHeight;
-     
+      const isHeroInView =
+        heroBounds.top >= 0 && heroBounds.bottom <= window.innerHeight;
 
-       if (!isHeroInView && !videoRef.current.paused) {
+      if (!isHeroInView && !videoRef.current.paused) {
         videoRef.current.pause(); // Pause video when out of view
       } else if (isHeroInView && videoRef.current.paused && showVideo) {
         videoRef.current.play(); // Resume video if it’s back in view
@@ -116,47 +128,55 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  },  [showVideo]);
+  }, [showVideo]);
 
-   //handle likes
-   const handleLikes = (type) => {
+  //handle likes
+  const handleLikes = (type) => {
     if (type === "like") {
-   let dataValues =   {
+      let dataValues = {
         filmId: filmData?.id,
         userId: currentUserData?.id,
         likeType: "THUMBS_UP",
-        type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
-      }
+        type:
+          filmData?.type === "series" ||
+          filmData?.type === "movie" ||
+          filmData?.type?.includes("film")
+            ? "film"
+            : "episode",
+      };
       rateMutation.mutate(dataValues);
     } else {
-      let dataValues =   {
+      let dataValues = {
         filmId: filmData?.id,
         userId: currentUserData?.id,
         likeType: "THUMBS_DOWN",
-        type: filmData?.type === "series" || filmData?.type === "movie" || filmData?.type?.includes("film") ? "film" : "episode",
-
-      }
+        type:
+          filmData?.type === "series" ||
+          filmData?.type === "movie" ||
+          filmData?.type?.includes("film")
+            ? "film"
+            : "episode",
+      };
       rateMutation.mutate(dataValues);
     }
-   }
+  };
 
-
-    //handle add to watchlist
-    const handleAddToWatchlist = () => {
-      if (includedInWatchlist) {
-        removeFromWatchlistMutation.mutate({
-          filmId: filmData?.id,
-          userId: currentUserData?.id,
-        })
-      } else {
-        addToWatchlistMutation.mutate({
-          filmId: filmData?.id,
-          userId: currentUserData?.id,
-        })
-      }
+  //handle add to watchlist
+  const handleAddToWatchlist = () => {
+    if (includedInWatchlist) {
+      removeFromWatchlistMutation.mutate({
+        filmId: filmData?.id,
+        userId: currentUserData?.id,
+      });
+    } else {
+      addToWatchlistMutation.mutate({
+        filmId: filmData?.id,
+        userId: currentUserData?.id,
+      });
     }
+  };
 
-
+  console.log("filmData", filmData);
   return (
     <HeroContent
       ref={heroRef}
@@ -228,11 +248,13 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
                 {filmData?.title}
               </Typography>
               <Typography className="line-clamp-3 md:line-clamp-0 font-[Inter-Regular]  text-[#EEF1F4] text-sm md:text-base text-ellipsis select-none">
-                {filmData?.plotSummary}
+                {filmData?.type?.includes("film") ||
+                filmData?.type?.includes("series")
+                  ? filmData?.plotSummary
+                  : filmData?.overview}
               </Typography>
 
-              {filmData?.type?.toLowerCase()?.includes("series") ||
-              filmData?.type?.toLowerCase()?.includes("segment") ? (
+              {filmData?.type?.toLowerCase()?.includes("series") ? (
                 <div>
                   {filmData?.season?.length > 0 && (
                     <Typography className="font-[Inter-Regular] text-[#EEF1F4] text-sm md:text-base text-ellipsis select-none">
@@ -243,27 +265,33 @@ const UDetailHero = ({ filmData, handlePaymentModel,currentUserData, rateMutatio
                 </div>
               ) : null}
 
-              <Stack
-                direction="row"
-                className="flex flex-row items-start space-x-8 select-none"
-              >
-                <Typography className="font-[Inter-Regular] text-[#FFFAF6] text-sm md:text-base">
-                  {filmData?.yearOfProduction}
-                </Typography>
-                <ul className="font-[Inter-Regular] text-[#FFFAF6] flex list-disc w-full space-x-8 text-xs sm:text-sm md:text-base md:flex-wrap gap-y-3 items-start justify-start">
-                  <li className="w-max">{filmData?.type} </li>
+              {filmData?.type?.includes("film") ||
+              filmData?.type?.includes("series") ? (
+                <Stack
+                  direction="row"
+                  className="flex flex-row items-start space-x-8 select-none"
+                >
+                  <Typography className="font-[Inter-Regular] text-[#FFFAF6] text-sm md:text-base">
+                    {filmData?.type?.includes("film") ||
+                    filmData?.type?.includes("series")
+                      ? filmData?.yearOfProduction
+                      : filmData?.film?.yearOfProduction}
+                  </Typography>
+                  <ul className="font-[Inter-Regular] text-[#FFFAF6] flex list-disc w-full space-x-8 text-xs sm:text-sm md:text-base md:flex-wrap gap-y-3 items-start justify-start">
+                    <li className="w-max">{filmData?.type} </li>
 
-                  {filmData?.genre?.length > 0 && (
-                    <>
-                      {filmData?.genre?.map((data, index) => (
-                        <li key={index} className="w-max">
-                          {data}
-                        </li>
-                      ))}
-                    </>
-                  )}
-                </ul>
-              </Stack>
+                    {filmData?.genre?.length > 0 && (
+                      <>
+                        {filmData?.genre?.map((data, index) => (
+                          <li key={index} className="w-max">
+                            {data}
+                          </li>
+                        ))}
+                      </>
+                    )}
+                  </ul>
+                </Stack>
+              ) : null}
 
               {/** watch button */}
               <Stack

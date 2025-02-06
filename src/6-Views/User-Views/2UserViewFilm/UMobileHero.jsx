@@ -99,7 +99,7 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
      
              setBackdropUrl(() => bklink);
            }
-         } else {
+         } else if (filmData?.type?.toLowerCase()?.includes("film")) {
            if (
              filmData?.type?.toLowerCase()?.includes("film") ||
              (filmData?.type?.toLowerCase()?.includes("movie") &&
@@ -107,24 +107,32 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
            ) {
              setBackdropUrl(() => filmData?.posters[0]?.url);
            }
-         }
+         } else {
+          // console.log("posters",filmData)
+          if(filmData?.posters?.length > 0){
+            setBackdropUrl(() => filmData?.posters[0]?.url);
+          }
+        }
        }, [filmData]);
      
        React.useEffect(() => {
-         if (filmData?.video?.length > 0) {
-           filmData?.video?.filter((data) =>  {
-             if (data?.isTrailer) {
-               setTrailerUrl(() => data?.url);
-             }
-           } )
-           
-         }
-     
+        if (filmData?.type?.includes("film") || filmData?.type?.includes("series")){
+          if (filmData?.video?.length > 0) {
+            filmData?.video?.filter((data) => {
+              if (data?.isTrailer) {
+                setTrailerUrl(() => data?.url);
+              }
+            });
+          }
+        } else {
+          // console.log("filmData", filmData);
+          setTrailerUrl(() => filmData?.trailers[0]?.url);
+        }
         
        },  [filmData]);
      
        const handleOnLoad = (e) => {
-         console.log("loaded", e.target)
+        //  console.log("loaded", e.target)
          //setIsVideoPlaying(true)
          setIsVideoLoaded(true)
         videoRef.current.play()
@@ -425,7 +433,10 @@ const UMobileHero = ({ filmData, handlePaymentModel, currentUserData, rateMutati
         {/** ploat summary && cast & directors */}
         <div className="flex flex-col gap-4 w-full">
           <p className=" font-[Inter-Regular] text-whites-100 text-sm md:text-base text-ellipsis  select-none">
-            <TextClamped text={filmData?.plotSummary} lines={3} />
+            <TextClamped text={filmData?.type?.includes("film") ||
+                filmData?.type?.includes("series")
+                  ? filmData?.plotSummary
+                  : filmData?.overview} lines={3} />
           </p>
 
           <div className="flex flex-col gap-1 w-full">
