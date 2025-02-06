@@ -25,7 +25,7 @@ const UWatchList = () => {
 
   let filmsWatched =  React.useMemo(()=>{
     return watchedQuery?.data?.watchlist?.SAVED?.filter((film)=> {
-     if (film.type === "film" || film.type === "movie" ) {
+     if (film.type?.includes("film") || film.type === "movie" ) {
       return film
      }
     })
@@ -33,18 +33,21 @@ const UWatchList = () => {
 
   let showsWatched =  React.useMemo(()=>{
     return watchedQuery?.data?.watchlist?.SAVED?.filter((film)=> {
-      if (film?.type === "episode" || film?.type === "series" || film?.type !== "movie" ) {
+      if (film?.type === "episode" || film?.type === "series" || !film?.type?.includes("film") ) {
+        console.log("film", film)
        return film
       }
      })
-  },[watchedQuery?.data])
+  },[watchedQuery?.data?.watchlist?.SAVED])
+
+  console.log("showsWatched", showsWatched)
 
 
 
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
       <WebNavigation isLoggedIn={true} />
-      <Stack className="flex-col w-full h-full space-y-0">
+      <Stack className="flex-col w-full h-full space-y-0 max-w-screen-2xl m-auto">
         <div className="px-4 pt-28 md:px-16 md:pt-36">
           <UWatchTabs allWatched={allWatched} filmsWatched={filmsWatched} showsWatched={showsWatched} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage}  />
         </div>

@@ -18,15 +18,15 @@ const TabShows = ({ showsWatched, itemsPerPage, setItemsPerPage }) => {
     <Container className=" h-full relative">
       {currentItems?.length > 0 ? (
         <>
-          <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
+          {/* <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
             {currentItems?.map((data, index) => {
               return <MovieCard3 key={index} data={data} />;
             })}
-          </Stack>
+          </Stack> */}
 
-          <Stack className="flex md:hidden flex-row flex-wrap gap-5 items-center justify-center mb-10">
+          <Stack className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6  gap-3 lg:gap-5  mb-10">
             {currentItems?.map((data, index) => {
-              return <MovieCard4 key={index} data={data} />;
+              return <MovieCard4 key={index} data={data} cardType="watchlist" />;
             })}
           </Stack>
         </>

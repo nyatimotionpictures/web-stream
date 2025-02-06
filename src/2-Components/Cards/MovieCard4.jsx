@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import noImage from "../../1-Assets/no-image.svg";
 
 
-const  MovieCard4 = ({data}) => {
+const  MovieCard4 = ({data, cardType}) => {
   const [isImgBroken, setIsImgBroken] = React.useState(false);
   const [posterlink, setPosterLink] = React.useState("");
   let navigate = useNavigate();
@@ -54,7 +54,7 @@ const  MovieCard4 = ({data}) => {
    console.log("data", data);
   return (
     <MovieContainer
-    onClick={() => data?.type.includes("film") || data?.type.includes("movie")  ? navigate(`/film/${data?.id}`) : data?.type.includes("series") ? navigate(`/series/${data?.id}`) : data?.type.includes("episode") ? navigate(`/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`) : data?.type?.includes("season") ? navigate(`/segments/${data?.id}/${data?.filmId}`) : null}
+    onClick={() => data?.type.includes("film") || data?.type.includes("movie")  ? navigate(`/film/${data?.id}`) : data?.type.includes("series") ? navigate(`/series/${data?.id}`) : data?.type.includes("episode") ? navigate(`/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`) : data?.type?.includes("season") ? navigate(`/segments/${data?.id}`) : navigate(`/segments/${data?.id}`)}
       className={
         "min-h-[250px] h-max w-full  lg:h-[310px]  flex flex-col items-start gap-3 pixelated "
       }
@@ -68,6 +68,9 @@ const  MovieCard4 = ({data}) => {
         />
       </div>
 
+{
+  cardType !== "watchlist" && (
+    <>
       <div className="flex text-[#F8FAEC] text-[20px] text-center select-none relative font-[Inter-SemiBold] gap-3">
         {data?.type !== "series" && (
           <Stack direction="row" className="gap-2">
@@ -99,6 +102,10 @@ const  MovieCard4 = ({data}) => {
           { data?.type === "season" ? data?.film?.yearOfProduction : data?.yearOfProduction}
         </Typography>
       </div>
+    </>
+  )
+}
+    
     </MovieContainer>
   );
 }
