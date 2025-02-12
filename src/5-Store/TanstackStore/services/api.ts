@@ -335,8 +335,8 @@ export const makeFilmDonation = async (paymentData: any) => {
 /** make film payment */
 export const makeFilmPurchase = async (paymentData: any) => {
   try {
-    let {videoId, userId, ...rest} = paymentData;
-    const response = await apiRequest.post(`/v1/film/purchase/${userId}/${videoId}`, rest);
+    
+    const response = await apiRequest.post(`/v1/film/purchase`, paymentData);
     return response.data
     
   } catch (error) {

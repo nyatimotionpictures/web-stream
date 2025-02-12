@@ -74,8 +74,8 @@ const USeasonDetailPage = () => {
       if (seasonQuery?.data?.season) {
        console.log("seasonQuery?.data?.season", seasonQuery?.data?.season)
         
-          if (seasonQuery?.data?.season?.pricing?.length > 0) {
-            setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing[0]?.priceList);
+          if (seasonQuery?.data?.season?.pricing) {
+            setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing?.priceList);
             setErrorVideo(false);
             setErrorMessage(null);
           } else {
@@ -104,10 +104,11 @@ console.log("seasonQuery", seasonQuery?.data)
     //  alert(`form submitted ${editInfo.title}`);
     // createMutation.mutate(values)
     //handleFormSubmit()
+
     navigate("/payment", {
       state: {
-        filmId: seasonQuery?.data?.season?.id,
-        videoId: values.videoId,
+        resourceType: "season",
+        resourceId: seasonQuery?.data?.season?.id,
         resolution: values.resolution,
         resolutionInfo: values.resolutionInfo,
       },
@@ -189,6 +190,15 @@ console.log("seasonQuery", seasonQuery?.data)
 
   console.log(seasonQuery?.data?.season);
 
+  /** check purchases */
+    let videoPurchasedArray = React.useMemo(() => { 
+     return seasonQuery?.data?.season?.purchase?.filter((data) => {
+       if (data.valid){
+         return data
+       }
+     })
+    },[seasonQuery?.data?.season?.purchase])
+
   if (seasonQuery?.isLoading) {
     return (
       <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
@@ -213,7 +223,8 @@ console.log("seasonQuery", seasonQuery?.data)
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
+            videoPurchaseData={videoPurchasedArray}
           />
         ) : (
           <UDetailHero
@@ -226,7 +237,8 @@ console.log("seasonQuery", seasonQuery?.data)
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
+            videoPurchaseData={videoPurchasedArray}
           />
         )}
 
@@ -234,6 +246,8 @@ console.log("seasonQuery", seasonQuery?.data)
           <UFilmTabs
             filmData={selectedFilm}
             allSeasonData={seasonQuery?.data?.film?.season ?? []}
+            handlePaymentModel={handlePaymentModel}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
             // filmData={selectedFilm}
           />
         </div>
@@ -268,7 +282,7 @@ console.log("seasonQuery", seasonQuery?.data)
                         innerref={formRef}
                         handleStepNext={handleAPISubmission}
                         film={seasonQuery?.data?.season}
-                        pricingData={seasonQuery?.data?.season?.pricing[0]}
+                        pricingData={seasonQuery?.data?.season?.pricing}
                         allAvailableResolutions={allAvailableResolutions}
                       />
                     </div>

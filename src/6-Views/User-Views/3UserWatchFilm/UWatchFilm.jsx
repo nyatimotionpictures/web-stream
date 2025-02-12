@@ -2,8 +2,6 @@
 import React from 'react'
 import styled from 'styled-components';
 import FullCustomPlayer from './FullCustomPlayer';
-import videoTest from '../../../1-Assets/videotest/AppReview.mp4'
-import { Player } from "video-react";
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useGetFilm } from '../../../5-Store/TanstackStore/services/queries';
 import CustomLoader from '../../../2-Components/Loader/CustomLoader';

@@ -5,6 +5,7 @@ import Button from "../../../2-Components/Buttons/Button";
 import heroImg from "../../../1-Assets/Hero.png";
 import { Player } from "video-react";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
+import { formatDuration, intervalToDuration } from "date-fns";
 
 const UDetailHero = ({
   filmData,
@@ -16,6 +17,7 @@ const UDetailHero = ({
   includedInWatchlist,
   videoPurchased,
   handleWatchVideo,
+  videoPurchaseData,
 }) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
   const [showVideo, setShowVideo] = React.useState(false);
@@ -30,7 +32,6 @@ const UDetailHero = ({
   //   setShowVideo(false);
   // };
 
-  console.log(filmData);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -198,7 +199,18 @@ const UDetailHero = ({
     }
   };
 
-  console.log("filmData", filmData);
+  console.log("filmData", videoPurchaseData);
+
+  let getRemainingDays = () => {
+    let currentDate = new Date();
+
+    const duration = intervalToDuration({
+      start: currentDate,
+      end: new Date(videoPurchaseData[0]?.expiresAt),
+    });
+
+    return formatDuration(duration, { format: ["days", "hours"] });
+  };
 
   return (
     <HeroContent
@@ -322,7 +334,7 @@ const UDetailHero = ({
                 spacing={"20px"}
                 className="select-none"
               >
-                {!filmData?.videoPurchased && (
+                {!videoPurchased && (
                   <>
                     {!filmData?.type?.toLowerCase()?.includes("series") && (
                       <Stack direction="row" className="gap-2">
@@ -341,103 +353,113 @@ const UDetailHero = ({
                   </>
                 )}
 
-                <Stack className="flex flex-col-reverse gap-4 md:gap-0 md:flex-row space-x-3">
-                  {/** handle payment */}
-                  {!filmData?.type?.toLowerCase()?.includes("series") && (
-                    <>
-                      {filmData?.access?.toLowerCase()?.includes("free") ? (
+                <div className="flex flex-col gap-4">
+                  <Stack className="flex flex-col-reverse gap-4 md:gap-0 md:flex-row space-x-3">
+                    {/** handle payment */}
+                    {!filmData?.type?.toLowerCase()?.includes("series") && (
+                      <>
+                        {filmData?.access?.toLowerCase()?.includes("free") ? (
+                          <Button
+                            onClick={handleWatchVideo}
+                            className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                          >
+                            <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                            <Typography className="font-[Roboto-Regular] text-base">
+                              Watch
+                            </Typography>
+                          </Button>
+                        ) : (
+                          <>
+                            {videoPurchased ? (
+                              <Button
+                                onClick={handleWatchVideo}
+                                className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                              >
+                                <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                                <Typography className="font-[Roboto-Regular] text-base">
+                                  Watch
+                                </Typography>
+                              </Button>
+                            ) : (
+                              <Button
+                                onClick={handlePaymentModel}
+                                className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                              >
+                                <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
+                                <Typography className="font-[Roboto-Regular] text-base">
+                                  Pay to Watch
+                                </Typography>
+                              </Button>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+
+                    {/** like buttons */}
+                    <Stack direction="row" className="space-x-2">
+                      {includedInWatchlist ? (
                         <Button
-                          onClick={handleWatchVideo}
-                          className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                          onClick={handleAddToWatchlist}
+                          className="flex w-max px-2 border-2 border-primary-500 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
                         >
-                          <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
-                          <Typography className="font-[Roboto-Regular] text-base">
-                            Watch
-                          </Typography>
+                          <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
                         </Button>
                       ) : (
-                        <>
-                          {videoPurchased ? (
-                            <Button
-                              onClick={handleWatchVideo}
-                              className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                            >
-                              <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
-                              <Typography className="font-[Roboto-Regular] text-base">
-                                Watch
-                              </Typography>
-                            </Button>
-                          ) : (
-                            <Button
-                              onClick={handlePaymentModel}
-                              className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                            >
-                              <span className="icon-[solar--play-circle-linear] h-6 w-6 text-whites-40"></span>
-                              <Typography className="font-[Roboto-Regular] text-base">
-                                Pay to Watch
-                              </Typography>
-                            </Button>
-                          )}
-                        </>
+                        <Button
+                          onClick={handleAddToWatchlist}
+                          className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                        >
+                          <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
+                        </Button>
                       )}
-                    </>
-                  )}
 
-                  {/** like buttons */}
-                  <Stack direction="row" className="space-x-2">
-                    {includedInWatchlist ? (
-                      <Button
-                        onClick={handleAddToWatchlist}
-                        className="flex w-max px-2 border-2 border-primary-500 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                      >
-                        <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={handleAddToWatchlist}
-                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                      >
-                        <span className="icon-[solar--bookmark-circle-broken] h-6 w-6 text-whites-40"></span>
-                      </Button>
-                    )}
+                      {filmData?.likes[0]?.type === "THUMBS_UP" ? (
+                        <Button
+                          disabled={rateMutation.isPending ? true : false}
+                          onClick={() => handleLikes("none")}
+                          className="flex w-max px-2 py-2 items-center justify-center space-x-2 border-2 border-primary-500  rounded-full relative bg-[#706e72]"
+                        >
+                          <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
+                        </Button>
+                      ) : (
+                        <Button
+                          disabled={rateMutation.isPending ? true : false}
+                          onClick={() => handleLikes("like")}
+                          className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                        >
+                          <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
+                        </Button>
+                      )}
 
-                    {filmData?.likes[0]?.type === "THUMBS_UP" ? (
-                      <Button
-                        disabled={rateMutation.isPending ? true : false}
-                        onClick={() => handleLikes("none")}
-                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 border-2 border-primary-500  rounded-full relative bg-[#706e72]"
-                      >
-                        <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
-                      </Button>
-                    ) : (
-                      <Button
-                        disabled={rateMutation.isPending ? true : false}
-                        onClick={() => handleLikes("like")}
-                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                      >
-                        <span className="icon-[solar--like-broken] h-6 w-6 text-whites-40"></span>
-                      </Button>
-                    )}
-
-                    {filmData?.likes[0]?.type === "THUMBS_DOWN" ? (
-                      <Button
-                        disabled={rateMutation.isPending ? true : false}
-                        onClick={() => handleLikes("none")}
-                        className="flex w-max px-2 py-2 items-center justify-center border-2 border-primary-500  space-x-2 rounded-full relative bg-[#706e72]"
-                      >
-                        <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
-                      </Button>
-                    ) : (
-                      <Button
-                        disabled={rateMutation.isPending ? true : false}
-                        onClick={() => handleLikes("dislike")}
-                        className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-                      >
-                        <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
-                      </Button>
-                    )}
+                      {filmData?.likes[0]?.type === "THUMBS_DOWN" ? (
+                        <Button
+                          disabled={rateMutation.isPending ? true : false}
+                          onClick={() => handleLikes("none")}
+                          className="flex w-max px-2 py-2 items-center justify-center border-2 border-primary-500  space-x-2 rounded-full relative bg-[#706e72]"
+                        >
+                          <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
+                        </Button>
+                      ) : (
+                        <Button
+                          disabled={rateMutation.isPending ? true : false}
+                          onClick={() => handleLikes("dislike")}
+                          className="flex w-max px-2 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
+                        >
+                          <span className="icon-[solar--dislike-broken] h-6 w-6 text-whites-40"></span>
+                        </Button>
+                      )}
+                    </Stack>
                   </Stack>
-                </Stack>
+
+                  {videoPurchaseData?.length > 0 && (
+                    <Stack direction="row" className="gap-2">
+                      <Typography className="font-[Inter-Regular] text-[#FFFAF6] text-sm md:text-base">
+                        Rented Days Left: {getRemainingDays()}
+                      </Typography>
+                    </Stack>
+                  )}
+                </div>
               </Stack>
             </Stack>
           </Box>

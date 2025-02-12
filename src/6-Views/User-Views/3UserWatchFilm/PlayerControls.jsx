@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import Button from '../../../2-Components/Buttons/Button'
 import { Divider, Slider, Typography } from '@mui/material'
 import formatDuration from './formatDuration'
-import { Menu, MenuItem } from "@mui/material";
-import { current } from '@reduxjs/toolkit';
+
 
 const subtitles = [
   { id: "english", name: "English" },

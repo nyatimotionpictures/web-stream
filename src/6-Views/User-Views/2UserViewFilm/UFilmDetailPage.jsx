@@ -62,8 +62,8 @@ const UFilmDetailPage = () => {
     if (filmsQuery?.data?.film) {
       if (filmsQuery?.data?.film?.type?.toLowerCase()?.includes("film")) {
        
-        if (filmsQuery?.data?.film?.pricing?.length > 0) {
-          setAllAvailableResolutions(() => filmsQuery?.data?.film?.pricing[0]?.priceList);
+        if (filmsQuery?.data?.film?.pricing) {
+          setAllAvailableResolutions(() => filmsQuery?.data?.film?.pricing?.priceList);
           setErrorVideo(false);
           setErrorMessage(null);
         } else {
@@ -94,8 +94,8 @@ const UFilmDetailPage = () => {
     //handleFormSubmit()
     navigate("/payment", {
       state: {
-        filmId: filmsQuery?.data?.film?.id,
-        videoId: values.videoId,
+        resourceType: "film",
+        resourceId: filmsQuery?.data?.film?.id,
         resolution: values.resolution,
         resolutionInfo: values.resolutionInfo,
       },
@@ -176,6 +176,16 @@ const UFilmDetailPage = () => {
 
   console.log(filmsQuery?.data?.film);
 
+
+  let videoPurchasedArray = React.useMemo(() => { 
+   return filmsQuery?.data?.film?.purchase?.filter((data) => {
+     if (data.valid){
+       return data
+     }
+   })
+  },[filmsQuery?.data?.film?.purchase])
+
+  console.log("videoPurchasedArray", videoPurchasedArray)
   if (filmsQuery?.isLoading) {
     return (
       <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
@@ -199,7 +209,8 @@ const UFilmDetailPage = () => {
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={filmsQuery?.data?.film?.videoPurchased}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
+            videoPurchaseData={videoPurchasedArray}
           />
         ) : (
           <UDetailHero
@@ -212,7 +223,8 @@ const UFilmDetailPage = () => {
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={filmsQuery?.data?.film?.videoPurchased}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
+            videoPurchaseData={videoPurchasedArray}
           />
         )}
 
@@ -253,7 +265,7 @@ const UFilmDetailPage = () => {
                         innerref={formRef}
                         handleStepNext={handleAPISubmission}
                         film={filmsQuery?.data?.film}
-                        pricingData={filmsQuery?.data?.film?.pricing[0]}
+                        pricingData={filmsQuery?.data?.film?.pricing}
                         allAvailableResolutions={allAvailableResolutions}
                       />
                     </div>
