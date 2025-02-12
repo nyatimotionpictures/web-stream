@@ -190,6 +190,15 @@ console.log("seasonQuery", seasonQuery?.data)
 
   console.log(seasonQuery?.data?.season);
 
+  /** check purchases */
+    let videoPurchasedArray = React.useMemo(() => { 
+     return seasonQuery?.data?.season?.purchase?.filter((data) => {
+       if (data.valid){
+         return data
+       }
+     })
+    },[seasonQuery?.data?.season?.purchase])
+
   if (seasonQuery?.isLoading) {
     return (
       <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
@@ -214,7 +223,8 @@ console.log("seasonQuery", seasonQuery?.data)
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
+            videoPurchaseData={videoPurchasedArray}
           />
         ) : (
           <UDetailHero
@@ -227,7 +237,8 @@ console.log("seasonQuery", seasonQuery?.data)
             removeFromWatchlistMutation={removeFromWatchlistMutation}
             includedInWatchlist={includedInWatchlist}
             handleWatchVideo={handleWatchVideo}
-            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
+            videoPurchaseData={videoPurchasedArray}
           />
         )}
 
@@ -236,7 +247,7 @@ console.log("seasonQuery", seasonQuery?.data)
             filmData={selectedFilm}
             allSeasonData={seasonQuery?.data?.film?.season ?? []}
             handlePaymentModel={handlePaymentModel}
-            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
+            videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
             // filmData={selectedFilm}
           />
         </div>
