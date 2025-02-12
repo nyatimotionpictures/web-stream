@@ -56,6 +56,7 @@ const FilmPayment = () => {
   }, [userData.currentUser?.user.id]);
 
   React.useEffect(() => {
+    console.log("location.state?.resourceType", location.state?.resourceType)
     if (location.state?.resourceType === "film") {
       if (filmsQuery?.data?.film) {
      
