@@ -32,10 +32,11 @@ import PesaPalPayments from "./6-Views/User-Views/10PesaPal/PesaPalPayments.jsx"
 import PesaSuccess from "./6-Views/User-Views/10PesaPal/PesaSuccess.jsx";
 import PesaCancel from "./6-Views/User-Views/10PesaPal/PesaCancel.jsx";
 import USeasonDetailPage from "./6-Views/User-Views/2UserViewFilm/USeasonDetailPage.jsx";
-import TestPlayerCaptions from "./6-Views/User-Views/3UserWatchFilm/TestPlayerCaptions.jsx";
+// import TestPlayerCaptions from "./6-Views/User-Views/3UserWatchFilm/TestPlayerCaptions.jsx";
 import MainDonationPage from "./6-Views/User-Views/13Donations/MainDonationPage.jsx";
 import IndividualFilmDonate from "./6-Views/User-Views/14FilmDonations/IndividualFilmDonate.jsx";
 import GeneralDonationValidation from "./6-Views/User-Views/9PaymentValidations/GeneralDonationValidation.jsx";
+import UWatchSeries from "./6-Views/User-Views/3UserWatchSeries/UWatchSeries.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -73,6 +74,7 @@ function App() {
               <Route path="/pesapay/cancel" element={<PesaCancel />} />
 
               <Route path="/watch/:id" element={<UWatchFilm />} />
+              <Route path="/watch/s/:id" element={<UWatchSeries />} />
 
               {/* <Route path="/testplayer" element={<TestPlayerCaptions />} /> */}
 

@@ -66,7 +66,7 @@ const UVideoResolutionForm = ({ innerref, handleStepNext, film, allAvailableReso
 
               <p className="font-[Roboto-Regular] text-lg text-whites-40 text-opacity-60">
                 Choose the video quality that suits your device and proceed to
-                payment to watch the film.
+                payment to watch the {film?.type?.includes("film") ? "film" : "all the episodes"}.
               </p>
             </div>
 

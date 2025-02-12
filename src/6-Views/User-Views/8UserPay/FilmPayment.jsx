@@ -5,7 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { useGetFilm } from "../../../5-Store/TanstackStore/services/queries";
+import { useGetFilm, useGetSeason } from "../../../5-Store/TanstackStore/services/queries";
 import { Alert, Snackbar, Typography } from "@mui/material";
 import Mtnlogo from "../../../1-Assets/logos/MtnMomo.png";
 import AirtelLogo from "../../../1-Assets/logos/airtel.png";
@@ -39,10 +39,13 @@ const FilmPayment = () => {
   console.log("params", location);
   // let search = params?.state;
   // console.log("search", search);
-  const filmsQuery = useGetFilm(location.state?.filmId);
+  const filmsQuery = useGetFilm(location.state?.resourceId);
+  const seasonsQuery = useGetSeason(location.state?.resourceId);
   let navigate = useNavigate();
 
   console.log("filmsQuery", filmsQuery?.data?.film);
+
+  console.log("seasonsQuery", seasonsQuery?.data?.season);
 
   React.useEffect(() => {
     if (userData.currentUser !== null) {
@@ -53,33 +56,9 @@ const FilmPayment = () => {
   }, [userData.currentUser?.user.id]);
 
   React.useEffect(() => {
-    if (filmsQuery?.data?.film) {
-      if (filmsQuery?.data?.film?.type === "series") {
-        let checkSeason = filmsQuery?.data?.film?.season?.filter(
-          (data) => data?.id === location?.state?.seasonId
-        );
-
-        if (checkSeason?.length > 0) {
-          let checkEpisode = checkSeason[0]?.episodes
-            ?.filter((data) => data?.id === location?.state?.episodeId)
-            .map((data) => ({ ...data, type: "episode" }));
-
-          if (checkEpisode?.length > 0) {
-            setSelectedFilm(() => checkEpisode[0]);
-
-            let filteredPosters = checkEpisode[0]?.posters?.filter((data) => {
-              if (data.isCover) {
-                return data;
-              }
-            });
-            setPosterCover(() => filteredPosters);
-          } else {
-            setErrorVideo(true);
-            setErrorMessage("No videos available");
-          }
-        } else {
-        }
-      } else {
+    if (location.state?.resourceType === "film") {
+      if (filmsQuery?.data?.film) {
+     
         let filteredPosters = filmsQuery?.data?.film?.posters?.filter(
           (data) => {
             if (data.isCover) {
@@ -89,13 +68,39 @@ const FilmPayment = () => {
         );
         setPosterCover(() => filteredPosters);
       }
-    }
-  }, [filmsQuery?.data?.film]);
 
+    }else {
+      if (seasonsQuery?.data?.season){
+        let filteredPosters = seasonsQuery?.data?.season?.posters?.filter(
+          (data) => {
+            if (data.isCover) {
+              return data;
+            }
+          }
+        );
+        setPosterCover(() => filteredPosters);
+      }
+    
+    
+    }
+   
+    
+  }, [filmsQuery?.data?.film, seasonsQuery?.data?.season]);
+
+  //userId
+  //option
+  //resourceId
+  //paymentNumber
+  //resolution
+  //type
   const initialValues = {
+    userId: currentUserData?.id,
+    resourceId: location.state?.resourceId,
+    resolution: location.state?.resolution?.toUpperCase(),
+    resourceType: location.state?.resourceType,
     option: "",
     paymentNumber: "",
-    phoneCode: "",
+    // phoneCode: "",
     //  phoneNumber: "",
     type: "streamWeb",
   };
@@ -103,7 +108,7 @@ const FilmPayment = () => {
   const validationSchema = yup.object().shape({
     option: yup.string().required("required"),
     paymentNumber: yup.string().required("required"),
-    phoneCode: yup.string().required("required"),
+    // phoneCode: yup.string().required("required"),
     //    phoneNumber: yup.string().required("required"),
   });
 
@@ -115,8 +120,9 @@ const FilmPayment = () => {
       setSnackbarMessage({ message: data.message, severity: "success" });
 
       if (variables.option === "mtnmomo") {
-        let path = filmsQuery?.data?.film?.type === "series" ? `/episode/${location?.state?.episodeId}/${filmsQuery?.data?.film?.id}/${location?.state?.seasonId}` : `/film/${filmsQuery?.data?.film?.id}`;
+        // let path = filmsQuery?.data?.film?.type === "season" ? `/episode/${location?.state?.episodeId}/${filmsQuery?.data?.film?.id}/${location?.state?.seasonId}` : `/film/${filmsQuery?.data?.film?.id}`;
 
+        let path = location.state?.resourceType === "film" ? `/film/${filmsQuery?.data?.film?.id}` : `/segment/${seasonsQuery?.data?.season?.id}`;
         localStorage.setItem("filmPath", path )
         navigate("/payment/validate/" + data?.orderTrackingId, {
           state: {
@@ -127,7 +133,10 @@ const FilmPayment = () => {
         });
       } else {
     
-        let path = filmsQuery?.data?.film?.type === "series" ? `/episode/${location?.state?.episodeId}/${filmsQuery?.data?.film?.id}/${location?.state?.seasonId}` : `/film/${filmsQuery?.data?.film?.id}`;
+        // let path = filmsQuery?.data?.film?.type === "series" ? `/episode/${location?.state?.episodeId}/${filmsQuery?.data?.film?.id}/${location?.state?.seasonId}` : `/film/${filmsQuery?.data?.film?.id}`;
+
+
+        let path = location.state?.resourceType === "film" ? `/film/${filmsQuery?.data?.film?.id}` : `/segment/${seasonsQuery?.data?.season?.id}`;
 
         localStorage.setItem("filmPath", path )
         navigate("/process/pesapal", {
@@ -158,11 +167,11 @@ const FilmPayment = () => {
             // mutation.mutate(values);
             let newValues = {
               ...values,
-              videoId: location.state?.videoId,
+              paymentNumber: `+${values.paymentNumber}`,
               userId: currentUserData?.id,
             };
             handlePayMutation.mutate(newValues);
-            // console.log("values", newValues);
+            //console.log("values", newValues);
           }}
         >
           {({
@@ -190,7 +199,7 @@ const FilmPayment = () => {
                       </div>
                       <div className="flex flex-col gap-2">
                         <h1 className="font-[Inter-Regular] text-base md:text-2xl text-whites-100 ">
-                          Rent: {selectedFilm?.title}
+                          Rent: { location.state?.resourceType === "film" ? filmsQuery?.data?.film?.title : seasonsQuery?.data?.season?.title}
                         </h1>
                         <p className="font-[Inter-Regular] text-sm md:text-base text-whites-100 ">
                           Duration: 72 hours (3 days)
@@ -333,15 +342,16 @@ const FilmPayment = () => {
                                 } else {
                                   //  console.log( phone)
                                   let slicedPhone = phone;
-                                  setFieldValue(
-                                    "phoneCode",
-                                    `+${country.dialCode}`
-                                  );
-                                  setFieldValue(
-                                    "paymentNumber",
-                                    slicedPhone.slice(country.dialCode.length)
-                                  );
-                                  // setFieldValue("phoneNumber", phone);
+                                  // setFieldValue(
+                                  //   "phoneCode",
+                                  //   `+${country.dialCode}`
+                                  // );
+                                  // setFieldValue(
+                                  //   "paymentNumber",
+                                  //   slicedPhone.slice(country.dialCode.length)
+                                  // );
+                                  //  setFieldValue("paymentNumber", `+${country.dialCode}${slicedPhone.slice(country.dialCode.length)}`);
+                                   setFieldValue("paymentNumber", phone);
                                 }
                               }}
                               inputProps={{

@@ -2,11 +2,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import EpisodeContent from '../Cards/EpisodeContent';
-import { Autocomplete, Select, Stack, TextField, Typography } from '@mui/material';
-import CustomStack from '../Stacks/CustomStack';
-import { FormContainer } from '../Stacks/InputFormStack';
-
-
+import { Stack, Typography } from '@mui/material';
 
 
 const EpisodeTab = ({
@@ -14,6 +10,8 @@ const EpisodeTab = ({
     openModal,
     setSelectedTrailer,
     openLocalModal,
+    handlePaymentModel,
+    
 }) => {
     const [seasonData, setSeasonData] = React.useState([]);
     const [selectedSeason, setSelectedSeason] = React.useState(null);
@@ -83,6 +81,7 @@ const EpisodeTab = ({
                     episodedata={data}
                     setSelectedTrailer={setSelectedTrailer}
                     openLocalModal={openLocalModal}
+                    handlePaymentModel={handlePaymentModel}
                   />
                 );
               })}

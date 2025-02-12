@@ -74,8 +74,8 @@ const USeasonDetailPage = () => {
       if (seasonQuery?.data?.season) {
        console.log("seasonQuery?.data?.season", seasonQuery?.data?.season)
         
-          if (seasonQuery?.data?.season?.pricing?.length > 0) {
-            setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing[0]?.priceList);
+          if (seasonQuery?.data?.season?.pricing) {
+            setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing?.priceList);
             setErrorVideo(false);
             setErrorMessage(null);
           } else {
@@ -104,10 +104,11 @@ console.log("seasonQuery", seasonQuery?.data)
     //  alert(`form submitted ${editInfo.title}`);
     // createMutation.mutate(values)
     //handleFormSubmit()
+
     navigate("/payment", {
       state: {
-        filmId: seasonQuery?.data?.season?.id,
-        videoId: values.videoId,
+        resourceType: "season",
+        resourceId: seasonQuery?.data?.season?.id,
         resolution: values.resolution,
         resolutionInfo: values.resolutionInfo,
       },
@@ -234,6 +235,8 @@ console.log("seasonQuery", seasonQuery?.data)
           <UFilmTabs
             filmData={selectedFilm}
             allSeasonData={seasonQuery?.data?.film?.season ?? []}
+            handlePaymentModel={handlePaymentModel}
+            videoPurchased={seasonQuery?.data?.season?.videoPurchased}
             // filmData={selectedFilm}
           />
         </div>
@@ -268,7 +271,7 @@ console.log("seasonQuery", seasonQuery?.data)
                         innerref={formRef}
                         handleStepNext={handleAPISubmission}
                         film={seasonQuery?.data?.season}
-                        pricingData={seasonQuery?.data?.season?.pricing[0]}
+                        pricingData={seasonQuery?.data?.season?.pricing}
                         allAvailableResolutions={allAvailableResolutions}
                       />
                     </div>

@@ -9,65 +9,37 @@ import TextClamped from "../Stacks/TextClamped";
 const EpisodeContent = ({
   seasondata,
   episodedata,
-  openModal,
-  setSelectedTrailer,
-  openLocalModal,
+  handlePaymentModel
 }) => {
-  const [trailerLink, setTrailerLink] = React.useState(null);
-  const [playActions, setPlayActions] = React.useState(false);
   let navigate = useNavigate();
+  const [isPurchased, setIsPurchased] = React.useState(false);
 
   let ref = React.useRef();
 
   console.log(seasondata, episodedata);
 
-  React.useEffect(() => {
-    const handler = (event) => {
-      if (playActions && ref.current && !ref.current.contains(event.target)) {
-        setPlayActions(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    document.addEventListener("touchstart", handler);
-
-    return () => {
-      document.removeEventListener("mousedown", handler);
-      document.removeEventListener("touchstart", handler);
-    };
-  }, [playActions]);
-
-  const onMouseEnter = () => {
-    window.innerWidth > 960 && setPlayActions(true);
-  };
-
-  const onMouseLeave = () => {
-    window.innerWidth > 960 && setPlayActions(false);
-  };
-
-  React.useEffect(() => {
-    //console.log(episodedata?.youtubeTrailer)
-    if (episodedata?.youtubeTrailer !== " ") {
-      setTrailerLink(() => episodedata?.youtubeTrailer);
-    } else {
-      setTrailerLink(null);
+React.useEffect(() => {
+  console.log(seasondata);
+  console.log(episodedata)
+  if (seasondata?.access !== "rent") {
+    if (seasondata?.videoPurchased) {
+      setIsPurchased(true);
+    }else {
+      setIsPurchased(false);
     }
-  }, [episodedata]);
-
-  // console.log(trailerLink);
-  const playTrailer = () => {
-    if (trailerLink !== null) {
-      window.location.href = trailerLink;
-    }
-  };
+  }else {
+    setIsPurchased(true);
+  }
+  
+  }, [seasondata?.videoPurchased]);
 
   return (
     <Stack
       className="flex-col md:flex-row w-full xs:w-[280px] gap-6 sm:w-full h-max justify-start items-start"
       ref={ref}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+    
     >
-      <div className="flex justify-start  items-start w-full sm:max-w-[338px] max-h-[250px] relative rounded-lg overflow-hidden">
+      <div onClick={() => isPurchased ? navigate(`/watch/s/${seasondata?.id}?ep=${episodedata?.id}`) : handlePaymentModel()} className="flex justify-start  items-start w-full sm:max-w-[338px] max-h-[250px] relative rounded-lg overflow-hidden">
         <img
           src={
             episodedata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""
@@ -100,23 +72,7 @@ const EpisodeContent = ({
             <TextClamped text={episodedata?.plotSummary} lines={3} />
           </Typography>
         </Stack>
-        {/* <Stack spacing={"24px"}>
-            <Stack spacing={"20px"} className="flex flex-row">
-              <Button
-                onClick={() =>
-                    navigate(`/episode/${episodedata?.id}/${seasondata?.filmId}/${seasondata?.id}`)
- 
-                }
-               className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
-              >
-                <span className="icon-[solar--info-circle-outline] h-6 w-6 text-whites-40"></span>
-                <Typography className="font-[Roboto-Regular] text-base">
-                  More Details
-                </Typography>
-              </Button>
-
-            </Stack>
-          </Stack> */}
+       
       </Stack>
     </Stack>
   );

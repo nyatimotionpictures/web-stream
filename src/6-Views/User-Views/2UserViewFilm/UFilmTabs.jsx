@@ -10,7 +10,7 @@ import ExploreTab from "../../../2-Components/TabLists/ExploreTab";
 import SegmentTab from "../../../2-Components/TabLists/SegmentTab";
 
 
-const UFilmTabs = ({ filmData, allSeasonData }) => {
+const UFilmTabs = ({ filmData, allSeasonData, handlePaymentModel, videoPurchased }) => {
     const [filmType, setFilmType] = React.useState(null);
     const [loadingFilmData, setLoadingFilmData] = React.useState(true);
     const [currentTabValue, setCurrentTabValue] = React.useState(null);
@@ -105,7 +105,7 @@ const UFilmTabs = ({ filmData, allSeasonData }) => {
           case "Segments":
           return <SegmentTab filmdata={filmData} loggedIn={true} />;
         case "Episodes":
-          return <EpisodeTab filmdata={filmData} loggedIn={true} />;
+          return <EpisodeTab filmdata={filmData} loggedIn={true} handlePaymentModel={handlePaymentModel} videoPurchased={videoPurchased} />;
         case "Explore":
           return <ExploreTab filmdata={filmData} loggedIn={true} />;
         default:
