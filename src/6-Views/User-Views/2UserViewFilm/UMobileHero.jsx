@@ -5,7 +5,7 @@ import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import TextClamped from "../../../2-Components/Stacks/TextClamped";
 import { useNavigate } from "react-router-dom";
-import { formatDuration, intervalToDuration } from "date-fns";
+import GetRemainingDays from "./GetRemainingDays";
 
 const UMobileHero = ({
   filmData,
@@ -267,17 +267,7 @@ const UMobileHero = ({
     }
   };
 
-  //get remaining rental days
-  let getRemainingDays = () => {
-    let currentDate = new Date();
 
-    const duration = intervalToDuration({
-      start: currentDate,
-      end: new Date(videoPurchaseData[0]?.expiresAt),
-    });
-
-    return formatDuration(duration, { format: ["days", "hours"] });
-  };
 
   return (
     <div
@@ -577,11 +567,7 @@ const UMobileHero = ({
         </div>
 
         {videoPurchaseData?.length > 0 && (
-          <Stack direction="row" className="gap-2 mt-2">
-            <Typography className="font-[Inter-Regular] text-[#FFFAF6] text-sm md:text-base">
-              Rented Days Left: {getRemainingDays()}
-            </Typography>
-          </Stack>
+          <GetRemainingDays expiryDate={videoPurchaseData[0]?.expiresAt} />
         )}
       </div>
 

@@ -6,6 +6,7 @@ import heroImg from "../../../1-Assets/Hero.png";
 import { Player } from "video-react";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import { formatDuration, intervalToDuration } from "date-fns";
+import GetRemainingDays from "./GetRemainingDays";
 
 const UDetailHero = ({
   filmData,
@@ -199,18 +200,9 @@ const UDetailHero = ({
     }
   };
 
-  console.log("filmData", videoPurchaseData);
+  console.log("filmData", videoPurchaseData[0]?.expiresAt);
 
-  let getRemainingDays = () => {
-    let currentDate = new Date();
-
-    const duration = intervalToDuration({
-      start: currentDate,
-      end: new Date(videoPurchaseData[0]?.expiresAt),
-    });
-
-    return formatDuration(duration, { format: ["days", "hours"] });
-  };
+  
 
   return (
     <HeroContent
@@ -453,11 +445,7 @@ const UDetailHero = ({
                   </Stack>
 
                   {videoPurchaseData?.length > 0 && (
-                    <Stack direction="row" className="gap-2">
-                      <Typography className="font-[Inter-Regular] text-[#FFFAF6] text-sm md:text-base">
-                        Rented Days Left: {getRemainingDays()}
-                      </Typography>
-                    </Stack>
+                   <GetRemainingDays expiryDate={videoPurchaseData[0]?.expiresAt} />
                   )}
                 </div>
               </Stack>

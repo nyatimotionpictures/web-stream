@@ -19,6 +19,7 @@ const UWatchSeries = () => {
   const [allEpisodes, setAllEpisodes] = React.useState([]);
   const [allVideos, setAllVideos] = React.useState([]);
   const [isCheckingAccess, setCheckingAccess] = React.useState(true);
+   const [purchasedData, setPurchasedData] = React.useState(null);
 
   const [errorVideo, setErrorVideo] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
@@ -34,7 +35,7 @@ const UWatchSeries = () => {
   const handleCheckingVideo = () => {
     if (data?.season && !isPending) {
       //free
-      if (!data?.season?.access?.includes("free")) {
+      if (data?.season?.access?.includes("free")) {
         let sortedEpisodes = data?.season?.episodes.sort((a, b) => {
           return a.episode - b.episode;
         });
@@ -99,7 +100,6 @@ const UWatchSeries = () => {
 
   const handleNextEpisode = (index) => {
     let episode = allEpisodes[index];
-console.log("episode", episode,)
     setEpisodeIndex(index);
     setEpisodeData(episode);
     handleEpisodeChange(episode?.id);
@@ -118,7 +118,7 @@ console.log("episode", episode,)
 
   return (
     <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
-      <SeriesFullCustomPlayer filmData={episodeData} allVideos={allVideos} videoSrc={selectedVideoUrl} handleResolution={handleResolution} handleNextEpisode={handleNextEpisode} episodeIndex={episodeIndex} allEpisodes={allEpisodes}   />
+      <SeriesFullCustomPlayer purchasedData={purchasedData} filmData={episodeData} allVideos={allVideos} videoSrc={selectedVideoUrl} handleResolution={handleResolution} handleNextEpisode={handleNextEpisode} episodeIndex={episodeIndex} allEpisodes={allEpisodes}   />
       {isCheckingAccess && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
           <div className="w-full h-full flex flex-col justify-center items-center ">

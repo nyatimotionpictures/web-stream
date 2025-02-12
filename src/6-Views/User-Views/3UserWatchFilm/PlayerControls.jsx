@@ -10,7 +10,7 @@ const subtitles = [
   { id: "french", name: "French" },
 ];
 
-const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying,handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading,  subtitle = "off", handleExitFullScreen }) => {
+const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying, setIsVideoPlaying, handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading,  subtitle = "off", handleExitFullScreen,  }) => {
   //  const [volumestate, setVolumeState] = React.useState(40);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isSubtitleMenuOpen, setIsSubtitleMenuOpen] = React.useState(false);
@@ -18,18 +18,6 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     let volumeRef = React.useRef()
 
-    React.useEffect(()=>{
-
-    },[])
-
-    // const handleVolumeChange = (e) => {
-    //     setVolumeState(e.target.value)
-    // }
-
-    // const handleSettingsClick = (event) => {
-    //   setAnchorEl(event.currentTarget);
-    // };
-  
     const handleMenuClose = () => {
       setAnchorEl(null);
     };
@@ -37,19 +25,24 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
     const handleResolutionChange = (video) => {
       if(videoRef.current){
 
-        const currentTime = videoRef.current.currentTime; // Save current time
-        const isPlaying = !videoRef.current.paused;
+        // const currentTime = videoRef.current.currentTime; // Save current time
+        // const isPlaying = !videoRef.current.paused;
 
+        setIsVideoPlaying(false);
         handleResolution(video);
         setIsLoading(true);
 
         videoRef.current.onloadedmetadata = () => {
-          videoRef.current.currentTime = currentTime; // Restore playback time
-          if (isPlaying) videoRef.current.play(); // Resume playback if it was playing
+         // videoRef.current.currentTime = currentTime; // Restore playback time
+         // if (isPlaying) videoRef.current.play(); // Resume playback if it was playing
+         videoRef.current.play();
+          setIsVideoPlaying(true);
           setIsLoading(false);
         };
       }
-      
+      setIsMenuOpen(!isMenuOpen);
+      setIsSubtitleMenuOpen(false);
+      setIsQualityMenuOpen(false);
       setAnchorEl(null);
     };
 
@@ -150,13 +143,14 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
           {/** timeline */}
           <Typography className="text-whites-40 font-[Roboto-Regular] hidden sm:flex md:text-base">
             {formatDuration(currentTime) ?? "0:00"} /{" "}
-            {formatDuration(duration) ?? "0:00:00"}
+            {duration ? formatDuration(duration) : "0:00"}
           </Typography>
         </div>
       </div>
 
       {/** settings & resize */}
       <div className="flex flex-row gap-4 items-center">
+        {/** settings menu */}
       {isMenuOpen && (
           <div
             id="multi-dropdown"
@@ -198,7 +192,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
                   <div className="flex flex-row items-center gap-1 ">
                     <p className="text-white text-xs ">
-                      {subtitle !== "Off" ? subtitle : "Off"}
+                    {videoSrc?.resolution}
                     </p>
                     {/** icon- arrow left */}
                     <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-whites-40"></span>
@@ -371,42 +365,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
             </span>
           </div>
         </Button>
-        {/* <Button id="basic-button" aria-controls={isMenuOpen ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={isMenuOpen ? 'true' : undefined} onClick={handleSettingsClick} className="basic-button flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40 relative ">
-          <span className="icon-[solar--settings-bold] h-6 w-6  text-whites-40"></span>
-          <div className='absolute -top-2 -right-2 w-max h-max flex flex-col justify-center items-center px-1 py-1 bg-opacity-90 bg-primary-500 rounded-full'><span className=" text-whites-40 text-[9px] font-[Inter-Bold] uppercase">
-            {
-              videoSrc?.resolution
-            }
-            </span></div>
-        </Button>
-
-    
-        <Menu
-        id="basic-menu"
-          anchorEl={anchorEl}
-          open={isMenuOpen}
-          onClose={handleMenuClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          {
-            allVideos.map((data, index) => {
-              return (
-                <MenuItem key={index} onClick={() => handleResolutionChange({...data, currentTime: currentTime})}>{data.resolution}</MenuItem>
-              );
-            })
-          }
-          
-        </Menu> */}
+     
         
         {/** full screen */}
 
@@ -431,16 +390,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
           </Button>
           )
         }
-        {/* <Button
-          onClick={handleFullScreen}
-          className="flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40  "
-        >
-          {isFullScreen ? (
-            <span className="icon-[solar--quit-full-screen-linear] h-6 w-6  text-whites-40"></span>
-          ) : (
-            <span className="icon-[solar--full-screen-linear] h-6 w-6  text-whites-40"></span>
-          )}
-        </Button> */}
+        
       </div>
     </div>
   );

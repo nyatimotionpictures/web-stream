@@ -17,7 +17,7 @@ const UPurchaseTabs = ({allPurchased, filmsPurchased, showsPurchased, itemsPerPa
         position: "one",
       },
       {
-        title: "Movies",
+        title: "Films",
         position: "two",
       },
       {
@@ -30,7 +30,7 @@ const UPurchaseTabs = ({allPurchased, filmsPurchased, showsPurchased, itemsPerPa
       switch (datakey) {
         case "All":
           return <PTabAll allPurchased={allPurchased} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
-        case "Movies":
+        case "Films":
           return <PTabMovies filmsPurchased={filmsPurchased} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
         case "TV shows":
           return <PTabShows showsPurchased={showsPurchased} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} loggedIn={true} />;
