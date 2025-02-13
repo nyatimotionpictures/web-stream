@@ -180,6 +180,20 @@ const SeriesFullCustomPlayer = ({
     setIsLoading(false); // Hide loader after playback
   };
 
+    // Handle episode end
+    const handleVideoEnd = () => {
+      if (allEpisodes[episodeIndex + 1] !== undefined) {
+        // setCurrentEpisodeIndex(currentEpisodeIndex + 1);
+        handleNextEpisode(episodeIndex + 1)
+        localStorage.removeItem(episodeKey);
+      } else {
+        setIsVideoPlaying(false);
+        videoRef.current.pause();
+        //setIsVideoEnded(true); // No more episodes, mark video as ended
+        localStorage.removeItem(episodeKey);
+      }
+    };
+
   React.useEffect(() => {
     if (videoRef?.current) {
       screen?.orientation.lock("landscape-primary");
@@ -213,7 +227,7 @@ const SeriesFullCustomPlayer = ({
             muted={isVideoMuted}
             onWaiting={handleBuffering}
             onPlaying={handleOnPlaying}
-
+            onEnded={handleVideoEnd}
             //onPlay={handleVideoPlayed}
             //onPause={handleVideoPaused}
           ></video>

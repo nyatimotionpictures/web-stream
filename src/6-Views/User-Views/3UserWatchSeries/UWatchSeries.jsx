@@ -42,16 +42,17 @@ const UWatchSeries = () => {
         console.log("sortedEpisodes", sortedEpisodes)
 
         let allEpisodeData = sortedEpisodes.filter((data) => data?.visibility === 'published');
-        console.log("sortedEpisodes", allEpisodeData);
+        // console.log("sortedEpisodes", allEpisodeData);
         setAllEpisodes(allEpisodeData);
         //look for episode
         if (episodeId) {
-          console.log("here")
+          // console.log("here", episodeId)
           let episodeDataDetail = allEpisodeData.find((episode) => {
-            if (episode.id !== episodeId) {
+            if (episode.id === episodeId) {
               return episode;
             }
           });
+          setEpisodeIndex(allEpisodeData.indexOf(episodeDataDetail));
           console.log("wp", episodeDataDetail)
           if (episodeDataDetail && episodeDataDetail?.video?.length > 0) {
             setAllVideos(episodeDataDetail.video);
@@ -90,6 +91,42 @@ const UWatchSeries = () => {
         }
       } else {
         console.log("not free", data?.season?.access);
+        let purchasedArray = data?.season?.purchase?.filter((data)=>{
+          if(data.valid){
+            return data
+          }
+        });
+
+        if(purchasedArray?.length > 0){
+          setPurchasedData(purchasedArray);
+          let resolutionsPurchased = purchasedArray[0].resolutions;
+          let sortedEpisodes = data?.season?.episodes.sort((a, b) => {
+            return a.episode - b.episode;
+          });
+
+          let allEpisodeData = sortedEpisodes.filter((epdata) => epdata?.visibility === 'published');
+
+          let resolutionDataArray = allEpisodeData.filter((allepdata)=> {
+             return allepdata.videos.filter((video)=>{
+              if(resolutionsPurchased.includes(video.resolution) && !video.isTrailer){
+                return video
+              }
+            })
+          });
+
+          console.log("resolutionDataArray", resolutionDataArray);
+
+          if(resolutionDataArray.length > 0){
+            setAllEpisodes(resolutionDataArray);
+            setEpisodeData(resolutionDataArray[0]);
+            setSelectedVideoUrl(resolutionDataArray[0].videos[0]);
+            setCheckingAccess(false);
+          }else {
+            setErrorVideo(true);
+            setErrorMessage("Episode not found or Videos not Found");
+            setCheckingAccess(false);
+          }
+        }
       }
     }
   };
