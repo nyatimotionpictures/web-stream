@@ -183,6 +183,8 @@ const SeriesFullCustomPlayer = ({
     // Handle episode end
     const handleVideoEnd = () => {
       if (allEpisodes[episodeIndex + 1] !== undefined) {
+        setIsVideoPlaying(false);
+        videoRef.current.pause();
         // setCurrentEpisodeIndex(currentEpisodeIndex + 1);
         handleNextEpisode(episodeIndex + 1)
         localStorage.removeItem(episodeKey);

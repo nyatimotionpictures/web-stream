@@ -38,7 +38,7 @@ const PaymentSuccessful = () => {
     <div className="w-full relative flex justify-center items-center ">
       <Button
         className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base"
-        onClick={() => navigate(`${location.state.path}`, {replace: true}) }
+        onClick={() => navigate(`${location.state?.filmPath}`, {replace: true}) }
       >
         Continue
       </Button>
