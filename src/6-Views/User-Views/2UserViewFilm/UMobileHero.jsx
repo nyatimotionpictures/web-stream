@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Box, Slider, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Slider, Stack, Typography } from "@mui/material";
 import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import TextClamped from "../../../2-Components/Stacks/TextClamped";
@@ -256,18 +256,24 @@ const UMobileHero = ({
       addToWatchlistMutation.mutate({
         resourceId: filmData?.id,
         userId: currentUserData?.id,
-        type: filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
+        type: filmData?.type?.includes("film")
+          ? "film"
+          : filmData?.type?.includes("series")
+          ? "film"
+          : "season",
       });
     } else {
       addToWatchlistMutation.mutate({
         resourceId: filmData?.id,
         userId: currentUserData?.id,
-        type: filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
+        type: filmData?.type?.includes("film")
+          ? "film"
+          : filmData?.type?.includes("series")
+          ? "film"
+          : "season",
       });
     }
   };
-
-
 
   return (
     <div
@@ -306,14 +312,14 @@ const UMobileHero = ({
               {isVideoLoaded ? (
                 <Button
                   onClick={togglePlayPause}
-                  className={` flex-col justify-center items-start px-2 py-2  max-w-max h-full bg-secondary-300 bg-opacity-40 rounded-full ${
+                  className={` flex-col justify-center items-start px-2 py-2   max-w-max h-full bg-secondary-300 bg-opacity-40 rounded-full ${
                     controlsVisible || videoRef?.current?.paused
                       ? "flex"
                       : "hidden"
                   }`}
                 >
                   {isVideoPlaying ? (
-                    <span className="icon-[solar--pause-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                    <span className="icon-[solar--pause-bold] flex  h-10 w-10 text-whites-40 hover:text-whites-40"></span>
                   ) : (
                     <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
                   )}
@@ -337,24 +343,29 @@ const UMobileHero = ({
             </div>
             {/** Close Button */}
             <div className="absolute flex right-2 top-2 z-50 w-max  h-max   ">
-              <div
+              <Button
                 onClick={() => navigate(-1)}
-                className="flex flex-col justify-center items-start px-2 py-2 max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full "
+                className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent md:bg-secondary-900 bg-opacity-80 rounded-full z-50 "
               >
-                <span className="icon-[carbon--close] h-6 w-6 text-whites-40 hover:text-whites-40"></span>
-              </div>
+                <div>
+                  <IconButton  >
+                    <span className="icon-[carbon--close]  h-10 w-10 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
+                  </IconButton>
+                </div>
+              </Button>
             </div>
 
             {/** Mute Button */}
             {!isVideoPlayed && (
-              <div className="absolute flex right-2 bottom-8 z-50 w-max  h-max   ">
+              <div className="absolute flex right-2 bottom-12 sm:bottom-8 z-50 w-max  h-max   ">
                 <div
-                  className={` flex-col justify-center items-start px-2 py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ${
+                  className={` flex-col justify-center items-start sm:px-2 sm:py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ${
                     controlsVisible || videoRef?.current?.paused
                       ? "flex"
                       : "hidden"
                   } `}
                 >
+                  <IconButton>
                   {isVideoMuted ? (
                     <span
                       onClick={handleMuteVideo}
@@ -366,6 +377,7 @@ const UMobileHero = ({
                       className="icon-[solar--volume-loud-bold] h-6 w-6 text-whites-40 hover:text-whites-40"
                     ></span>
                   )}
+                  </IconButton>
                 </div>
               </div>
             )}
