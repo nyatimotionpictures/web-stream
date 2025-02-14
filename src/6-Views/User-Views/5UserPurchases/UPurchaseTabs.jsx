@@ -25,6 +25,7 @@ const UPurchaseTabs = ({allPurchased, filmsPurchased, showsPurchased, itemsPerPa
         position: "three",
       },
     ]);
+     
 
     const TabDisplay = (datakey) => {
       switch (datakey) {
@@ -72,7 +73,7 @@ const UPurchaseTabs = ({allPurchased, filmsPurchased, showsPurchased, itemsPerPa
 
           {displayTabs.map((data, index) => {
             return (
-              <TabPanel className="px-0" key={index} value={data.position}>
+              <TabPanel className="px-0 mt-2" key={index} value={data.position}>
                 {TabDisplay(data.title)}
               </TabPanel>
             );

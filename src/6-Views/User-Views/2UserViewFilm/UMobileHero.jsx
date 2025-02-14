@@ -256,13 +256,13 @@ const UMobileHero = ({
       addToWatchlistMutation.mutate({
         resourceId: filmData?.id,
         userId: currentUserData?.id,
-        type: filmData?.type?.includes("film") ? "film" : "season",
+        type: filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
       });
     } else {
       addToWatchlistMutation.mutate({
         resourceId: filmData?.id,
         userId: currentUserData?.id,
-        type: filmData?.type?.includes("film") ? "film" : "season",
+        type: filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
       });
     }
   };
