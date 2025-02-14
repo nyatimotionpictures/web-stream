@@ -106,6 +106,8 @@ const SearchShows = () => {
     React.useEffect(() => {
       debouncedSearch(query);
     }, [query, debouncedSearch]);
+
+    
   return (
     <Container className="w-full min-h-screen h-full relative flex-col space-y-0 bg-secondary-800">
     <WebNavigation isLoggedIn={true} />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PaymentSuccessful from './PaymentSuccessful';
 import PaymentPending from './PaymentPending';
 import PaymentFailed from './PaymentFailed';
@@ -6,6 +6,8 @@ import PaymentTimedout from './PaymentTimedout';
 import { useParams } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { getPaymentStatus } from '../../../5-Store/TanstackStore/services/api';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 const PaymentValidation = () => {
     const params = useParams();
@@ -23,20 +25,19 @@ const PaymentValidation = () => {
 
   React.useEffect(() => {
   
-    let timedout = null;
-    if (status === "success") {
-      if (data?.status === "PENDING") {
-        timedout = setTimeout(() => {
-          refetch();
-        }, 20000);
+    let interval = null;
+   
+      if (data?.status?.toLowerCase() === "pending") {
+        interval = setInterval(refetch, 60000)
       } else {
-        clearTimeout(timedout);
+        clearInterval(interval)
       }
-    }
+    
     
 
     return () => {
-      console.log("unmount");
+      clearInterval(interval)
+      // console.log("unmount");
      
     };
   }, [data, params?.orderTrackingId, status]);

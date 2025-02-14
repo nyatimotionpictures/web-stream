@@ -6,6 +6,8 @@ import formatDuration from "./formatDuration";
 import { BaseUrl } from "../../../3-Middleware/apiRequest";
 import { useGetVideoSource } from "../../../5-Store/TanstackStore/services/queries";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import RemainingFilmDays from "./RemainingFilmDays";
 
 
 const FullCustomPlayer = ({
@@ -13,32 +15,35 @@ const FullCustomPlayer = ({
   filmData,
   allVideos,
   handleResolution,
+  purchasedData
 }) => {
   const videoRef = useRef(null);
   let playerContainerRef = useRef(null);
-  let progressRef = useRef(null);
+  const filmKey = `film_${filmData?.id}_time`;
 
   const [isVideoPlaying, setIsVideoPlaying] = React.useState(false);
   const [volumestate, setVolumeState] = React.useState(40);
   const [isVideoMuted, setIsVideoMuted] = React.useState(false);
 
-  const [currentTime, setCurrentTime] = useState(
-    videoSrc?.currentTime ? videoSrc?.currentTime : 0
-  );
+  const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [loadedPercentage, setLoadedPercentage] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const timeoutRef = React.useRef(null);
   const [controlsVisible, setControlsVisible] = React.useState(false);
 
-  const sourceBufferRef = React.useRef(null);
-  const mediaSourceRef = React.useRef(new MediaSource());
-  const startByteRef = React.useRef(0);
-  const chunkSize = 1 * 1024 * 1024; // 1MB chunks
-
 
   let navigate = useNavigate();
+
+   useEffect(() => {
+      const savedTime = localStorage.getItem(filmKey);
+      if (savedTime && videoRef.current) {
+        videoRef.current.currentTime = parseFloat(savedTime);
+      } else {
+        videoRef.current.currentTime = 0;
+      }
+    }, [videoSrc, filmData?.id]);
 
   //pointer inactivity
   const handleMouseMove = () => {
@@ -87,6 +92,7 @@ const FullCustomPlayer = ({
   };
 
   const handleTimeUpdate = () => {
+    localStorage.setItem(filmKey, videoRef.current.currentTime);
     setCurrentTime(videoRef.current.currentTime);
     setDuration(videoRef.current.duration);
   };
@@ -101,11 +107,14 @@ const FullCustomPlayer = ({
   };
 
   const handleLoadedData = (e) => {
+    setIsLoading(false);
     // console.log("loadedData", e.target)
+    const savedTime = localStorage.getItem(filmKey) ? localStorage.getItem(filmKey) : videoRef.current.currentTime ? videoRef.current.currentTime : 0;
     setDuration(videoRef?.current?.duration);
-    videoRef.current.currentTime = videoSrc?.currentTime
-      ? videoSrc?.currentTime
-      : 0;
+    // videoRef.current.currentTime = videoSrc?.currentTime
+    //   ? videoSrc?.currentTime
+    //   : 0;
+    setCurrentTime(parseFloat(savedTime));
   };
 
   const handleSliderChange = (e, value) => {
@@ -206,8 +215,8 @@ const FullCustomPlayer = ({
             // preload="metadata"
             className="video-player w-full h-full"
             onTimeUpdate={handleTimeUpdate}
-            // src={videoSrc && videoSrc?.id ? videoSrc?.url : null}
-            src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}?currentTime=${currentTime}` : null}
+            src={videoSrc && videoSrc?.id ? videoSrc?.url : null}
+            // src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}?currentTime=${currentTime}` : null}
             // src={videoSrc && videoSrc?.id ? `${BaseUrl}/v1/film/stream/${videoSrc?.id}` : null}
             onProgress={handleBufferedProgress}
             onLoadedData={handleLoadedData}
@@ -292,7 +301,7 @@ const FullCustomPlayer = ({
             <div className="controls absolute bottom-2 max-h-full flex flex-col gap-2 items-center w-full px-4 py-2 ">
               <Typography className="text-whites-40 font-[Roboto-Regular] justify-start w-full flex sm:hidden md:text-base">
                 {formatDuration(currentTime) ?? "0:00"} /{" "}
-                {formatDuration(duration) ?? "0:00:00"}
+                { duration ? formatDuration(duration) : "0:00"}
               </Typography>
 
               <div className="flex w-full relative ">
@@ -337,6 +346,7 @@ const FullCustomPlayer = ({
                   currentTime={currentTime}
                   duration={duration}
                   isVideoPlaying={isVideoPlaying}
+                  setIsVideoPlaying={setIsVideoPlaying}
                   handleFullScreen={handleFullScreen}
                   isFullScreen={isFullScreen}
                   replayVideo={replayVideo}
@@ -349,12 +359,17 @@ const FullCustomPlayer = ({
                   videoSrc={videoSrc}
                   setIsLoading={setIsLoading}
                   handleExitFullScreen={handleExitFullScreen}
+
                 />
               </div>
             </div>
           </div>
         ) : null}
       </div>
+
+      {purchasedData?.length > 0 && (
+          <RemainingFilmDays videoRef={videoRef} expiryDate={purchasedData[0]?.expiresAt} />
+        )}
     </div>
   );
 };

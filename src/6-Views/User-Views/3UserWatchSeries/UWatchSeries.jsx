@@ -19,6 +19,7 @@ const UWatchSeries = () => {
   const [allEpisodes, setAllEpisodes] = React.useState([]);
   const [allVideos, setAllVideos] = React.useState([]);
   const [isCheckingAccess, setCheckingAccess] = React.useState(true);
+  const [purchasedData, setPurchasedData] = React.useState(null);
 
   const [errorVideo, setErrorVideo] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
@@ -29,29 +30,32 @@ const UWatchSeries = () => {
   let navigate = useNavigate();
   const { data, isPending } = useGetSeason(params?.id);
 
-  console.log(data?.season);
+  // console.log(data?.season);
 
   const handleCheckingVideo = () => {
     if (data?.season && !isPending) {
       //free
-      if (!data?.season?.access?.includes("free")) {
+      if (data?.season?.access?.includes("free")) {
         let sortedEpisodes = data?.season?.episodes.sort((a, b) => {
           return a.episode - b.episode;
         });
-        console.log("sortedEpisodes", sortedEpisodes)
+        // console.log("sortedEpisodes", sortedEpisodes);
 
-        let allEpisodeData = sortedEpisodes.filter((data) => data?.visibility === 'published');
-        console.log("sortedEpisodes", allEpisodeData);
+        let allEpisodeData = sortedEpisodes.filter(
+          (data) => data?.visibility === "published"
+        );
+        // console.log("sortedEpisodes", allEpisodeData);
         setAllEpisodes(allEpisodeData);
         //look for episode
         if (episodeId) {
-          console.log("here")
+          // console.log("here", episodeId)
           let episodeDataDetail = allEpisodeData.find((episode) => {
-            if (episode.id !== episodeId) {
+            if (episode.id === episodeId) {
               return episode;
             }
           });
-          console.log("wp", episodeDataDetail)
+          setEpisodeIndex(allEpisodeData.indexOf(episodeDataDetail));
+          console.log("wp", episodeDataDetail);
           if (episodeDataDetail && episodeDataDetail?.video?.length > 0) {
             setAllVideos(episodeDataDetail.video);
             setEpisodeData(episodeDataDetail);
@@ -76,7 +80,7 @@ const UWatchSeries = () => {
             console.log(episodeDataDetail);
             // setSelectedVideoUrl(episodeData.videoUrl);
           } else {
-            console.log("here")
+            console.log("here");
             setErrorVideo(true);
             setErrorMessage("Episode not found or Videos not Found");
             setCheckingAccess(false);
@@ -88,7 +92,88 @@ const UWatchSeries = () => {
           );
         }
       } else {
-        console.log("not free", data?.season?.access);
+        // console.log("data?.season?.purchase", data?.season?.purchase);
+        let purchasedArray = data?.season?.purchase?.filter((data) => {
+          if (data.valid) {
+            return data;
+          }
+        });
+
+        // console.log("purchasedArray", purchasedArray);
+
+        if (purchasedArray?.length > 0) {
+          setPurchasedData(purchasedArray);
+          let resolutionsPurchased = purchasedArray[0].resolutions;
+          let sortedEpisodes = data?.season?.episodes.sort((a, b) => {
+            return a.episode - b.episode;
+          });
+
+          // console.log("sortedEpisodes", resolutionsPurchased);
+
+          let allEpisodeData = sortedEpisodes.filter(
+            (epdata) => epdata?.visibility === "published"
+          );
+
+          let resolutionDataArray = allEpisodeData?.map((allepdata) => {
+            return {
+              ...allepdata,
+              video: allepdata?.video?.filter((video) => {
+                if (
+                  resolutionsPurchased.includes(video.resolution) &&
+                  !video.isTrailer
+                ) {
+                  return video;
+                }
+              }),
+            };
+          });
+
+          // console.log("resolutionDataArray", resolutionDataArray);
+
+          //check the existence of the selected Id
+          if (resolutionDataArray.length > 0) {
+            setAllEpisodes(resolutionDataArray);
+            if (episodeId) {
+              let episodeDataDetail = resolutionDataArray.find((episode) => {
+                if (episode.id === episodeId) {
+                  return episode;
+                }
+              });
+              if (episodeDataDetail && episodeDataDetail?.video?.length > 0) {
+                setAllVideos(episodeDataDetail.video);
+                setEpisodeIndex(resolutionDataArray.indexOf(episodeDataDetail));
+                setEpisodeData(resolutionDataArray[0]);
+                let checkSelected = episodeDataDetail.video.filter((video) => {
+                  if (video.resolution === "HD") {
+                    return video;
+                  }
+                });
+
+                if (checkSelected.length > 0) {
+                  setSelectedVideoUrl(checkSelected[0]);
+                  setCheckingAccess(false);
+                } else {
+                  setSelectedVideoUrl(episodeDataDetail.video[0]);
+                  setCheckingAccess(false);
+                }
+              } else {
+                // console.log("here");
+                setErrorVideo(true);
+                setErrorMessage("Episode not found or Videos not Found");
+                setCheckingAccess(false);
+              }
+            } else {
+              navigate(
+                `/watch/s/${params?.id}?ep=${resolutionDataArray[0]?.id}`,
+                { replace: true }
+              );
+            }
+          } else {
+            setErrorVideo(true);
+            setErrorMessage("Episode not found or Videos not Found");
+            setCheckingAccess(false);
+          }
+        }
       }
     }
   };
@@ -99,7 +184,6 @@ const UWatchSeries = () => {
 
   const handleNextEpisode = (index) => {
     let episode = allEpisodes[index];
-console.log("episode", episode,)
     setEpisodeIndex(index);
     setEpisodeData(episode);
     handleEpisodeChange(episode?.id);
@@ -118,7 +202,16 @@ console.log("episode", episode,)
 
   return (
     <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
-      <SeriesFullCustomPlayer filmData={episodeData} allVideos={allVideos} videoSrc={selectedVideoUrl} handleResolution={handleResolution} handleNextEpisode={handleNextEpisode} episodeIndex={episodeIndex} allEpisodes={allEpisodes}   />
+      <SeriesFullCustomPlayer
+        purchasedData={purchasedData}
+        filmData={episodeData}
+        allVideos={allVideos}
+        videoSrc={selectedVideoUrl}
+        handleResolution={handleResolution}
+        handleNextEpisode={handleNextEpisode}
+        episodeIndex={episodeIndex}
+        allEpisodes={allEpisodes}
+      />
       {isCheckingAccess && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
           <div className="w-full h-full flex flex-col justify-center items-center ">
@@ -170,8 +263,7 @@ console.log("episode", episode,)
 
                   <div className="flex flex-col gap-2 items-center justify-center">
                     <Button
-                      onClick={() => navigate(-1, { replace: true })
-                      }
+                      onClick={() => navigate(-1, { replace: true })}
                       className="w-full bg-transparent border border-primary-500 min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
                     >
                       Back to Film{" "}

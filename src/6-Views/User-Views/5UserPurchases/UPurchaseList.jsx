@@ -7,34 +7,34 @@ import { Stack } from '@mui/material';
 import WebNavigation from '../../../2-Components/Navigation/WebNavigation';
 import Footer from '../../../2-Components/Footer/Footer';
 import { AuthContext } from '../../../5-Store/AuthContext';
-import { useGetPurchaseList } from '../../../5-Store/TanstackStore/services/queries';
+import { useGetPurchaseList, useGetWatchList } from '../../../5-Store/TanstackStore/services/queries';
 
 const UPurchaseList = () => {
    const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const userData = useContext(AuthContext)
 
-  const purchaselistQuery = useGetPurchaseList(userData?.currentUser?.user?.id);
+  const purchaselistQuery = useGetWatchList(userData?.currentUser?.user?.id);
 
   console.log(purchaselistQuery?.data)
 
 
   let allPurchased =  React.useMemo(()=>{
-    return purchaselistQuery?.data?.films?.filter((film)=> {
+    return purchaselistQuery?.data?.watchlist?.PURCHASED?.filter((film)=> {
       return film
     })
   },[purchaselistQuery?.data])
 
   let filmsPurchased =  React.useMemo(()=>{
-    return purchaselistQuery?.data?.films?.filter((film)=> {
-     if (film.type === "film" || film.type === "movie" ) {
+    return purchaselistQuery?.data?.watchlist?.PURCHASED?.filter((film)=> {
+     if (film.type?.includes("film")) {
       return film
      }
     })
   },[purchaselistQuery?.data])
 
   let showsPurchased =  React.useMemo(()=>{
-    return purchaselistQuery?.data?.films?.filter((film)=> {
-      if (film?.type === "episode" || film?.type === "series" || film?.type !== "movie"  ) {
+    return purchaselistQuery?.data?.watchlist?.PURCHASED?.filter((film)=> {
+      if (film?.type === "season" || film?.type === "series" || !film?.type?.includes("film")  ) {
        return film
       }
      })

@@ -15,7 +15,7 @@ const EpisodeTab = ({
 }) => {
     const [seasonData, setSeasonData] = React.useState([]);
     const [selectedSeason, setSelectedSeason] = React.useState(null);
-    console.log("filmData", filmdata);
+    // console.log("filmData", filmdata);
 
     React.useEffect(() => {
         if (filmdata ) {
@@ -36,43 +36,11 @@ const EpisodeTab = ({
     <Container>
       {selectedSeason !== null && filmdata !== null ? (
         <div className="flex flex-col gap-4 w-full">
-          {/* <EpisodeFormContainer className="flex flex-col gap-2 w-[200px] font-[Inter-Regular] !text-base !text-whites-40">
-          
-            <Select
-              className=" h-[40px] bg-secondary-300 bg-opacity-65 text-base text-whites-40 capitalize font-[Inter-Regular] outline-none border-none focus:outline-none focus:border-none md:text-xl"
-
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    backgroundColor: "#24222A",
-                    
-                    textIndent: "10px",
-                    fontSize: "initial",
-                    fontFamily: "Inter-Regular",
-                    color: "white",
-                  },
-                },
-              }}
-            
-              value={selectedSeason?.id}
-              onChange={(e) =>
-                setSelectedSeason(
-                  filmdata?.season.find((data) => data?.id === e.target.value)
-                )
-              }
-            >
-              {filmdata?.season?.map((data, index) => {
-                return (
-                  <option key={data?.id} value={data?.id}>
-                    {data?.title} {data?.season}
-                  </option>
-                );
-              })}
-            </Select>
-          </EpisodeFormContainer> */}
+       
           {filmdata?.episodes?.length > 0 && (
             <Stack className="flex flex-col gap-[63px]">
               {selectedSeason?.episodes?.map((data, index) => {
+                if(data?.visibility === 'published'){
                 return (
                   <EpisodeContent
                     openModal={openModal}
@@ -84,6 +52,7 @@ const EpisodeTab = ({
                     handlePaymentModel={handlePaymentModel}
                   />
                 );
+              }
               })}
             </Stack>
           )}

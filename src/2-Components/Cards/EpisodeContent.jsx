@@ -16,11 +16,11 @@ const EpisodeContent = ({
 
   let ref = React.useRef();
 
-  console.log(seasondata, episodedata);
+  // console.log(seasondata, episodedata);
 
 React.useEffect(() => {
-  console.log(seasondata);
-  console.log(episodedata)
+  // console.log(seasondata);
+  // console.log(episodedata)
   if (seasondata?.access !== "rent") {
     if (seasondata?.videoPurchased) {
       setIsPurchased(true);
@@ -39,7 +39,7 @@ React.useEffect(() => {
       ref={ref}
     
     >
-      <div onClick={() => isPurchased ? navigate(`/watch/s/${seasondata?.id}?ep=${episodedata?.id}`) : handlePaymentModel()} className="flex justify-start  items-start w-full sm:max-w-[338px] max-h-[250px] relative rounded-lg overflow-hidden">
+      <div onClick={() => isPurchased || seasondata.access?.includes('free') ? navigate(`/watch/s/${seasondata?.id}?ep=${episodedata?.id}`) : handlePaymentModel()} className="flex justify-start  items-start w-full sm:max-w-[338px] max-h-[250px] relative rounded-lg overflow-hidden">
         <img
           src={
             episodedata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""

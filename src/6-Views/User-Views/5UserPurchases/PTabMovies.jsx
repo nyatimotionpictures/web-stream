@@ -23,13 +23,13 @@ const PTabMovies = ({filmsPurchased, itemsPerPage, setItemsPerPage }) => {
     <Container className=" h-full relative">
       {currentItems?.length > 0 ? (
          <>
-         <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
+         {/* <Stack className="hidden md:flex flex-row flex-wrap gap-5 items-center justify-center mb-10 ">
           {currentItems?.map((data, index) => {
             return <MovieCard3 key={index} data={data} />;
           })}
-        </Stack>
+        </Stack> */}
 
-        <Stack className="flex md:hidden flex-row flex-wrap gap-5 items-center justify-center mb-10">
+        <Stack className="flex  flex-row flex-wrap gap-5 items-center justify-center mb-10">
           {currentItems?.map((data, index) => {
             return <MovieCard4 key={index} data={data} />;
           })}

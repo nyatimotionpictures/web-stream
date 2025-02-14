@@ -86,11 +86,6 @@ const USeasonDetailPage = () => {
       }
     }, [seasonQuery?.data?.season]);
 
-  // console.log(FilmJson[3]);
-  // React.useEffect(() => {
-  //   setSelectedFilm(() => FilmJson[3]);
-  // }, [FilmJson]);
-
   const handleFormSubmit = () => {
     if (formRef.current) {
       formRef.current.handleSubmit();
@@ -98,9 +93,9 @@ const USeasonDetailPage = () => {
       alert("No form");
     }
   };
-console.log("seasonQuery", seasonQuery?.data)
+// console.log("seasonQuery", seasonQuery?.data)
   const handleAPISubmission = (values) => {
-    console.log("values", values);
+    // console.log("values", values);
     //  alert(`form submitted ${editInfo.title}`);
     // createMutation.mutate(values)
     //handleFormSubmit()
@@ -185,7 +180,7 @@ console.log("seasonQuery", seasonQuery?.data)
 
   //handle Watch Video
   const handleWatchVideo = () => {
-    navigate(`/watch/season/${seasonQuery?.data?.season?.id}`);
+    navigate(`/watch/s/${seasonQuery?.data?.season?.id}`);
   };
 
   console.log(seasonQuery?.data?.season);
