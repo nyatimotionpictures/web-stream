@@ -19,11 +19,9 @@ import {
   verifyOtp,
 } from "../../5-Store/TanstackStore/services/api";
 
-const VerifyPassKey = () => {
+const VerifyForgetKey = () => {
   let navigate = useNavigate();
   let location = useLocation();
-
-  //console.log("location", location.state.contact, location.state.isEmail);
 
   const otp0 = React.useRef(null);
   const otp1 = React.useRef(null);
@@ -34,9 +32,6 @@ const VerifyPassKey = () => {
   const [resendBtn, setResendBtn] = React.useState(false);
   const [resendCount, setResendCount] = React.useState(56);
   const [restartInterval, setRestartInterval] = React.useState(false);
-  const [emailToVerify, setEmailToVerify] = React.useState("");
-  const [isSubmittingResend, setIsSubmittingResend] = React.useState(false);
-  const [isSubmittingVerify, setIsSubmittingVerify] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState(null);
 
   const sendMutation = useMutation({
@@ -44,9 +39,9 @@ const VerifyPassKey = () => {
     onSuccess: (data) => {
       // console.log("data", data);
       setSnackbarMessage({ message: data.message, severity: "success" });
-      navigate("/verifyaccount", {
+      navigate("/verifyforgotkey", {
         replace: true,
-        state: { contact: location?.state?.contact, isEmail: location?.state?.isEmail, otpToken: data.otpToken, type: "auth" },
+        state: { contact: location?.state?.contact, isEmail: location?.state?.isEmail, otpToken: data.otpToken },
       });
     },
     onError: (error) => {
@@ -54,31 +49,24 @@ const VerifyPassKey = () => {
     },
   });
 
-  React.useEffect(() => {
-    otp0.current?.focus();
-    sendMutation.mutate({
-      contact: location?.state?.contact,
-      type: "auth",
-      isEmail: location?.state?.isEmail,
+
+    const verifyMutation = useMutation({
+      mutationFn: verifyOtp,
+      onSuccess: (data) => {
+        setSnackbarMessage({ message: data.message, severity: "success" });
+        navigate("/resetkey", {
+          replace: true,
+          state: {
+            contact: location.state.contact,
+            isEmail: location.state.isEmail,
+            authToken: data?.authToken,
+          },
+        });
+      },
+      onError: (error) => {
+        setSnackbarMessage({ message: error?.message, severity: "error" });
+      },
     });
-  }, []);
-
-  const verifyMutation = useMutation({
-    mutationFn: verifyOtp,
-    onSuccess: (data) => {
-      setSnackbarMessage({ message: data.message, severity: "success" });
-      navigate("/success", {
-        replace: true,
-        state: {
-          contact: location.state.contact,
-          isEmail: location.state.isEmail,
-        },
-      });
-    },
-    onError: (error) => {
-      setSnackbarMessage({ message: error?.message, severity: "error" });
-    },
-  });
 
   React.useEffect(() => {
     let newInterval = setInterval(() => {
@@ -133,14 +121,14 @@ const VerifyPassKey = () => {
   /** hamdle otp submit */
   const handleSubmitOtp = () => {
     // console.log("otpnum", otpnum.join(""));
-    let contact = location.state.contact;
-    let isEmail = location.state.isEmail;
+    let contact = location?.state?.contact;
+    let isEmail = location?.state?.isEmail; 
     verifyMutation.mutate({
       contact,
       isEmail,
-      type: "auth",
+      type: "forgotpassword",
       otp: otpnum?.join(""),
-      otpToken: location?.state?.otpToken,
+      otpToken: location.state.otpToken,
     });
     // setIsSubmittingResend(() => true);
   };
@@ -149,9 +137,9 @@ const VerifyPassKey = () => {
   const handleResendOtp = () => {
     // console.log("resend otp");
     sendMutation.mutate({
-      contact: location.state.contact,
-      type: "auth",
-      isEmail: location.state.isEmail,
+      contact: location?.state?.contact,
+      type: "forgotpassword",
+      isEmail: location?.state?.isEmail,
     });
     setResendCount(() => 56);
     setResendBtn(() => false);
@@ -298,13 +286,13 @@ const VerifyPassKey = () => {
   );
 };
 
-export default VerifyPassKey;
+export default VerifyForgetKey;
 
 const Container = styled(Box)({
   background: `linear-gradient(
-        to top,
-        rgba(20, 17, 24, 1),
-        rgba(20, 17, 24, 0.729)
-      ),
-      url(${heroImage}) left/cover no-repeat`,
+          to top,
+          rgba(20, 17, 24, 1),
+          rgba(20, 17, 24, 0.729)
+        ),
+        url(${heroImage}) left/cover no-repeat`,
 });

@@ -52,24 +52,43 @@ export const postSendOtp = async (
     
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
 /** mutation: User Verify OTP : working as expected - user */
 export const verifyOtp = async (OtpData: any) => {
   try {
-    const response = await apiRequest.post(
-      "/v1/user/verifyotp", OtpData
+    const response = await axios.post(
+      `${BaseUrl}/v1/user/verifyotp`, OtpData, {
+        headers: {
+          Authorization: `Bearer ${OtpData?.otpToken}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
     
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }   
 }
 
@@ -85,9 +104,48 @@ export const postAuthLogin = async (
     
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    console.log("error");
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
+  }
+};
+
+/** mutation: User Reset Password : working as expected - user */
+export const postAuthReset = async (
+  UserResetData: any
+) => {
+  let {authToken, ...rest} = UserResetData;
+  try {
+    const response = await axios.post(
+      `${BaseUrl}/v1/user/forgot-password`,
+      {...rest},
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    
+    return response.data;
+  } catch (error) {
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
@@ -102,8 +160,16 @@ export const postAuthLogout = async (
 
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
@@ -117,7 +183,16 @@ export const putUpdateUser = async (userdata: any) => {
 
     return response.data;
   } catch (error) {
-    
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 }
 
@@ -134,8 +209,16 @@ export const getFilmContent = async (
 
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
@@ -146,8 +229,16 @@ export const getAllFilms = async () => {
 
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
@@ -158,8 +249,16 @@ export const getAllSeasons = async () => {
 
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
@@ -170,8 +269,16 @@ export const getSeasonContent = async (seasonId: String) => {
 
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
@@ -290,7 +397,7 @@ export const getGeneralDonationStatus = async (
   orderId: string
 ) => {
   try {
-    console.log("orderId", orderId);
+    // console.log("orderId", orderId);
     let token = localStorage.getItem("token");
     const response = await axios.get(
     `${BaseUrl}/v1/payment/mtn/transact_statuses/${orderId}`, {
@@ -349,7 +456,7 @@ export const getPaymentStatus = async (
   orderId: string
 ) => {
   try {
-    console.log("orderId", orderId);
+    // console.log("orderId", orderId);
     let token = localStorage.getItem("token");
     const response = await axios.get(
     `${BaseUrl}/v1/film/checkpaymentstatus/${orderId}`, {
