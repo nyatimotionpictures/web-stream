@@ -45,8 +45,8 @@ export const postSendOtp = async (
   OtpData: any
 ) => {
   try {
-    const response = await apiRequest.post(
-      "/v1/user/sendotp",
+    const response = await axios.post(
+      `${BaseUrl}/v1/user/sendotp`,
       OtpData
     );
     
