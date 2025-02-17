@@ -189,7 +189,7 @@ const FullCustomPlayer = ({
 
   React.useEffect(() => {
     if (videoRef?.current) {
-      screen?.orientation.lock("landscape-primary");
+      // screen?.orientation.lock("landscape-primary");
       videoRef?.current?.addEventListener("orientationchange", () => {
         if (videoRef?.current) {
           videoRef.current.play();
@@ -223,7 +223,7 @@ const FullCustomPlayer = ({
             muted={isVideoMuted}
             onWaiting={handleBuffering}
             onPlaying={handleOnPlaying}
-            
+            controls={false}
             //onPlay={handleVideoPlayed}
             //onPause={handleVideoPaused}
           ></video>

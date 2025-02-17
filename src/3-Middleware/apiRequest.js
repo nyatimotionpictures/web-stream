@@ -1,12 +1,22 @@
 import { QueryClient } from "@tanstack/react-query";
 import axios from "axios";
+
+// http://192.168.1.158:5173/
+// //  http://192.168.1.187:5173/
+// export const BaseUrl = "http://192.168.1.187:4500/api";
 // export const BaseUrl= "http://localhost:4500/api"
 export const BaseUrl = "https://api.nyatimotionpictures.com/api";
 
 const queryClient = new QueryClient();
 const apiRequest = axios.create({
+<<<<<<< HEAD
     baseURL: "https://api.nyatimotionpictures.com/api",
 //    baseURL: "http://localhost:4500/api",
+=======
+   baseURL: "https://api.nyatimotionpictures.com/api",
+    // baseURL: "http://localhost:4500/api",
+    // baseURL: "http://192.168.1.187:4500/api",
+>>>>>>> 4d837d1f9c2c129069692da3558a56cc41b5cd4d
     withCredentials: true,
 });
 

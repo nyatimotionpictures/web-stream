@@ -189,20 +189,16 @@ const UDetailHero = ({
       addToWatchlistMutation.mutate({
         resourceId: filmData?.id,
         userId: currentUserData?.id,
-        type: filmData?.type?.includes("film") ? "film" : "season",
+        type: filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
       });
     } else {
       addToWatchlistMutation.mutate({
         resourceId: filmData?.id,
         userId: currentUserData?.id,
-        type: filmData?.type?.includes("film") ? "film" : "season",
+        type:  filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
       });
     }
   };
-
-  console.log("filmData", videoPurchaseData[0]?.expiresAt);
-
-  
 
   return (
     <HeroContent

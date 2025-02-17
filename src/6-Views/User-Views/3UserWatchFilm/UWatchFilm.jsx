@@ -28,7 +28,7 @@ const UWatchFilm = () => {
   const filmsQuery = useGetFilm(params?.id);
 
 
-
+console.log("filmsQuery", filmsQuery);
   const handleCheckingVideo = () => {
     if (filmsQuery?.data?.film) {
       if(filmsQuery?.data?.film?.type?.includes("film")){
@@ -144,7 +144,7 @@ const UWatchFilm = () => {
 
 
   return (
-    <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
+    <Container className="w-screen h-full bg-secondary-900 overflow-hidden relative duration-300">
       <FullCustomPlayer purchasedData={purchasedData} filmData={filmsQuery?.data?.film?.type === "movie" || filmsQuery?.data?.film?.type?.includes("film") ? filmsQuery?.data?.film : episodeData}  videoSrc={selectedVideoUrl} allVideos={allVideos} handleResolution={handleResolution}  />
 
     

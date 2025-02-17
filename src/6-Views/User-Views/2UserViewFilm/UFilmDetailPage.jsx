@@ -126,7 +126,7 @@ const UFilmDetailPage = () => {
   const addToWatchlistMutation = useMutation({
     mutationFn: postAddToWatchlist,
     onSuccess: (data, variables) => {
-      console.log("data", data);
+      // console.log("data", data);
       //setRated(true)
       setSnackbarMessage({ message: data.message, severity: "success" });
       watchlistQuery.refetch();
@@ -174,7 +174,7 @@ const UFilmDetailPage = () => {
     navigate(`/watch/${filmsQuery?.data?.film?.id}`);
   };
 
-  console.log(filmsQuery?.data?.film);
+  // console.log(filmsQuery?.data?.film);
 
 
   let videoPurchasedArray = React.useMemo(() => { 
@@ -185,7 +185,7 @@ const UFilmDetailPage = () => {
    })
   },[filmsQuery?.data?.film?.purchase])
 
-  console.log("videoPurchasedArray", videoPurchasedArray)
+  // console.log("videoPurchasedArray", videoPurchasedArray)
   if (filmsQuery?.isLoading) {
     return (
       <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
