@@ -2,16 +2,18 @@ import { Stack, Typography } from '@mui/material'
 import React from 'react'
 import Button from '../Buttons/Button'
 import { useNavigate } from 'react-router-dom'
+import TextClamped from '../Stacks/TextClamped'
 
 const SegmentCard = ({
     seasondata,
 }) => {
  let navigate = useNavigate()
     let ref = React.useRef();
+
   return (
     <Stack
     onClick={() =>
-        navigate(`/segments/${seasondata?.id}/${seasondata?.filmId}`)
+        navigate(`/segments/${seasondata?.id}`)
 
     }
     className="flex-col md:flex-row w-full xs:w-[280px] gap-6 sm:w-full h-max justify-start items-start"
@@ -22,7 +24,7 @@ const SegmentCard = ({
     <div className="flex justify-start  items-start w-full sm:w-max h-max ">
       <img
         src={
-            seasondata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""
+            seasondata?.posters?.length > 0 ? seasondata?.posters[0]?.url : ""
         }
         alt=""
         //w-[280px] 
@@ -41,14 +43,14 @@ const SegmentCard = ({
           { seasondata?.released}
         </Typography>
         <Typography className="line-clamp-5 font-[Inter-Regular] text-sm md:text-base text-[#FFFAF6] text-opacity-70 text-justify">
-          { seasondata?.plotSummary}
+        <TextClamped text={seasondata?.overview} lines={3} /> 
         </Typography>
       </Stack>
       <Stack spacing={"24px"}>
         <Stack spacing={"20px"} className="flex flex-row">
           <Button
             onClick={() =>
-                navigate(`/segments/${seasondata?.id}/${seasondata?.filmId}`)
+                navigate(`/segments/${seasondata?.id}`)
 
             }
            className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
