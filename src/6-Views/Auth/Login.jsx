@@ -217,7 +217,7 @@ const Login = () => {
               {/** forgot password */}
               <div className="flex mt-4 items-center justify-center">
                 <span
-                  
+                  onClick={()=> navigate("/forgotpassword")}
                  className="text-[#ED3F62] underline underline-offset-2 cursor-pointer font-[Inter-SemiBold]"
                 >
                   Forgot Password?

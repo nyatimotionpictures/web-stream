@@ -37,6 +37,9 @@ import MainDonationPage from "./6-Views/User-Views/13Donations/MainDonationPage.
 import IndividualFilmDonate from "./6-Views/User-Views/14FilmDonations/IndividualFilmDonate.jsx";
 import GeneralDonationValidation from "./6-Views/User-Views/9PaymentValidations/GeneralDonationValidation.jsx";
 import UWatchSeries from "./6-Views/User-Views/3UserWatchSeries/UWatchSeries.jsx";
+import ForgotPassword from "./6-Views/Auth/ForgotPassword.jsx";
+import ResetKey from "./6-Views/Auth/ResetKey.jsx";
+import VerifyForgetKey from "./6-Views/Auth/VerifyForgetKey.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -119,6 +122,10 @@ function App() {
               <Route path="/login" element={<Login />} />
 
               <Route path="/register" element={<Register />} />
+              <Route path={"/forgotpassword"} element={<ForgotPassword />} />
+              <Route path="/verifyforgotkey" element={<VerifyForgetKey />} />
+
+              <Route path={"/resetkey"} element={<ResetKey />} />
 
               <Route path="/verifyaccount" element={<VerifyPassKey />} />
               <Route path="/success" element={<RegisterSuccess />} />

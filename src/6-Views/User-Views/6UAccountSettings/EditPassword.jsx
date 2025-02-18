@@ -1,4 +1,3 @@
-
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 import CustomStack from "../../../2-Components/Stacks/CustomStack";
@@ -8,26 +7,28 @@ import * as yup from "yup";
 import ErrorMessage from "../../../2-Components/Forms/ErrorMessage";
 import { Form, Formik } from "formik";
 
-
-
-const EditPassword = ({innerref, handleStepNext, userData}) => {
+const EditPassword = ({ innerref, handleStepNext, userData }) => {
   const [viewOldPassword, setViewOldPassword] = React.useState(false);
   const [viewNewPassword, setViewNewPassword] = React.useState(false);
   const [viewConfirmPassword, setViewConfirmPassword] = React.useState(false);
 
-  const validationSchema = yup.object().shape({ 
+  const validationSchema = yup.object().shape({
     currentPassword: yup.string().required("required"),
-    password:  yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-   confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Passwords must match").required("Confirm password is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .required("Confirm password is required"),
   });
 
   const initialValues = {
     currentPassword: "",
     password: "",
     confirmPassword: "",
-};
+  };
   return (
     <Formik
       innerRef={innerref}
@@ -55,28 +56,46 @@ const EditPassword = ({innerref, handleStepNext, userData}) => {
               {/** title && type */}
               <CustomStack className="flex-row justify-between gap-6">
                 <FormContainer>
-                  <label htmlFor="currentPassword" className="label font-[Inter-Regular] text-xs text-whites-100 text-opacity-75">
+                  <label
+                    htmlFor="currentPassword"
+                    className="label font-[Inter-Regular] text-xs text-whites-100 text-opacity-75"
+                  >
                     Current Password (required)
                   </label>
                   <div className="flex flex-col gap-2 h-full relative justify-center">
-                  <input   type={viewOldPassword ? "text" : "password"} value={values.currentPassword} onChange={handleChange} onBlur={handleBlur} name="currentPassword" id="currentPassword" />
+                    <input
+                      type={viewOldPassword ? "text" : "password"}
+                      value={values.currentPassword}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="currentPassword"
+                      id="currentPassword"
+                    />
 
-                  <div className=" w-max flex items-center justify-center px-0 py-0  absolute text-whites-40 right-3  m-auto hover:text-primary-500  z-50">
-                        {!viewOldPassword ? (
-                          <span
-                            onClick={()=> setViewOldPassword(!viewOldPassword)}
-                            className="icon-[solar--eye-closed-outline] w-6 h-6"
-                          ></span>
-                        ) : (
-                          <span
-                          onClick={()=> setViewOldPassword(!viewOldPassword)}
-                            className="icon-[solar--eye-line-duotone] w-6 h-6"
-                          ></span>
-                        )}
-                      </div>
+                    <div className=" w-max flex items-center justify-center px-0 py-0  absolute text-whites-40 right-3  m-auto hover:text-primary-500  z-50">
+                      {!viewOldPassword ? (
+                        <span
+                          onClick={() => setViewOldPassword(!viewOldPassword)}
+                          className="icon-[solar--eye-closed-outline] w-6 h-6"
+                        ></span>
+                      ) : (
+                        <span
+                          onClick={() => setViewOldPassword(!viewOldPassword)}
+                          className="icon-[solar--eye-line-duotone] w-6 h-6"
+                        ></span>
+                      )}
+                    </div>
                   </div>
-                 
-                  <ErrorMessage errors={touched?.currentPassword && errors?.currentPassword ? true : false} name="currentPassword" message={errors?.currentPassword && errors.currentPassword} />
+
+                  <ErrorMessage
+                    errors={
+                      touched?.currentPassword && errors?.currentPassword
+                        ? true
+                        : false
+                    }
+                    name="currentPassword"
+                    message={errors?.currentPassword && errors.currentPassword}
+                  />
                 </FormContainer>
               </CustomStack>
 
@@ -85,26 +104,36 @@ const EditPassword = ({innerref, handleStepNext, userData}) => {
                 <label className="label font-[Inter-Regular] text-xs text-whites-100 text-opacity-75">
                   New Password (required)
                 </label>
-              
 
                 <div className="flex flex-col gap-2 h-full relative justify-center">
-                <input type={viewNewPassword ? "text" : "password"} value={values.password} onChange={handleChange} onBlur={handleBlur} name="password" id="password" />
+                  <input
+                    type={viewNewPassword ? "text" : "password"}
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="password"
+                    id="password"
+                  />
 
                   <div className=" w-max flex items-center justify-center px-0 py-0  absolute text-whites-40 right-3  m-auto hover:text-primary-500  z-50">
-                        {!viewNewPassword ? (
-                          <span
-                            onClick={()=> setViewNewPassword(!viewNewPassword)}
-                            className="icon-[solar--eye-closed-outline] w-6 h-6"
-                          ></span>
-                        ) : (
-                          <span
-                          onClick={()=> setViewNewPassword(!viewNewPassword)}
-                            className="icon-[solar--eye-line-duotone] w-6 h-6"
-                          ></span>
-                        )}
-                      </div>
+                    {!viewNewPassword ? (
+                      <span
+                        onClick={() => setViewNewPassword(!viewNewPassword)}
+                        className="icon-[solar--eye-closed-outline] w-6 h-6"
+                      ></span>
+                    ) : (
+                      <span
+                        onClick={() => setViewNewPassword(!viewNewPassword)}
+                        className="icon-[solar--eye-line-duotone] w-6 h-6"
+                      ></span>
+                    )}
                   </div>
-                <ErrorMessage errors={touched?.password && errors?.password ? true : false} name="password" message={errors?.password && errors.password} />
+                </div>
+                <ErrorMessage
+                  errors={touched?.password && errors?.password ? true : false}
+                  name="password"
+                  message={errors?.password && errors.password}
+                />
               </FormContainer>
               {/** tagline */}
               <FormContainer>
@@ -112,27 +141,44 @@ const EditPassword = ({innerref, handleStepNext, userData}) => {
                   Confirm Password (required)
                 </label>
 
-
                 <div className="flex flex-col gap-2 h-full relative justify-center">
-                <input  type={viewConfirmPassword ? "text" : "password"} value={values.confirmPassword} onChange={handleChange} onBlur={handleBlur} name="confirmPassword" id="confirmPassword" />
+                  <input
+                    type={viewConfirmPassword ? "text" : "password"}
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="confirmPassword"
+                    id="confirmPassword"
+                  />
 
                   <div className=" w-max flex items-center justify-center px-0 py-0  absolute text-whites-40 right-3  m-auto hover:text-primary-500  z-50">
-                        {!viewConfirmPassword ? (
-                          <span
-                            onClick={()=> setViewConfirmPassword(!viewConfirmPassword)}
-                            className="icon-[solar--eye-closed-outline] w-6 h-6"
-                          ></span>
-                        ) : (
-                          <span
-                          onClick={()=> setViewConfirmPassword(!viewConfirmPassword)}
-                            className="icon-[solar--eye-line-duotone] w-6 h-6"
-                          ></span>
-                        )}
-                      </div>
+                    {!viewConfirmPassword ? (
+                      <span
+                        onClick={() =>
+                          setViewConfirmPassword(!viewConfirmPassword)
+                        }
+                        className="icon-[solar--eye-closed-outline] w-6 h-6"
+                      ></span>
+                    ) : (
+                      <span
+                        onClick={() =>
+                          setViewConfirmPassword(!viewConfirmPassword)
+                        }
+                        className="icon-[solar--eye-line-duotone] w-6 h-6"
+                      ></span>
+                    )}
                   </div>
-               
+                </div>
 
-                <ErrorMessage errors={touched?.confirmPassword && errors?.confirmPassword ? true : false} name="confirmPassword" message={errors?.confirmPassword && errors.confirmPassword} />
+                <ErrorMessage
+                  errors={
+                    touched?.confirmPassword && errors?.confirmPassword
+                      ? true
+                      : false
+                  }
+                  name="confirmPassword"
+                  message={errors?.confirmPassword && errors.confirmPassword}
+                />
               </FormContainer>
             </CustomStack>
           </Stack>
