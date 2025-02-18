@@ -16,7 +16,7 @@ const UFilmTabs = ({ filmData, allSeasonData, handlePaymentModel, videoPurchased
     const [currentTabValue, setCurrentTabValue] = React.useState(null);
     const [displayTabs, setDisplayTabs] = React.useState([]);
 
-    console.log(filmData?.type )
+    // console.log(filmData?.type )
     React.useEffect(() => {
       if (filmData !== null) {
         if (
@@ -29,10 +29,10 @@ const UFilmTabs = ({ filmData, allSeasonData, handlePaymentModel, videoPurchased
               title: "Details",
               position: "one",
             },
-            {
-              title: "More like",
-              position: "two",
-            },
+            // {
+            //   title: "More like",
+            //   position: "two",
+            // },
           ]);
           setCurrentTabValue(() => "one");
         } else if (
@@ -50,10 +50,10 @@ const UFilmTabs = ({ filmData, allSeasonData, handlePaymentModel, videoPurchased
               title: "Details",
               position: "two",
             },
-            {
-              title: "More like",
-              position: "three",
-            },
+            // {
+            //   title: "More like",
+            //   position: "three",
+            // },
             filmData?.InTheatres?.length > 0 && {
               title: "Explore",
               position: "four",
@@ -71,10 +71,10 @@ const UFilmTabs = ({ filmData, allSeasonData, handlePaymentModel, videoPurchased
               title: "Details",
               position: "two",
             },
-            {
-              title: "More like",
-              position: "three",
-            },
+            // {
+            //   title: "More like",
+            //   position: "three",
+            // },
             filmData?.InTheatres?.length > 0 && {
               title: "Explore",
               position: "four",
