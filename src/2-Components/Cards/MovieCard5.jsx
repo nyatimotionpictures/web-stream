@@ -5,6 +5,7 @@ import { Typography, Stack } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import Button from "../Buttons/Button";
+import ImageLoad from "../Loader/ImageLoad";
 
 const MovieCard5 = ({ data, stylecard }) => {
   const [isImgBroken, setIsImgBroken] = React.useState(false);
@@ -98,32 +99,36 @@ const MovieCard5 = ({ data, stylecard }) => {
   return (
     <MovieContainer
       onClick={() =>
-        data?.type.includes("film") || data?.type.includes("movie")
+        data?.type?.includes("film") || data?.type?.includes("movie")
           ? navigate(`/film/${data?.id}`)
-          : data?.type.includes("series")
+          : data?.type?.includes("series")
           ? navigate(`/series/${data?.id}`)
-          : data?.type.includes("episode")
+          : data?.type?.includes("episode")
           ? navigate(
               `/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`
             )
-          : data?.type?.includes("season")
-          ? navigate(`/segments/${data?.id}/${data?.filmId}`)
+          : data?.type?.includes("season") || data?.season 
+          ? navigate(`/segments/${data?.id}`)
           : null
       }
       ref={ref}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       className={
-        "min-h-[250px] h-max w-[194px] sm:w-[292px] md:min-h-[510px] md:w-[300px] flex flex-col items-start gap-3 pixelated div-border select-none overflow-hidden "
+       ` min-h-[250px] h-max w-[194px] sm:w-[292px] md:min-h-[338px] md:w-[300px] flex flex-col items-start gap-3 pixelated div-border select-none overflow-hidden `
       }
     >
-      <div className="bg-secondary-200 h-[252px] sm:h-[389px] w-full p-0 m-0 overflow-hidden rounded-tl-lg rounded-tr-lg">
-        <img
+      <div className="bg-secondary-200 h-[252px] sm:h-[386px] w-full p-0 m-0 overflow-hidden rounded-tl-lg rounded-tr-lg">
+        <ImageLoad
           onError={handleImgError}
-          // src={posterlink}
-          src={isImgBroken ? noImage : posterlink.url}
-          alt={""}
-          className="object-cover sm:object-cover object-top size-fit h-full  w-full"
+          imageData={{
+            alt: data?.title,
+            className: "size-fit object-top h-full w-full",
+            src:isImgBroken ? noImage : posterlink.url
+          }}
+          
+       
+          // className="object-cover sm:object-cover object-top size-fit h-full  w-full"
         />
       </div>
 

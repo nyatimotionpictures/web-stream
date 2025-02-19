@@ -19,6 +19,7 @@ const UserHome = () => {
   let filmsQuery = useGetAllFilms();
   let categoryQuery = useGetAllCategories();
 
+  console.log(categoryQuery?.data)
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -89,7 +90,9 @@ const UserHome = () => {
         }
       
 
-        {categoryQuery?.data?.categories?.length > 0 && <UserCategory categories={categoryQuery?.data?.categories} />}
+{categoryQuery?.data?.categories?.length > 0 && <UserCategory categories={categoryQuery?.data?.categories} />}
+
+      
       </CustomStack>
 
       <Footer />
