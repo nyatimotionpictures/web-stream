@@ -59,12 +59,12 @@ const UVTabLists = ({ type, watchlistData }) => {
                         }
                       </div>
 
-                      <Button
+                      {/* <Button
                         variant="ghost"
                         className="flex text-whites-40 px-2 py-1 items-center"
                       >
                         <span className="icon-[solar--trash-bin-trash-linear] h-6 w-6"></span>
-                      </Button>
+                      </Button> */}
                     </Box>
                   </Stack>
                 );
@@ -110,12 +110,12 @@ const UVTabLists = ({ type, watchlistData }) => {
                 Movie
               </div>
 
-              <Button
+              {/* <Button
                 variant="ghost"
                 className="flex text-whites-40 px-2 py-1 items-center"
               >
                 <span className="icon-[solar--trash-bin-trash-linear] h-6 w-6"></span>
-              </Button>
+              </Button> */}
             </Box>
           </Stack>
         </Stack>

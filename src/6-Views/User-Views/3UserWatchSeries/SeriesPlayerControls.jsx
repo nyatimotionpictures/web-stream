@@ -195,7 +195,7 @@ const SeriesPlayerControls = ({
             {!isSubtitleMenuOpen && !isQualityMenuOpen && (
               <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-secondary-200 bg-opacity-90 ">
                 {/** subtitle button */}
-                <Button
+                {/* <Button
                   onClick={handleSubtitlesOpen}
                   className="text-whites-40 bg-secondary-900 flex w-full justify-between flex-row items-center gap-2 "
                 >
@@ -210,10 +210,10 @@ const SeriesPlayerControls = ({
                     <p className="text-white text-xs ">
                       {subtitle !== "Off" ? subtitle : "Off"}
                     </p>
-                    {/** icon- arrow left */}
+                  
                     <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-whites-40"></span>
                   </div>
-                </Button>
+                </Button> */}
                 {/** quality button */}
                 <Button
                   onClick={handleQualityOpen}
@@ -238,15 +238,15 @@ const SeriesPlayerControls = ({
             )}
 
             {/** submenu for subtitles */}
-            {isSubtitleMenuOpen && (
+            {/* {isSubtitleMenuOpen && (
               <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-secondary-200 bg-opacity-90 ">
-                {/** back button */}
+          
                 <Button
                   onClick={handleSubSettingsClose}
                   className="text-whites-40 bg-secondary-900 flex w-full  flex-row items-center gap-2 "
                 >
                   <div className="flex flex-row items-center gap-1 ">
-                    {/** icon- arrow left */}
+                  
                     <span className="icon-[solar--arrow-left-bold] h-5 w-5  text-white"></span>
                   </div>
 
@@ -258,7 +258,7 @@ const SeriesPlayerControls = ({
                 </Button>
 
                 <Divider className="w-full bg-white" />
-                {/** quality button */}
+              
                 <div className="text-whites-40 font-[Inter-Regular] cursor-pointer flex w-full py-2 flex-row items-center gap-2 ">
                   <input
                     type="radio"
@@ -308,7 +308,7 @@ const SeriesPlayerControls = ({
                   );
                 })}
               </div>
-            )}
+            )} */}
 
             {/** quality menu */}
             {isQualityMenuOpen && (

@@ -12,11 +12,17 @@ const UViewActivity = () => {
   const userData = useContext(AuthContext);
   const watchedQuery = useGetWatchList(userData?.currentUser?.user?.id);
 
+  console.log("userData?.currentUser?.user?.id", userData?.currentUser);
+
+console.log("watchlist",watchedQuery?.data?.watchlist )
+
   let watchlistData = React.useMemo(() => {
     return watchedQuery?.data?.watchlist?.SAVED?.filter((film) => {
       return film;
     });
   }, [watchedQuery?.data]);
+
+  console.log("watchedQuery?.data?.watchlist", watchedQuery?.data?.watchlist)
   return (
     <Stack
       spacing={"0"}

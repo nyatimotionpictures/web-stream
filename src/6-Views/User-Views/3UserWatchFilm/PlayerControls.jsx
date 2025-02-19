@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
-import Button from '../../../2-Components/Buttons/Button'
-import { Divider, Slider, Typography } from '@mui/material'
-import formatDuration from './formatDuration'
-
+import React, { useEffect } from "react";
+import Button from "../../../2-Components/Buttons/Button";
+import { Divider, Slider, Typography } from "@mui/material";
+import formatDuration from "./formatDuration";
 
 const subtitles = [
   { id: "english", name: "English" },
@@ -10,77 +9,89 @@ const subtitles = [
   { id: "french", name: "French" },
 ];
 
-const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVideoPlaying, setIsVideoPlaying, handleFullScreen, isFullScreen,replayVideo,handleVolumeChange,volumestate, handleMuteVideo, isVideoMuted, allVideos, handleResolution, videoSrc,setIsLoading,  subtitle = "off", handleExitFullScreen,  }) => {
+const PlayerControls = ({
+  videoRef,
+  togglePlayPause,
+  duration,
+  currentTime,
+  isVideoPlaying,
+  setIsVideoPlaying,
+  handleFullScreen,
+  isFullScreen,
+  replayVideo,
+  handleVolumeChange,
+  volumestate,
+  handleMuteVideo,
+  isVideoMuted,
+  allVideos,
+  handleResolution,
+  videoSrc,
+  setIsLoading,
+  subtitle = "off",
+  handleExitFullScreen,
+}) => {
   //  const [volumestate, setVolumeState] = React.useState(40);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isSubtitleMenuOpen, setIsSubtitleMenuOpen] = React.useState(false);
   const [isQualityMenuOpen, setIsQualityMenuOpen] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    let volumeRef = React.useRef()
+  let volumeRef = React.useRef();
 
-    const handleMenuClose = () => {
-      setAnchorEl(null);
-    };
-  
-    const handleResolutionChange = (video) => {
-      if(videoRef.current){
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
-        // const currentTime = videoRef.current.currentTime; // Save current time
-        // const isPlaying = !videoRef.current.paused;
+  const handleResolutionChange = (video) => {
+    if (videoRef.current) {
+      // const currentTime = videoRef.current.currentTime; // Save current time
+      // const isPlaying = !videoRef.current.paused;
 
-        setIsVideoPlaying(false);
-        handleResolution(video);
-        setIsLoading(true);
+      setIsVideoPlaying(false);
+      handleResolution(video);
+      setIsLoading(true);
 
-        videoRef.current.onloadedmetadata = () => {
-         // videoRef.current.currentTime = currentTime; // Restore playback time
-         // if (isPlaying) videoRef.current.play(); // Resume playback if it was playing
-         videoRef.current.play();
-          setIsVideoPlaying(true);
-          setIsLoading(false);
-        };
-      }
-      setIsMenuOpen(!isMenuOpen);
-      setIsSubtitleMenuOpen(false);
-      setIsQualityMenuOpen(false);
-      setAnchorEl(null);
-    };
-
-
-    const handleSettingsClick = (event) => {
-      setAnchorEl(setAnchorEl);
-      setIsMenuOpen(!isMenuOpen);
-      handleSubSettingsClose();
-
-    };
-
-    const handleSubtitlesOpen = () => {
-      setIsSubtitleMenuOpen(true);
-    };
-  
-    const handleQualityOpen = () => {
-      setIsQualityMenuOpen(true);
-    };
-    const handleSubSettingsClose = () => {
-      setIsSubtitleMenuOpen(false);
-      setIsQualityMenuOpen(false);
-    };
-
-
-  
-
-    useEffect(() => {
-      if (allVideos.length > 0) {
-        const order = ["SD", "HD", "FHD", "UHD"];
-        allVideos.sort(
-          (a, b) => order.indexOf(a.resolution) - order.indexOf(b.resolution)
-        );
-      }
-  
-      return () => {
-       
+      videoRef.current.onloadedmetadata = () => {
+        // videoRef.current.currentTime = currentTime; // Restore playback time
+        // if (isPlaying) videoRef.current.play(); // Resume playback if it was playing
+        videoRef.current.play();
+        setIsVideoPlaying(true);
+        setIsLoading(false);
       };
-    }, [allVideos]);
+    }
+    setIsMenuOpen(!isMenuOpen);
+    setIsSubtitleMenuOpen(false);
+    setIsQualityMenuOpen(false);
+    setAnchorEl(null);
+  };
+
+  const handleSettingsClick = (event) => {
+    setAnchorEl(setAnchorEl);
+    setIsMenuOpen(!isMenuOpen);
+    handleSubSettingsClose();
+  };
+
+  const handleSubtitlesOpen = () => {
+    setIsSubtitleMenuOpen(true);
+  };
+
+  const handleQualityOpen = () => {
+    setIsQualityMenuOpen(true);
+  };
+  const handleSubSettingsClose = () => {
+    setIsSubtitleMenuOpen(false);
+    setIsQualityMenuOpen(false);
+  };
+
+  useEffect(() => {
+    if (allVideos.length > 0) {
+      const order = ["SD", "HD", "FHD", "UHD"];
+      allVideos.sort(
+        (a, b) => order.indexOf(a.resolution) - order.indexOf(b.resolution)
+      );
+    }
+
+    return () => {};
+  }, [allVideos]);
 
   return (
     <div className="w-full flex flex-row justify-between items-center ">
@@ -151,7 +162,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
       {/** settings & resize */}
       <div className="flex flex-row gap-4 items-center">
         {/** settings menu */}
-      {isMenuOpen && (
+        {isMenuOpen && (
           <div
             id="multi-dropdown"
             className="absolute bottom-0 h-max right-4 -translate-y-16 z-50 flex flex-col gap-2 items-center"
@@ -159,7 +170,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
             {!isSubtitleMenuOpen && !isQualityMenuOpen && (
               <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-secondary-200 bg-opacity-90 ">
                 {/** subtitle button */}
-                <Button
+                {/* <Button
                   onClick={handleSubtitlesOpen}
                   className="text-whites-40 bg-secondary-900 flex w-full justify-between flex-row items-center gap-2 "
                 >
@@ -174,10 +185,11 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                     <p className="text-white text-xs ">
                       {subtitle !== "Off" ? subtitle : "Off"}
                     </p>
-                    {/** icon- arrow left */}
+                   
                     <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-whites-40"></span>
                   </div>
-                </Button>
+                </Button> */}
+
                 {/** quality button */}
                 <Button
                   onClick={handleQualityOpen}
@@ -192,7 +204,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
                   <div className="flex flex-row items-center gap-1 ">
                     <p className="text-white text-xs ">
-                    {videoSrc?.resolution}
+                      {videoSrc?.resolution}
                     </p>
                     {/** icon- arrow left */}
                     <span className="icon-[solar--arrow-right-bold] h-5 w-5  text-whites-40"></span>
@@ -202,15 +214,15 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
             )}
 
             {/** submenu for subtitles */}
-            {isSubtitleMenuOpen && (
+            {/* {isSubtitleMenuOpen && (
               <div className="flex flex-col w-[200px] gap-2 items-center p-3 rounded-lg bg-secondary-200 bg-opacity-90 ">
-                {/** back button */}
+               
                 <Button
                   onClick={handleSubSettingsClose}
                   className="text-whites-40 bg-secondary-900 flex w-full  flex-row items-center gap-2 "
                 >
                   <div className="flex flex-row items-center gap-1 ">
-                    {/** icon- arrow left */}
+                   
                     <span className="icon-[solar--arrow-left-bold] h-5 w-5  text-white"></span>
                   </div>
 
@@ -222,7 +234,7 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                 </Button>
 
                 <Divider className="w-full bg-white" />
-                {/** quality button */}
+      
                 <div className="text-whites-40 font-[Inter-Regular] cursor-pointer flex w-full py-2 flex-row items-center gap-2 ">
                   <input
                     type="radio"
@@ -231,8 +243,11 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                     value="off"
                     className="hidden"
                   />
-                  <label htmlFor="off" className="text-whites-40 text-xs flex flex-row gap-2 items-center">
-                  <div className="w-4 h-4">
+                  <label
+                    htmlFor="off"
+                    className="text-whites-40 text-xs flex flex-row gap-2 items-center"
+                  >
+                    <div className="w-4 h-4">
                       {
                         <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
                       }
@@ -251,19 +266,22 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                         value={item.id}
                         className="hidden"
                       />
-                      <label htmlFor={item.id} className="text-white text-xs flex flex-row gap-2 items-center">
-                      <div className="w-4 h-4">
-                      {
-                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
-                      }
-                    </div>
+                      <label
+                        htmlFor={item.id}
+                        className="text-white text-xs flex flex-row gap-2 items-center"
+                      >
+                        <div className="w-4 h-4">
+                          {
+                            <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-white"></span>
+                          }
+                        </div>
                         <span>{item.name}</span>
                       </label>
                     </div>
                   );
                 })}
               </div>
-            )}
+            )} */}
 
             {/** quality menu */}
             {isQualityMenuOpen && (
@@ -316,7 +334,11 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                   return (
                     <div
                       onClick={() => handleResolutionChange(item)}
-                      className={`text-whites-40 font-[Inter-Regular] cursor-pointer flex w-full py-2 flex-row items-center gap-2 ${videoSrc?.resolution === item.resolution ? "bg-secondary-900 " : ""}`}
+                      className={`text-whites-40 font-[Inter-Regular] cursor-pointer flex w-full py-2 flex-row items-center gap-2 ${
+                        videoSrc?.resolution === item.resolution
+                          ? "bg-secondary-900 "
+                          : ""
+                      }`}
                     >
                       <input
                         type="radio"
@@ -325,14 +347,15 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
                         value={item.id}
                         className="hidden"
                       />
-                      <label htmlFor={item.id} className="text-whites-40 text-xs flex flex-row gap-2 items-center">
-                      <div className="w-4 h-4">
-                      {
-                        videoSrc?.resolution === item.resolution ? (
-                        <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-whites-40"></span>
-                        ) : null
-                      }
-                    </div>
+                      <label
+                        htmlFor={item.id}
+                        className="text-whites-40 text-xs flex flex-row gap-2 items-center"
+                      >
+                        <div className="w-4 h-4">
+                          {videoSrc?.resolution === item.resolution ? (
+                            <span className="icon-[material-symbols--check-rounded] h-4 w-4  text-whites-40"></span>
+                          ) : null}
+                        </div>
                         <span>{item.resolution}</span>
                       </label>
                     </div>
@@ -361,39 +384,35 @@ const PlayerControls = ({videoRef, togglePlayPause,  duration, currentTime, isVi
 
           <div className="absolute -top-2 -right-2 w-max h-max flex flex-col justify-center items-center px-1 py-1 bg-opacity-90 bg-primary-500 rounded-full">
             <span className=" text-white text-[9px] font-[Inter-Bold] uppercase">
-              {videoSrc?.resolution === "full_hd" ? "FHD" : videoSrc?.resolution === "ultra_hd" ? "UHD" : videoSrc?.resolution}
+              {videoSrc?.resolution === "full_hd"
+                ? "FHD"
+                : videoSrc?.resolution === "ultra_hd"
+                ? "UHD"
+                : videoSrc?.resolution}
             </span>
           </div>
         </Button>
-     
-        
+
         {/** full screen */}
 
-        {
-          isFullScreen ? (
-            <Button
+        {isFullScreen ? (
+          <Button
             onClick={handleExitFullScreen}
             className="flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40  "
           >
-            
-              <span className="icon-[solar--quit-full-screen-linear] h-6 w-6  text-whites-40"></span>
-            
+            <span className="icon-[solar--quit-full-screen-linear] h-6 w-6  text-whites-40"></span>
           </Button>
-          ) : (
-            <Button
+        ) : (
+          <Button
             onClick={handleFullScreen}
             className="flex w-max h-max p-0 rounded-full bg-opacity-60 bg-transparent hover:bg-transparent hover:bg-opacity-40  "
           >
-            
-              <span className="icon-[solar--full-screen-linear] h-6 w-6  text-whites-40"></span>
-           
+            <span className="icon-[solar--full-screen-linear] h-6 w-6  text-whites-40"></span>
           </Button>
-          )
-        }
-        
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default PlayerControls
+export default PlayerControls;

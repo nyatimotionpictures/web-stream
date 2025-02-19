@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Box, IconButton, Slider, Stack, Typography } from "@mui/material";
+import { Box, Icon, IconButton, Slider, Stack, Typography } from "@mui/material";
 import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import TextClamped from "../../../2-Components/Stacks/TextClamped";
@@ -319,18 +319,27 @@ const UMobileHero = ({
                   }`}
                 >
                   {isVideoPlaying ? (
-                    <span className="icon-[solar--pause-bold] flex  h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                     <IconButton  >
+                        <span className="icon-[solar--pause-bold] flex  h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                     </IconButton>
+                  
                   ) : (
-                    <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                    <IconButton>
+                      <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                    </IconButton>
+                    
                   )}
                 </Button>
               ) : (
                 <div className="flex flex-col justify-center items-start px-2 py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ">
                   {isVideoPlayed ? (
-                    <span
+                    <IconButton>
+                      <span
                       onClick={handleReplayVideo}
                       className="icon-[solar--restart-bold] h-8 w-8 text-whites-40 hover:text-whites-40"
                     ></span>
+                    </IconButton>
+                    
                   ) : (
                     <>
                       {/* <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span> */}

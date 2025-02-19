@@ -7,17 +7,17 @@ import { TabContext, TabPanel } from "@mui/lab";
 const UViewTabs = ({watchlistData}) => {
  const [currentTabValue, setCurrentTabValue] = React.useState("one");
  const [displayTabs, setDisplayTabs] = React.useState([
+  //  {
+  //    title: "Watched",
+  //    position: "one",
+  //  },
    {
-     title: "Watched",
+     title: "Watchlist",
      position: "one",
    },
    {
-     title: "Watchlist",
-     position: "two",
-   },
-   {
      title: "Rated",
-     position: "three",
+     position: "two",
    },
  ]);
 
