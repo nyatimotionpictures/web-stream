@@ -59,7 +59,13 @@ const MovieCard5 = ({ data, stylecard }) => {
   //randomize data
   React.useEffect(() => {
     if (data?.posters?.length > 0 && data?.posters?.length > 1) {
-      const shuffledItems = shuffleArray(data.posters);
+      let filteredPosters = data?.posters?.filter((data) => {
+        if (data.isCover) {
+          return data;
+        }
+      });
+
+      const shuffledItems = shuffleArray(filteredPosters);
       let selectedlink = shuffledItems[0];
       setPosterLink(selectedlink);
     } else if (data?.posters?.length > 0 && data?.posters?.length === 1) {
