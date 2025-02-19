@@ -52,7 +52,7 @@ const  MovieCard4 = ({data, cardType}) => {
   // className={
   //   "min-h-[250px] h-max w-[152.42px] sm:w-[292px] md:w-[280px] lg:min-h-[510px] 2xl:w-[300px] flex flex-col items-start gap-3 pixelated"
   // }
-   console.log("data", data);
+   
   return (
     <MovieContainer
       onClick={() =>
@@ -69,7 +69,7 @@ const  MovieCard4 = ({data, cardType}) => {
           : navigate(`/segments/${data?.id}`)
       }
       className={
-        "min-h-[250px] h-max w-full  lg:h-[310px]  max-w-[320px] flex flex-col items-start gap-3 pixelated "
+        "min-h-[250px] h-max w-full  lg:min-h-[310px]  max-w-[320px] flex flex-col items-start gap-3 pixelated "
       }
     >
       <div className="bg-secondary-200 h-[172.42px] sm:h-[302px] md:h-[280px] lg:h-[310px] 2xl:h-[389px] w-full p-0 m-0 overflow-hidden md:rounded-tl-md md:rounded-tr-md ">
