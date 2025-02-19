@@ -479,8 +479,8 @@ export const getPaymentStatus = async (
 
 export const getAllCategories = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:4500/api/v1/studio/categories"
+    const response = await apiRequest.get(
+      "/v1/studio/categories"
     );
 
 

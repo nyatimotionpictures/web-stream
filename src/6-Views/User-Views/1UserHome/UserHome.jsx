@@ -19,7 +19,7 @@ const UserHome = () => {
   let filmsQuery = useGetAllFilms();
   let categoryQuery = useGetAllCategories();
 
-  console.log(categoryQuery?.data?.categories);
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
