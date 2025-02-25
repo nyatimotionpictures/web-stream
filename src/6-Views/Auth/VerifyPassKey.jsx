@@ -56,10 +56,12 @@ const VerifyPassKey = () => {
 
   React.useEffect(() => {
     otp0.current?.focus();
+    let contact = location?.state?.contact;
+    let isEmail = location?.state?.isEmail;
     sendMutation.mutate({
-      contact: location?.state?.contact,
+      contact: contact,
       type: "auth",
-      isEmail: location?.state?.isEmail,
+      isEmail: isEmail,
     });
   }, []);
 
@@ -135,12 +137,14 @@ const VerifyPassKey = () => {
     // console.log("otpnum", otpnum.join(""));
     let contact = location.state.contact;
     let isEmail = location.state.isEmail;
+    let otpz = otpnum?.join("");
+    let otpToken = location?.state?.otpToken;
     verifyMutation.mutate({
       contact,
       isEmail,
       type: "auth",
-      otp: otpnum?.join(""),
-      otpToken: location?.state?.otpToken,
+      otp: otpz,
+      otpToken: otpToken,
     });
     // setIsSubmittingResend(() => true);
   };
