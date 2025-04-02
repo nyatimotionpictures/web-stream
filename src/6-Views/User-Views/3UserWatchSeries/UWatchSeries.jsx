@@ -173,7 +173,11 @@ const UWatchSeries = () => {
             setErrorMessage("Episode not found or Videos not Found");
             setCheckingAccess(false);
           }
-        }
+        } else {
+          setErrorVideo(true);
+          setErrorMessage("No access");
+          setCheckingAccess(false);
+        } 
       }
     }
   };

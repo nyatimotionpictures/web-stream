@@ -34,7 +34,7 @@ const UWatchFilm = () => {
       if(filmsQuery?.data?.film?.type?.includes("film")){
         if(filmsQuery?.data?.film?.access?.includes("free")){
           let videoArray = filmsQuery?.data?.film?.video?.filter(video => !video.isTrailer);
-          // console.log("videoArray", videoArray);
+          console.log("videoArray", videoArray);
           //check if we have videos to watch
           //else set error message
           if (videoArray.length > 0){
