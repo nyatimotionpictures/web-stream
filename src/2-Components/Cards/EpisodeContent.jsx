@@ -21,8 +21,10 @@ const EpisodeContent = ({
 React.useEffect(() => {
   // console.log(seasondata);
   // console.log(episodedata)
-  if (seasondata?.access !== "rent") {
+ 
+  if (seasondata?.access === "rent") {
     if (seasondata?.videoPurchased) {
+  
       setIsPurchased(true);
     }else {
       setIsPurchased(false);
