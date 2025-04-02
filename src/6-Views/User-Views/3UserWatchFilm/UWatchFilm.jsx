@@ -28,7 +28,7 @@ const UWatchFilm = () => {
   const filmsQuery = useGetFilm(params?.id);
 
 
-console.log("filmsQuery", filmsQuery);
+// console.log("filmsQuery", filmsQuery);
   const handleCheckingVideo = () => {
     if (filmsQuery?.data?.film) {
       if(filmsQuery?.data?.film?.type?.includes("film")){

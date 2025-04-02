@@ -47,7 +47,7 @@ const USeasonDetailPage = () => {
   let seasonQuery = useGetSeason(params?.id)
   let navigate = useNavigate();
 
-  console.log("seasons", seasonQuery?.data?.season)
+  // console.log("seasons", seasonQuery?.data?.season)
   React.useEffect(() => {
     if (userData.currentUser !== null) {
       setCurrentUserData(userData.currentUser?.user);
@@ -72,7 +72,7 @@ const USeasonDetailPage = () => {
   /** Get Pricing Data */
     React.useEffect(() => {
       if (seasonQuery?.data?.season) {
-       console.log("seasonQuery?.data?.season", seasonQuery?.data?.season)
+      //  console.log("seasonQuery?.data?.season", seasonQuery?.data?.season)
         
           if (seasonQuery?.data?.season?.pricing) {
             setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing?.priceList);
@@ -120,13 +120,13 @@ const USeasonDetailPage = () => {
   const rateMutation = useMutation({
     mutationFn: rateLikesFilm,
     onSuccess: (data, variables) => {
-      console.log("data", data);
+      // console.log("data", data);
       //setRated(true)
       setSnackbarMessage({ message: data.message, severity: "success" });
       seasonQuery.refetch();
     },
     onError: (error) => {
-      console.log("error", error);
+      // console.log("error", error);
       setSnackbarMessage(() => ({ message: error.message, severity: "error" }));
     },
   });
@@ -135,13 +135,13 @@ const USeasonDetailPage = () => {
   const addToWatchlistMutation = useMutation({
     mutationFn: postAddToWatchlist,
     onSuccess: (data, variables) => {
-      console.log("data", data);
+      // console.log("data", data);
       //setRated(true)
       setSnackbarMessage({ message: data.message, severity: "success" });
       watchlistQuery.refetch();
     },
     onError: (error) => {
-      console.log("error", error);
+      // console.log("error", error);
       setSnackbarMessage(() => ({ message: error.message, severity: "error" }));
     },
   });
@@ -150,13 +150,13 @@ const USeasonDetailPage = () => {
   const removeFromWatchlistMutation = useMutation({
     mutationFn: removeFromWatchlist,
     onSuccess: (data, variables) => {
-      console.log("data", data);
+      // console.log("data", data);
       //setRated(true)
       setSnackbarMessage({ message: data.message, severity: "success" });
       watchlistQuery.refetch();
     },
     onError: (error) => {
-      console.log("error", error);
+      // console.log("error", error);
       setSnackbarMessage(() => ({ message: error.message, severity: "error" }));
     },
   });
@@ -183,7 +183,7 @@ const USeasonDetailPage = () => {
     navigate(`/watch/s/${seasonQuery?.data?.season?.id}`);
   };
 
-  console.log(seasonQuery?.data?.season);
+  // console.log(seasonQuery?.data?.season);
 
   /** check purchases */
     let videoPurchasedArray = React.useMemo(() => { 

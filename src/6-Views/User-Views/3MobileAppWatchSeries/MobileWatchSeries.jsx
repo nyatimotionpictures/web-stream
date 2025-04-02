@@ -10,10 +10,10 @@ import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
-import SeriesFullCustomPlayer from "./SeriesFullCustomPlayer";
+import MSeriesFullCustomPlayer from "./MSeriesFullCustomPlayer";
 
-const UWatchSeries = () => {
-  const [selectedVideoUrl, setSelectedVideoUrl] = React.useState(null);
+const MobileWatchSeries = () => {
+    const [selectedVideoUrl, setSelectedVideoUrl] = React.useState(null);
   const [episodeData, setEpisodeData] = React.useState(null);
   const [episodeIndex, setEpisodeIndex] = React.useState(0);
   const [allEpisodes, setAllEpisodes] = React.useState([]);
@@ -173,11 +173,7 @@ const UWatchSeries = () => {
             setErrorMessage("Episode not found or Videos not Found");
             setCheckingAccess(false);
           }
-        } else {
-          setErrorVideo(true);
-          setErrorMessage("No access");
-          setCheckingAccess(false);
-        } 
+        }
       }
     }
   };
@@ -203,10 +199,9 @@ const UWatchSeries = () => {
   const handleResolution = (resolution) => {
     setSelectedVideoUrl(resolution);
   };
-
   return (
     <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
-      <SeriesFullCustomPlayer
+      <MSeriesFullCustomPlayer
         purchasedData={purchasedData}
         filmData={episodeData}
         allVideos={allVideos}
@@ -280,9 +275,9 @@ const UWatchSeries = () => {
         </div>
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default UWatchSeries;
+export default MobileWatchSeries
 
 const Container = styled.div``;

@@ -40,6 +40,10 @@ import UWatchSeries from "./6-Views/User-Views/3UserWatchSeries/UWatchSeries.jsx
 import ForgotPassword from "./6-Views/Auth/ForgotPassword.jsx";
 import ResetKey from "./6-Views/Auth/ResetKey.jsx";
 import VerifyForgetKey from "./6-Views/Auth/VerifyForgetKey.jsx";
+import MProcessWatching from "./6-Views/User-Views/3MobileAppWatchFilm/MProcessWatching.jsx";
+import MobileWatchFilm from "./6-Views/User-Views/3MobileAppWatchFilm/MobileWatchFilm.jsx";
+import MSeriesProcessWatch from "./6-Views/User-Views/3MobileAppWatchSeries/MSeriesProcessWatch.jsx";
+import MobileWatchSeries from "./6-Views/User-Views/3MobileAppWatchSeries/MobileWatchSeries.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -129,6 +133,13 @@ function App() {
 
               <Route path="/verifyaccount" element={<VerifyPassKey />} />
               <Route path="/success" element={<RegisterSuccess />} />
+
+              {/** Mobile App Routes */}
+              <Route path="/process/film/:filmId" element={<MProcessWatching/> } />
+              <Route path="/process/season/:seasonId" element={<MSeriesProcessWatch/> } />
+              {/* <Route path="/watch/:id" element={<UWatchFilm />} /> */}
+              <Route path="/mwatch/:id" element={<MobileWatchFilm />} />
+              <Route path="/mwatch/s/:id" element={<MobileWatchSeries  />} />
             </Route>
           </Routes>
         </ThemeProvider>

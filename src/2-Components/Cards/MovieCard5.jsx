@@ -13,7 +13,7 @@ const MovieCard5 = ({ data, stylecard }) => {
   const [posterlink, setPosterLink] = React.useState("");
   const [openModal, setOpenModal] = React.useState(false);
 
-  console.log(data);
+  // console.log(data);
 
   let ref = React.useRef();
   let navigate = useNavigate();
