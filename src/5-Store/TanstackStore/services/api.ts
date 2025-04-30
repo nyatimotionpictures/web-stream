@@ -242,8 +242,7 @@ export const getFilmContentMobile = async (
       localStorage.removeItem("Mb_token");
      throw {message: "Session expired. Please login again."}
     
-  }
-    if (error?.response) {
+  }else if (error?.response) {
       throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
      
     } else if (error.request) {
@@ -304,6 +303,34 @@ export const getSeasonContent = async (seasonId: String) => {
     return response.data;
   } catch (error) {
     if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
+  }
+};
+
+export const getSeasonContentMobile = async (seasonId: String) => {
+  try {
+    const response = await axios.get(`${BaseUrl}/v1/film/season/${seasonId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("Mb_token")}`,
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    if(error.response?.status === 401){
+      //token expiration
+      localStorage.removeItem("Mb_token");
+     throw {message: "Session expired. Please login again."}
+    
+  } else if (error?.response) {
       throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
      
     } else if (error.request) {

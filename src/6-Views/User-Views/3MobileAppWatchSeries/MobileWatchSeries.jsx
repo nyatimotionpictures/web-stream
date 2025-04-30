@@ -5,12 +5,13 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { useGetSeason } from "../../../5-Store/TanstackStore/services/queries";
+import { useGetSeasonMobile } from "../../../5-Store/TanstackStore/services/queries";
 import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
 import MSeriesFullCustomPlayer from "./MSeriesFullCustomPlayer";
+import qs from "query-string";
 
 const MobileWatchSeries = () => {
     const [selectedVideoUrl, setSelectedVideoUrl] = React.useState(null);
@@ -20,6 +21,7 @@ const MobileWatchSeries = () => {
   const [allVideos, setAllVideos] = React.useState([]);
   const [isCheckingAccess, setCheckingAccess] = React.useState(true);
   const [purchasedData, setPurchasedData] = React.useState(null);
+    const search = qs.parse(searchParams.toString());
 
   const [errorVideo, setErrorVideo] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
@@ -28,7 +30,17 @@ const MobileWatchSeries = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   let episodeId = searchParams.get("ep");
   let navigate = useNavigate();
-  const { data, isPending } = useGetSeason(params?.id);
+  React.useEffect(() => {
+    if (!search?.token) {
+      window.ReactNativeWebView.postMessage("invalidToken");
+    }
+    localStorage.setItem("Mb_token", search?.token);
+  }, [search?.token]);
+
+  const { data, isPending, isError, error } = useGetSeasonMobile(params?.id);
+
+
+ 
 
   // console.log(data?.season);
 
@@ -199,6 +211,30 @@ const MobileWatchSeries = () => {
   const handleResolution = (resolution) => {
     setSelectedVideoUrl(resolution);
   };
+
+  if (isError) {
+    if(error?.message === "Session expired. Please login again."){
+      window.ReactNativeWebView.postMessage("invalidToken");
+      return (
+        <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
+          <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
+            <div className="w-full h-full flex flex-col justify-center items-center ">
+              <CustomLoader text="Session expired. Please login again." />
+            </div>
+          </div>
+        </Container>
+      );
+    }
+    return (
+      <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
+        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
+          <div className="w-full h-full flex flex-col justify-center items-center ">
+            <CustomLoader text="error loading film, please try again" />
+          </div>
+        </div>
+      </Container>
+    );
+  }
   return (
     <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
       <MSeriesFullCustomPlayer
