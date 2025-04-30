@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {  getAllCategories, getAllFilms,  getAllSeasons,  getFilmContent, getSeasonContent, getSimilarFilms, getUserPurchaseList, getUserWatchList, getVideoSourceFilm } from "./api";
+import {  getAllCategories, getAllFilms,  getAllSeasons,  getFilmContent, getSeasonContent, getSimilarFilms, getUserPurchaseList, getUserWatchList, getVideoSourceFilm, getFilmContentMobile } from "./api";
 
 
 export function useGetAllCategories() {
@@ -39,6 +39,14 @@ export function useGetFilm(id: String) {
     return useQuery({
         queryKey: ["film", id],
         queryFn: () => getFilmContent(id),
+       
+    });
+}
+
+export function useGetFilmMobile(id: String) {
+    return useQuery({
+        queryKey: ["film", id],
+        queryFn: () => getFilmContentMobile(id),
        
     });
 }

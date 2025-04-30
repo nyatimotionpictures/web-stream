@@ -222,6 +222,40 @@ export const getFilmContent = async (
   }
 };
 
+/** Mobile Application: Get Single Film Response */
+export const getFilmContentMobile = async (
+  filmId: String
+): Promise<GetSingleFilmResponse> => {
+  try {
+    const response = await axios.get<GetSingleFilmResponse>(
+      `${BaseUrl}/v1/film/${filmId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Mb_token")}`,
+      }
+    }
+    );
+
+    return response.data;
+  } catch (error) {
+    if(error.response?.status === 401){
+      //token expiration
+      localStorage.removeItem("Mb_token");
+     throw {message: "Session expired. Please login again."}
+    
+  }
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
+  }
+};
+
 /** query: Get All Films : working as expected - GET ALL FILMS - user */
 export const getAllFilms = async () => {
   try {
