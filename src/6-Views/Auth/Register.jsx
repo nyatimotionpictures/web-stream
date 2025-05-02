@@ -284,7 +284,7 @@ const Register = () => {
       {/** snackbar */}
       <Snackbar
         open={snackbarMessage !== null}
-        autoHideDuration={6000}
+        autoHideDuration={60000}
         onClose={() => setSnackbarMessage(null)}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >

@@ -34,9 +34,16 @@ export const postUserRegister = async (
     //console.log("response", response.data);
     return response.data;
   } catch (error) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-
-    throw axiosError.response?.data ?? { message: "An unknown error occurred" };
+    if (error?.response) {
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
+     
+    } else if (error.request) {
+      throw {message: "No response from server. Please check your network connection."}
+      
+    } else {
+      throw {message: `Request failed: ${error.message}`}
+     
+    }
   }
 };
 
@@ -53,7 +60,7 @@ export const postSendOtp = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -80,7 +87,7 @@ export const verifyOtp = async (OtpData: any) => {
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -105,7 +112,7 @@ export const postAuthLogin = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -137,7 +144,7 @@ export const postAuthReset = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
