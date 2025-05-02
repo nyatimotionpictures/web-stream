@@ -54,14 +54,17 @@ const Register = () => {
         return isEmail || isPhone;
       })
       .required("Number or Email is required"),
-    fullname: yup.string().required("Your fullname is required"),
-    username: yup.string().required("Please enter a username"),
-    password: yup.string().required("Password is required"),
-    isEmail: yup.boolean().when("contact", {
+        fullname: yup.string().required("Your fullname is required"),
+        username: yup.string().required("Please enter a username"),
+        password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+        isEmail: yup.boolean().when("contact", {
       is: (contact) => contact && yup.string().email().isValidSync(contact),
       then: (schema) => schema.default(true),
       otherwise: (schema) => schema.default(false),
-    }),
+        }),
     //confirmPassword: yup.string().required("Confirm Password is required"),
   });
 
