@@ -281,149 +281,171 @@ const UMobileHero = ({
       className="flex flex-col relative lg:hidden w-full h-full"
     >
       {/** Video */}
-      <div className="w-full h-full  relative ">
-        <div className="flex justify-center items-center  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden relative ">
-          <video
-            // poster={backDropUrl ? backDropUrl : ""}
-            ref={videoRef}
-            autoPlay
-            src={trailerUrl}
-            playsInline
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedData={handleLoadedData}
-            onCanPlay={handleOnLoad}
-            onPlay={() => setIsVideoPlaying(true)}
-            controls={false}
-            onEnded={() => handleOnEnded()}
-            muted={isVideoMuted}
-            className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
-          ></video>
-
-          {/** controls */}
-          <div
-            className={`flex absolute top-0 flex-col justify-end items-flex z-50 w-full h-full ${
-              controlsVisible || videoRef?.current?.paused
-                ? " bg-secondary-900 bg-opacity-20 "
-                : "bg-transparent bg-opacity-80  "
-            }  `}
-          >
-            {/** Play Button */}
-            <div className="absolute flex right-0 left-0 bottom-0 top-0 m-auto  z-50 w-max  h-max   ">
-              {isVideoLoaded ? (
-                <Button
-                  onClick={togglePlayPause}
-                  className={` flex-col justify-center items-start px-2 py-2   max-w-max h-full bg-secondary-300 bg-opacity-40 rounded-full ${
-                    controlsVisible || videoRef?.current?.paused
-                      ? "flex"
-                      : "hidden"
-                  }`}
-                >
-                  {isVideoPlaying ? (
-                     <IconButton  >
-                        <span className="icon-[solar--pause-bold] flex  h-10 w-10 text-whites-40 hover:text-whites-40"></span>
-                     </IconButton>
-                  
-                  ) : (
-                    <IconButton>
-                      <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
-                    </IconButton>
-                    
-                  )}
-                </Button>
-              ) : (
-                <div className="flex flex-col justify-center items-start px-2 py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ">
-                  {isVideoPlayed ? (
-                    <IconButton>
-                      <span
-                      onClick={handleReplayVideo}
-                      className="icon-[solar--restart-bold] h-8 w-8 text-whites-40 hover:text-whites-40"
-                    ></span>
-                    </IconButton>
-                    
-                  ) : (
-                    <>
-                      {/* <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span> */}
-
-                      <CustomLoader />
-                    </>
-                  )}
+      {!trailerUrl ? (
+            <div className="flex items-center justify-center w-full h-full min-h-[30vh] text-whites-40 text-lg">
+               {/** Close Button */}
+               <div className="absolute flex right-2 top-2 z-50 w-max  h-max   ">
+                  <Button
+                    onClick={() => navigate(-1)}
+                    className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent hover:bg-transparent rounded-full z-50 "
+                  >
+                    <div>
+                      <IconButton  >
+                        <span className="icon-[carbon--close]  h-6 w-6 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
+                      </IconButton>
+                    </div>
+                  </Button>
                 </div>
-              )}
+              No Trailer Uploaded
             </div>
-            {/** Close Button */}
-            <div className="absolute flex right-2 top-2 z-50 w-max  h-max   ">
-              <Button
-                onClick={() => navigate(-1)}
-                className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent md:bg-secondary-900 bg-opacity-80 rounded-full z-50 "
-              >
-                <div>
-                  <IconButton  >
-                    <span className="icon-[carbon--close]  h-10 w-10 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
-                  </IconButton>
-                </div>
-              </Button>
-            </div>
-
-            {/** Mute Button */}
-            {!isVideoPlayed && (
-              <div className="absolute flex right-2 bottom-12 sm:bottom-8 z-50 w-max  h-max   ">
-                <div
-                  className={` flex-col justify-center items-start sm:px-2 sm:py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ${
-                    controlsVisible || videoRef?.current?.paused
-                      ? "flex"
-                      : "hidden"
-                  } `}
-                >
-                  <IconButton>
-                  {isVideoMuted ? (
-                    <span
-                      onClick={handleMuteVideo}
-                      className="icon-[solar--muted-bold] h-6 w-6 text-whites-40 hover:text-whites-40"
-                    ></span>
-                  ) : (
-                    <span
-                      onClick={handleMuteVideo}
-                      className="icon-[solar--volume-loud-bold] h-6 w-6 text-whites-40 hover:text-whites-40"
-                    ></span>
-                  )}
-                  </IconButton>
-                </div>
-              </div>
-            )}
-
-            {/** slider Btn */}
-            {!isVideoPlayed && (
+          ): (
+            <div className="w-full h-full  relative ">
+            <div className="flex justify-center items-center  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden relative ">
+              
+              <video
+                // poster={backDropUrl ? backDropUrl : ""}
+                ref={videoRef}
+                autoPlay
+                src={trailerUrl}
+                playsInline
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedData={handleLoadedData}
+                onCanPlay={handleOnLoad}
+                onPlay={() => setIsVideoPlaying(true)}
+                controls={false}
+                onEnded={() => handleOnEnded()}
+                muted={isVideoMuted}
+                disablePictureInPicture
+                className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
+              ></video>
+    
+              {/** controls */}
               <div
-                className={`flex right-0 bottom-0  ${
-                  controlsVisible
-                    ? "bg-secondary-900 bg-opacity-20"
-                    : "bg-transparent bg-opacity-20"
-                }  z-50 w-full`}
+                className={`flex absolute top-0 flex-col justify-end items-flex z-50 w-full h-full ${
+                  controlsVisible || videoRef?.current?.paused
+                    ? " bg-secondary-900 bg-opacity-20 "
+                    : "bg-transparent bg-opacity-80  "
+                }  `}
               >
-                <Slider
-                  size="medium"
-                  step={0.1}
-                  onChange={handleSliderChange}
-                  value={currentTime}
-                  min={0}
-                  max={duration}
-                  sx={{
-                    "& .MuiSlider-thumb": {
-                      color: "red",
-                    },
-                    "& .MuiSlider-track": {
-                      color: "red",
-                    },
-                    "& .MuiSlider-rail": {
-                      color: "rgba(255,255,255,0.8)",
-                    },
-                  }}
-                />
+                {/** Play Button */}
+                <div className="absolute flex right-0 left-0 bottom-0 top-0 m-auto  z-50 w-max  h-max   ">
+                  {isVideoLoaded ? (
+                    <Button
+                      onClick={togglePlayPause}
+                      className={` flex-col justify-center items-start px-2 py-2   max-w-max h-full bg-secondary-300 bg-opacity-40 rounded-full ${
+                        controlsVisible || videoRef?.current?.paused
+                          ? "flex"
+                          : "hidden"
+                      }`}
+                    >
+                      {isVideoPlaying ? (
+                         <IconButton  >
+                            <span className="icon-[solar--pause-bold] flex  h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                         </IconButton>
+                      
+                      ) : (
+                        <IconButton>
+                          <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                        </IconButton>
+                        
+                      )}
+                    </Button>
+                  ) : (
+                    <div className="flex flex-col justify-center items-start px-2 py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ">
+                      {isVideoPlayed ? (
+                        <IconButton>
+                          <span
+                          onClick={handleReplayVideo}
+                          className="icon-[solar--restart-bold] h-8 w-8 text-whites-40 hover:text-whites-40"
+                        ></span>
+                        </IconButton>
+                        
+                      ) : (
+                        <>
+                          {/* <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span> */}
+    
+                          <CustomLoader />
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {/** Close Button */}
+                <div className="absolute flex right-2 top-2 z-50 w-max  h-max   ">
+                  <Button
+                    onClick={() => navigate(-1)}
+                    className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent md:bg-secondary-900 bg-opacity-80 rounded-full z-50 "
+                  >
+                    <div>
+                      <IconButton  >
+                        <span className="icon-[carbon--close]  h-10 w-10 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
+                      </IconButton>
+                    </div>
+                  </Button>
+                </div>
+    
+                {/** Mute Button */}
+                {!isVideoPlayed && (
+                  <div className="absolute flex right-2 bottom-12 sm:bottom-8 z-50 w-max  h-max   ">
+                    <div
+                      className={` flex-col justify-center items-start sm:px-2 sm:py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ${
+                        controlsVisible || videoRef?.current?.paused
+                          ? "flex"
+                          : "hidden"
+                      } `}
+                    >
+                      <IconButton>
+                      {isVideoMuted ? (
+                        <span
+                          onClick={handleMuteVideo}
+                          className="icon-[solar--muted-bold] h-6 w-6 text-whites-40 hover:text-whites-40"
+                        ></span>
+                      ) : (
+                        <span
+                          onClick={handleMuteVideo}
+                          className="icon-[solar--volume-loud-bold] h-6 w-6 text-whites-40 hover:text-whites-40"
+                        ></span>
+                      )}
+                      </IconButton>
+                    </div>
+                  </div>
+                )}
+    
+                {/** slider Btn */}
+                {!isVideoPlayed && (
+                  <div
+                    className={`flex right-0 bottom-0  ${
+                      controlsVisible
+                        ? "bg-secondary-900 bg-opacity-20"
+                        : "bg-transparent bg-opacity-20"
+                    }  z-50 w-full`}
+                  >
+                    <Slider
+                      size="medium"
+                      step={0.1}
+                      onChange={handleSliderChange}
+                      value={currentTime}
+                      min={0}
+                      max={duration}
+                      sx={{
+                        "& .MuiSlider-thumb": {
+                          color: "red",
+                        },
+                        "& .MuiSlider-track": {
+                          color: "red",
+                        },
+                        "& .MuiSlider-rail": {
+                          color: "rgba(255,255,255,0.8)",
+                        },
+                      }}
+                    />
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
-        </div>
-      </div>
+          )}
+    
 
       {/** Other details */}
       <div className="flex px-4 py-6 gap-2 flex-col w-full h-full">
