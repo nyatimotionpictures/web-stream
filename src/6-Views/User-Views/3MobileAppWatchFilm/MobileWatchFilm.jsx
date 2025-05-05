@@ -23,7 +23,7 @@ const MobileWatchFilm = () => {
 
   React.useEffect(() => {
     if (!search?.token) {
-      window.ReactNativeWebView.postMessage("invalidToken");
+      // window.ReactNativeWebView.postMessage("invalidToken");
     }
     localStorage.setItem("Mb_token", search?.token);
   }, [search?.token]);
@@ -156,7 +156,7 @@ const MobileWatchFilm = () => {
   }
   if (filmsQuery?.isError) {
     if(filmsQuery?.error?.message === "Session expired. Please login again."){
-      window.ReactNativeWebView.postMessage("invalidToken");
+      // window.ReactNativeWebView.postMessage("invalidToken");
       return (
         <Container className="w-screen h-full bg-secondary-900 overflow-hidden relative duration-300">
           <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
