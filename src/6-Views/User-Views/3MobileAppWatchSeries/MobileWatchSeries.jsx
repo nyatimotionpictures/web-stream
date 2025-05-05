@@ -21,13 +21,14 @@ const MobileWatchSeries = () => {
   const [allVideos, setAllVideos] = React.useState([]);
   const [isCheckingAccess, setCheckingAccess] = React.useState(true);
   const [purchasedData, setPurchasedData] = React.useState(null);
+  let [searchParams, setSearchParams] = useSearchParams();
     const search = qs.parse(searchParams.toString());
 
   const [errorVideo, setErrorVideo] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
   let params = useParams();
   let location = useLocation();
-  let [searchParams, setSearchParams] = useSearchParams();
+
   let episodeId = searchParams.get("ep");
   let navigate = useNavigate();
   React.useEffect(() => {

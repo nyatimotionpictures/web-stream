@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useGetFilmMobile } from "../../../5-Store/TanstackStore/services/queries";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import { Typography } from "@mui/material";
@@ -16,9 +16,11 @@ const MobileWatchFilm = () => {
   const [errorVideo, setErrorVideo] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
   const [purchasedData, setPurchasedData] = React.useState(null);
+  const [searchParams] = useSearchParams();
   const search = qs.parse(searchParams.toString());
   let params = useParams();
   let location = useLocation();
+
   React.useEffect(() => {
     if (!search?.token) {
       window.ReactNativeWebView.postMessage("invalidToken");
