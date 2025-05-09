@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Box, Stack, Typography } from "@mui/material";
 import Button from "../../../../2-Components/Buttons/Button";
-import Plyr from 'plyr';
-import Hls from 'hls.js';
-import 'plyr/dist/plyr.css';
+
+import { Player } from "video-react";
 import CustomLoader from "../../../../2-Components/Loader/CustomLoader";
 import { formatDuration, intervalToDuration } from "date-fns";
 import GetRemainingDays from "./GetRemainingDays";
@@ -25,11 +24,10 @@ const UDetailHero = ({
   const [showVideo, setShowVideo] = React.useState(false);
   const [trailerUrl, setTrailerUrl] = React.useState(null);
   const [isVideoPlayed, setIsVideoPlayed] = React.useState(false);
-  const [isVideoMuted, setIsVideoMuted] = React.useState(false);
+  const [isVideoMuted, setIsVideoMuted] = React.useState(true);
   const [timer, setTimer] = React.useState(null);
   const videoRef = React.useRef(null);
   const heroRef = React.useRef(null);
-  const playerRef = React.useRef(null);
 
   // const handlevideoEnd = () => {
   //   setShowVideo(false);
@@ -93,129 +91,19 @@ const UDetailHero = ({
     }
   }, [filmData]);
 
-  // Initialize Plyr player
-  useEffect(() => {
-    if (showVideo && trailerUrl) {
-      const video = videoRef.current;
-      if (!video) return;
-
-      console.log('Initializing video player with URL:', trailerUrl);
-
-      // Initialize Plyr with enhanced configuration
-      const player = new Plyr(video, {
-        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-        muted: isVideoMuted,
-        autoplay: true,
-        playsinline: true,
-        ratio: '16:9',
-        fullscreen: { enabled: true, iosNative: true },
-        keyboard: { focused: true, global: true },
-        tooltips: { controls: true, seek: true },
-        captions: { active: true, language: 'auto', update: true },
-        loadSprite: true,
-        iconUrl: 'https://cdn.plyr.io/3.7.8/plyr.svg',
-        blankVideo: 'https://cdn.plyr.io/static/blank.mp4'
-      });
-
-      playerRef.current = player;
-
-      // Handle HLS if the URL is an HLS stream
-      if (trailerUrl.includes('.m3u8')) {
-        console.log('HLS stream detected');
-        if (Hls.isSupported()) {
-          const hls = new Hls({
-            enableWorker: true,
-            lowLatencyMode: true,
-            backBufferLength: 90
-          });
-          
-          hls.on(Hls.Events.ERROR, (event, data) => {
-            console.error('HLS Error:', data);
-            if (data.fatal) {
-              switch (data.type) {
-                case Hls.ErrorTypes.NETWORK_ERROR:
-                  console.log('Network error, trying to recover...');
-                  hls.startLoad();
-                  break;
-                case Hls.ErrorTypes.MEDIA_ERROR:
-                  console.log('Media error, trying to recover...');
-                  hls.recoverMediaError();
-                  break;
-                default:
-                  console.log('Fatal error, cannot recover');
-                  hls.destroy();
-                  break;
-              }
-            }
-          });
-
-          hls.loadSource(trailerUrl);
-          hls.attachMedia(video);
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            console.log('HLS manifest parsed, attempting to play');
-            video.play().catch(error => {
-              console.error('Error playing video:', error);
-            });
-          });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          console.log('Using native HLS support (Safari)');
-          video.src = trailerUrl;
-          video.addEventListener('loadedmetadata', () => {
-            video.play().catch(error => {
-              console.error('Error playing video:', error);
-            });
-          });
-        }
-      } else {
-        console.log('Regular video format detected');
-        // For regular video formats
-        video.src = trailerUrl;
-        video.addEventListener('loadedmetadata', () => {
-          video.play().catch(error => {
-            console.error('Error playing video:', error);
-          });
-        });
-      }
-
-      // Handle video errors
-      video.addEventListener('error', (e) => {
-        console.error('Video error:', e);
-        console.error('Error code:', video.error?.code);
-        console.error('Error message:', video.error?.message);
-        // Try to recover by reloading the video
-        if (player) {
-          player.load();
-        }
-      });
-
-      return () => {
-        if (player) {
-          player.destroy();
-        }
-      };
-    }
-  }, [showVideo, trailerUrl, isVideoMuted]);
-
   const handleOnLoad = (e) => {
-    console.log('Video loaded');
-    if (playerRef.current) {
-      playerRef.current.play().catch(error => {
-        console.error('Error playing video on load:', error);
-      });
-    }
+    // console.log("loaded", e.target)
+    //setIsVideoPlaying(true)
+    videoRef.current.play();
   };
 
   const handleOnEnded = () => {
-    console.log('Video ended');
     setShowVideo(false);
     setIsVideoPlayed(true);
   };
 
   const handleMuteVideo = () => {
     setIsVideoMuted(!isVideoMuted);
-    if (playerRef.current) {
-      playerRef.current.muted = !isVideoMuted;
-    }
   };
 
   const handleReplayVideo = () => {
@@ -226,16 +114,16 @@ const UDetailHero = ({
   //handle the scroll behaviour
   useEffect(() => {
     const handleScroll = () => {
-      if (!playerRef.current || !heroRef.current) return;
+      if (!videoRef.current || !heroRef.current) return;
 
       const heroBounds = heroRef.current.getBoundingClientRect();
       const isHeroInView =
         heroBounds.top >= 0 && heroBounds.bottom <= window.innerHeight;
 
-      if (!isHeroInView && !playerRef.current.paused) {
-        playerRef.current.pause();
-      } else if (isHeroInView && playerRef.current.paused && showVideo) {
-        playerRef.current.play();
+      if (!isHeroInView && !videoRef.current.paused) {
+        videoRef.current.pause(); // Pause video when out of view
+      } else if (isHeroInView && videoRef.current.paused && showVideo) {
+        videoRef.current.play(); // Resume video if it’s back in view
       }
     };
 
@@ -331,29 +219,16 @@ const UDetailHero = ({
         <div className="flex justify-center items-center absolute top-0 object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden">
           <video
             ref={videoRef}
-            className="plyr-react plyr w-full h-full object-cover"
+            autoPlay
+            src={trailerUrl}
             playsInline
             onLoadedData={handleOnLoad}
             onCanPlay={handleOnLoad}
-            onEnded={handleOnEnded}
+            controls={false}
+            onEnded={() => handleOnEnded()}
             muted={isVideoMuted}
-            crossOrigin="anonymous"
-          >
-            {trailerUrl && (
-              <>
-                {trailerUrl.includes('.m3u8') ? (
-                  <source src={trailerUrl} type="application/x-mpegURL" />
-                ) : (
-                  <>
-                    <source src={trailerUrl} type="video/mp4" />
-                    <source src={trailerUrl} type="video/webm" />
-                    <source src={trailerUrl} type="video/ogg" />
-                  </>
-                )}
-              </>
-            )}
-            Your browser does not support the video tag.
-          </video>
+            className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
+          ></video>
         </div>
       )}
 
@@ -589,48 +464,4 @@ const UDetailHero = ({
 
 export default UDetailHero;
 
-const HeroContent = styled.div`
-  .plyr {
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  .plyr--video {
-    background: transparent;
-  }
-
-  .plyr--full-ui input[type=range] {
-    color: #fff;
-  }
-
-  .plyr__control--overlaid {
-    background: rgba(255, 255, 255, 0.9);
-  }
-
-  .plyr__control:hover {
-    background: #fff;
-  }
-
-  .plyr__control--overlaid:hover {
-    background: #fff;
-  }
-
-  .plyr--video .plyr__control.plyr__tab-focus,
-  .plyr--video .plyr__control:hover,
-  .plyr--video .plyr__control[aria-expanded=true] {
-    background: #fff;
-  }
-
-  .plyr__control.plyr__tab-focus {
-    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.5);
-  }
-
-  .plyr__menu__container {
-    background: rgba(28, 28, 28, 0.9);
-  }
-`;
+const HeroContent = styled.div``;

@@ -37,7 +37,7 @@ const BrowseTabAll = ({
       ) : (
         <>
           {currentItems?.length > 0 ? (
-            <Stack className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6  gap-3 lg:gap-5 items-center justify-center mb-10">
+            <Stack className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:flex 2xl:flex-wrap 2xl:flex-row 2xl:items-start 2xl:justify-evenly 2xl:gap-y-20 2xl:gap-x-3  gap-3 lg:gap-5 items-center justify-center mb-10">
               {currentItems?.map((data, index) => {
                 return <MovieCard4 key={index} data={data} />;
               })}

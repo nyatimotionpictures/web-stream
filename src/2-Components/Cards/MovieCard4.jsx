@@ -69,7 +69,7 @@ const  MovieCard4 = ({data, cardType}) => {
           : navigate(`/segments/${data?.id}`)
       }
       className={
-        "min-h-[250px] h-max w-full  lg:min-h-[310px]  max-w-[320px] flex flex-col items-start gap-3 pixelated "
+        "min-h-[250px] h-max w-full  lg:min-h-[310px]  max-w-[350px] flex flex-col items-start gap-3 pixelated "
       }
     >
       <div className="bg-secondary-200 h-[172.42px] sm:h-[302px] md:h-[280px] lg:h-[310px] 2xl:h-[389px] w-full p-0 m-0 overflow-hidden md:rounded-tl-md md:rounded-tr-md ">

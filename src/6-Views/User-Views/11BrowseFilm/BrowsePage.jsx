@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import WebNavigation from '../../../2-Components/Navigation/WebNavigation';
 import BrowseTabs from './BrowseTabs';
 import styled from 'styled-components';
-import Footer from '../../../2-Components/Footer/Footer';
+
 import { useGetAllFilms, useGetAllSeasons } from '../../../5-Store/TanstackStore/services/queries';
 
 
@@ -121,12 +121,13 @@ const BrowsePage = () => {
   return (
     <Container className="w-full min-h-screen h-full relative flex-col space-y-0 bg-secondary-800">
     <WebNavigation isLoggedIn={true} />
-    <Stack className="flex-col w-full h-full space-y-0 max-w-screen-2xl m-auto">
+    <Stack className="flex-col w-full h-full space-y-0  m-auto">
       <div className="px-4 pt-28 md:px-16 md:pt-36">
       <BrowseTabs query={query} setQuery={setQuery} allFilteredFilms={allFilteredFilms} allFilteredTvShows={allFilteredTvShows} allFilteredMovies={allFilteredMovies} loading={loading} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} />
       </div>
     </Stack>
-    <Footer />
+   
+   
   </Container>
   )
 }

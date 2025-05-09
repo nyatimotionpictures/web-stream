@@ -88,7 +88,7 @@ const WebNavigation = ({ isLoggedIn, blur }) => {
   };
   return (
     <NavContainer className={`absolute items-center h-[85px] w-full mx-auto px-5 lg:px-14 z-50 ${blur ? "bg-secondary-900 bg-opacity-20" : ""}`}>
-      <CustomStack className="w-full h-full justify-between  items-center max-w-[1280px] mx-auto overflow-hidden">
+      <CustomStack className="w-full h-full justify-between  items-center  mx-auto overflow-hidden">
         {/** menu logo & items */}
         <CustomStack className="bg-transparent  space-x-20 items-center">
           <div

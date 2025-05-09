@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components';
 import WebNavigation from '../../../2-Components/Navigation/WebNavigation';
 import SearchComponent from './SearchComponent';
-import Footer from '../../../2-Components/Footer/Footer';
+// import Footer from '../../../2-Components/Footer/Footer';
 import { useGetAllFilms, useGetAllSeasons } from '../../../5-Store/TanstackStore/services/queries';
 
 
@@ -116,12 +116,12 @@ const SearchAll = () => {
   return (
     <Container className="w-full min-h-screen h-full  relative flex-col space-y-0 bg-secondary-800">
     <WebNavigation isLoggedIn={true} />
-    <Stack className="flex-col w-full h-full space-y-0 max-w-screen-2xl m-auto">
+    <Stack className="flex-col w-full h-full space-y-0  m-auto">
       <div className="px-4 pt-28 md:px-16 md:pt-36">
         <SearchComponent type={"all"} films={allFilteredFilms} query={query} setQuery={setQuery} loading={loading} error={error} errorMessage={errorMessage} currentPage={currentPage} itemsPerPage={itemsPerPage} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} />
       </div>
     </Stack>
-    <Footer />
+    {/* <Footer /> */}
   </Container>
   )
 }

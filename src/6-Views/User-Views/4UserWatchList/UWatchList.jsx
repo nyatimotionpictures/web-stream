@@ -45,14 +45,18 @@ const UWatchList = () => {
 
 
   return (
-    <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
+    <Container className="w-full min-h-screen h-full relative flex-col justify-between space-y-0 bg-secondary-800">
       <WebNavigation isLoggedIn={true} />
-      <Stack className="flex-col w-full h-full space-y-0 max-w-screen-2xl m-auto">
+      <Stack className="flex-col w-full h-full space-y-0  m-auto">
         <div className="px-4 pt-28 md:px-16 md:pt-36">
           <UWatchTabs allWatched={allWatched} filmsWatched={filmsWatched} showsWatched={showsWatched} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage}  />
         </div>
       </Stack>
+      <div className="flex items-baseline">
       <Footer />
+
+      </div>
+    
     </Container>
   );
 };
