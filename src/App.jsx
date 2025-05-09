@@ -16,6 +16,7 @@ import Login from "./6-Views/Auth/Login.jsx";
 import RegisterSuccess from "./6-Views/Auth/RegisterSuccess.jsx";
 import UserHome from "./6-Views/User-Views/1UserHome/UserHome.jsx";
 import UFilmDetailPage from "./6-Views/User-Views/2UserViewFilm/UFilmDetailPage.jsx";
+import UFilmDetailPage2 from "./6-Views/User-Views/0TestFilms/2UserViewFilm/UFilmDetailPage.jsx";
 import FilmPayment from "./6-Views/User-Views/8UserPay/FilmPayment.jsx";
 import PaymentValidation from "./6-Views/User-Views/9PaymentValidations/PaymentValidation.jsx";
 import BrowsePage from "./6-Views/User-Views/11BrowseFilm/BrowsePage.jsx";
@@ -26,17 +27,18 @@ import UViewActivity from "./6-Views/User-Views/7UActivity/UViewActivity.jsx";
 import SearchAll from "./6-Views/User-Views/12UFilmSearchPages/SearchAll.jsx";
 import SearchFilms from "./6-Views/User-Views/12UFilmSearchPages/SearchFilms.jsx";
 import SearchShows from "./6-Views/User-Views/12UFilmSearchPages/SearchShows.jsx";
-import UWatchFilm from "./6-Views/User-Views/3UserWatchFilm/UWatchFilm.jsx";
+
 import UEpisodeDetailPage from "./6-Views/User-Views/2UserViewFilm/UEpisodeDetailPage.jsx";
 import PesaPalPayments from "./6-Views/User-Views/10PesaPal/PesaPalPayments.jsx";
 import PesaSuccess from "./6-Views/User-Views/10PesaPal/PesaSuccess.jsx";
 import PesaCancel from "./6-Views/User-Views/10PesaPal/PesaCancel.jsx";
 import USeasonDetailPage from "./6-Views/User-Views/2UserViewFilm/USeasonDetailPage.jsx";
+import USeasonDetailPage2 from "./6-Views/User-Views/0TestFilms/2UserViewFilm/USeasonDetailPage.jsx";
 
 import MainDonationPage from "./6-Views/User-Views/13Donations/MainDonationPage.jsx";
 import IndividualFilmDonate from "./6-Views/User-Views/14FilmDonations/IndividualFilmDonate.jsx";
 import GeneralDonationValidation from "./6-Views/User-Views/9PaymentValidations/GeneralDonationValidation.jsx";
-import UWatchSeries from "./6-Views/User-Views/3UserWatchSeries/UWatchSeries.jsx";
+
 import ForgotPassword from "./6-Views/Auth/ForgotPassword.jsx";
 import ResetKey from "./6-Views/Auth/ResetKey.jsx";
 import VerifyForgetKey from "./6-Views/Auth/VerifyForgetKey.jsx";
@@ -44,6 +46,12 @@ import MProcessWatching from "./6-Views/User-Views/3MobileAppWatchFilm/MProcessW
 import MobileWatchFilm from "./6-Views/User-Views/3MobileAppWatchFilm/MobileWatchFilm.jsx";
 import MSeriesProcessWatch from "./6-Views/User-Views/3MobileAppWatchSeries/MSeriesProcessWatch.jsx";
 import MobileWatchSeries from "./6-Views/User-Views/3MobileAppWatchSeries/MobileWatchSeries.jsx";
+
+import UWatchFilm from "./6-Views/User-Views/3UserWatchFilm/UWatchFilm.jsx";
+import UWatchFilm2 from "./6-Views/User-Views/0TestFilms/3UserWatchFilm/UWatchFilm.jsx";
+
+import UWatchSeries from "./6-Views/User-Views/3UserWatchSeries/UWatchSeries.jsx";
+import UWatchSeries2 from "./6-Views/User-Views/0TestFilms/3UserWatchSeries/UWatchSeries.jsx";
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -82,6 +90,16 @@ function App() {
 
               <Route path="/watch/:id" element={<UWatchFilm />} />
               <Route path="/watch/s/:id" element={<UWatchSeries />} />
+
+              {/** testing another player */}
+              <Route path="/test/watch/:id" element={<UWatchFilm2 />} />
+              <Route  path="/test/watch/s/:id" element={<UWatchSeries2 />} />
+              <Route path="/testfilm/:id" element={<UFilmDetailPage2 />} />
+              <Route path="/testseries/:id" element={<UFilmDetailPage2 />} />
+              <Route
+                path="/testsegments/:id"
+                element={<USeasonDetailPage2 />}
+              />
 
               
 

@@ -1,14 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useGetFilmMobile } from "../../../5-Store/TanstackStore/services/queries";
-import CustomLoader from "../../../2-Components/Loader/CustomLoader";
-import { Typography } from "@mui/material";
-import Button from "../../../2-Components/Buttons/Button";
-import MCustomPlayer from "./MCustomPlayer";
-import qs from "query-string";
 
-const MobileWatchFilm = () => {
+import React from 'react'
+import styled from 'styled-components';
+import FullCustomPlayer from './FullCustomPlayer';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useGetFilm } from '../../../../5-Store/TanstackStore/services/queries';
+import CustomLoader from '../../../../2-Components/Loader/CustomLoader';
+import { Typography } from '@mui/material';
+import Button from '../../../../2-Components/Buttons/Button';
+import { formatDuration, intervalToDuration, isBefore } from 'date-fns';
+import RemainingFilmDays from './RemainingFilmDays';
+
+const UWatchFilm = () => {
   const [selectedVideoUrl, setSelectedVideoUrl] = React.useState(null);
   const [episodeData, setEpisodeData] = React.useState(null);
   const [allVideos, setAllVideos] = React.useState([]);
@@ -16,124 +18,118 @@ const MobileWatchFilm = () => {
   const [errorVideo, setErrorVideo] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
   const [purchasedData, setPurchasedData] = React.useState(null);
-  const [searchParams] = useSearchParams();
-  const search = qs.parse(searchParams.toString());
   let params = useParams();
   let location = useLocation();
-
-  React.useEffect(() => {
-    if (!search?.token) {
-      // window.ReactNativeWebView.postMessage("invalidToken");
-    }
-    localStorage.setItem("Mb_token", search?.token);
-  }, [search?.token]);
+  let [searchParams, setSearchParams] = useSearchParams();
+  let episodeId = searchParams.get("eid");
+  let seasonId = searchParams.get("sid");
   // console.log(searchParams.toString())
-
   let navigate = useNavigate();
-  const filmsQuery = useGetFilmMobile(params?.id);
+  const filmsQuery = useGetFilm(params?.id);
 
-  console.log("filmsQuery", filmsQuery?.data?.film);
 
+// console.log("filmsQuery", filmsQuery);
   const handleCheckingVideo = () => {
     if (filmsQuery?.data?.film) {
-      if (filmsQuery?.data?.film?.type?.includes("film")) {
-        if (filmsQuery?.data?.film?.access?.includes("free")) {
-          let videoArray = filmsQuery?.data?.film?.video?.filter(
-            (video) => !video.isTrailer
-          );
+      if(filmsQuery?.data?.film?.type?.includes("film")){
+        if(filmsQuery?.data?.film?.access?.includes("free")){
+          let videoArray = filmsQuery?.data?.film?.video?.filter(video => !video.isTrailer);
           console.log("videoArray", videoArray);
           //check if we have videos to watch
           //else set error message
-          if (videoArray.length > 0) {
+          if (videoArray.length > 0){
             setAllVideos(videoArray);
-
+  
             //check if we have HD videos
-            let checkSelected = videoArray.filter((video) => {
-              if (video.resolution === "HD") {
-                return video;
+            let checkSelected = videoArray.filter(video => {
+              if (video.resolution === "HD"){
+                return video
               }
-            });
-
+            })
+  
             //if we have HD videos, set the first one as selected
             //else set the first one as selected
-            if (checkSelected.length > 0) {
+            if (checkSelected.length > 0){
               setSelectedVideoUrl(checkSelected[0]);
               setCheckingAccess(false);
-            } else {
-              setSelectedVideoUrl(videoArray[0]);
+    
+            }else {
+              setSelectedVideoUrl(videoArray[0])
               setCheckingAccess(false);
             }
+  
           } else {
             setErrorVideo(true);
             setErrorMessage("No videos available");
             setCheckingAccess(false);
           }
-        } else {
-          let purchasedArray = filmsQuery?.data?.film?.purchase?.filter(
-            (data) => {
-              if (data.valid) {
-                return data;
-              }
+        
+        }
+        else{
+          
+          let purchasedArray = filmsQuery?.data?.film?.purchase?.filter((data) => {
+            if (data.valid){
+              return data
             }
-          );
+          })
 
-          if (purchasedArray?.length > 0) {
+          if(purchasedArray?.length > 0){
             setPurchasedData(purchasedArray);
             console.log("purchasedArray", purchasedArray);
             let resolutionsPurchased = purchasedArray[0].resolutions;
             console.log("resolutionsPurchased", resolutionsPurchased);
-            let resolutionArray = filmsQuery?.data?.film?.video?.filter(
-              (data) => {
-                if (
-                  resolutionsPurchased.includes(data.resolution) &&
-                  !data.isTrailer
-                ) {
-                  return data;
-                }
+            let resolutionArray = filmsQuery?.data?.film?.video?.filter((data) => {
+              if (resolutionsPurchased.includes(data.resolution) && !data.isTrailer){
+                return data
               }
-            );
+            })
 
-            if (resolutionArray.length > 0) {
+            if (resolutionArray.length > 0){
               setAllVideos(resolutionArray);
               setCheckingAccess(false);
-            } else {
+            }else {
               setErrorVideo(true);
               setErrorMessage("No videos available");
               setCheckingAccess(false);
             }
             //check if we have HD videos
             let checkSelected = resolutionArray.filter((data) => {
-              if (data.resolution === "HD") {
-                return data;
+              if (data.resolution === "HD"){
+                return data
               }
-            });
+            })
 
             //if we have HD videos, set the first one as selected
             //else set the first one as selected
-            if (checkSelected.length > 0) {
+            if (checkSelected.length > 0){
               setSelectedVideoUrl(checkSelected[0]);
               setCheckingAccess(false);
-            } else {
-              setSelectedVideoUrl(videoArray[0]);
+    
+            }else {
+              setSelectedVideoUrl(videoArray[0])
               setCheckingAccess(false);
             }
             // setVideoUrl(filmsQuery?.data?.film?.url)
-          } else {
+          }else {
             setErrorVideo(true);
             setErrorMessage("No access");
             setCheckingAccess(false);
           }
           //setVideoUrl(filmsQuery?.data?.film?.url)
         }
-      } else {
+      }else {
         // console.log(episodeId, seasonId)
 
         setCheckingAccess(false);
         setErrorVideo(true);
         setErrorMessage("No videos available");
       }
+     
     }
   };
+
+
+
 
   React.useEffect(() => {
     handleCheckingVideo();
@@ -143,58 +139,15 @@ const MobileWatchFilm = () => {
   //selecting different resolution
   const handleResolution = (resolution) => {
     setSelectedVideoUrl(resolution);
-  };
+  }
 
-  if (filmsQuery?.isLoading) {
-    return (
-      <Container className="w-screen h-full bg-secondary-900 overflow-hidden relative duration-300">
-        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
-          <div className="w-full h-full flex flex-col justify-center items-center ">
-            <CustomLoader text="loading film, please wait..." />
-          </div>
-        </div>
-      </Container>
-    );
-  }
-  if (filmsQuery?.isError) {
-    if(filmsQuery?.error?.message === "Session expired. Please login again."){
-      // window.ReactNativeWebView.postMessage("invalidToken");
-      return (
-        <Container className="w-screen h-full bg-secondary-900 overflow-hidden relative duration-300">
-          <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
-            <div className="w-full h-full flex flex-col justify-center items-center ">
-              <CustomLoader text="Session expired. Please login again." />
-            </div>
-          </div>
-        </Container>
-      );
-    }
-    window.ReactNativeWebView.postMessage("error");
-    return (
-      <Container className="w-screen h-full bg-secondary-900 overflow-hidden relative duration-300">
-        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
-          <div className="w-full h-full flex flex-col justify-center items-center ">
-            <CustomLoader text="error loading film, please try again" />
-          </div>
-        </div>
-      </Container>
-    );
-  }
+
+
   return (
     <Container className="w-screen h-full bg-secondary-900 overflow-hidden relative duration-300">
-      <MCustomPlayer
-        purchasedData={purchasedData}
-        filmData={
-          filmsQuery?.data?.film?.type === "movie" ||
-          filmsQuery?.data?.film?.type?.includes("film")
-            ? filmsQuery?.data?.film
-            : episodeData
-        }
-        videoSrc={selectedVideoUrl}
-        allVideos={allVideos}
-        handleResolution={handleResolution}
-      />
+      <FullCustomPlayer purchasedData={purchasedData} filmData={filmsQuery?.data?.film?.type === "movie" || filmsQuery?.data?.film?.type?.includes("film") ? filmsQuery?.data?.film : episodeData}  videoSrc={selectedVideoUrl} allVideos={allVideos} handleResolution={handleResolution}  />
 
+    
       {isCheckingAccess && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
           <div className="w-full h-full flex flex-col justify-center items-center ">
@@ -223,9 +176,12 @@ const MobileWatchFilm = () => {
 
                         <p className="mt-4 text-sm text-whites-40">
                           Please contact support for more information.
-                          <span className="block">
-                            email: streaming@nyatimotionpictures.com
+                          <span className='block'>
+                          email:
+                          streaming@nyatimotionpictures.com
+
                           </span>
+                          
                         </p>
                       </div>
                     )}
@@ -246,11 +202,7 @@ const MobileWatchFilm = () => {
 
                   <div className="flex flex-col gap-2 items-center justify-center">
                     <Button
-                      onClick={() => {
-                        if (window.ReactNativeWebView) {
-                          window.ReactNativeWebView.postMessage("backtoFilm");
-                        }
-                      }}
+                      onClick={() => filmsQuery?.data?.film?.type === "movie" || filmsQuery?.data?.film?.type?.includes("film") ? navigate(`/film/${params?.id}`, { replace: true }) : navigate(-1, { replace: true })}
                       className="w-full bg-transparent border border-primary-500 min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
                     >
                       Back to Film{" "}
@@ -264,8 +216,8 @@ const MobileWatchFilm = () => {
       )}
     </Container>
   );
-};
+}
 
-export default MobileWatchFilm;
+export default UWatchFilm
 
-const Container = styled.div``;
+const Container = styled.div``
