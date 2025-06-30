@@ -32,13 +32,13 @@ const Login = () => {
   const validationSchema = yup.object().shape({
     contact: yup
       .string()
-      .test("is-email-or-phone", "Invalid email or phone", (value) => {
+      .test("is-email-or-phone", "Invalid email", (value) => {
         const phoneRegex = /^(\+|00)[1-9][0-9 \-\(\)\.]{7,32}$/;
         const isEmail = yup.string().email().isValidSync(value);
         const isPhone = phoneRegex.test(value);
         return isEmail || isPhone;
       })
-      .required("Number or Email is required"),
+      .required("Email is required"),
     password: yup.string().required("Password is required"),
     isEmail: yup.boolean().when("contact", {
       is: (contact) => contact && yup.string().email().isValidSync(contact),
@@ -140,7 +140,7 @@ const Login = () => {
                     </label>
                     <input
                       name="contact"
-                      placeholder="Email or Phone"
+                      placeholder="Email"
                       value={formik.values.contact}
                       className="text-[#ffffff] text-[14.35px] font-[Inter-Medium]"
                       onChange={formik.handleChange}
