@@ -125,7 +125,7 @@ const Login = () => {
                     onClick={() => navigate("/register")}
                     className="text-[#ED3F62] underline underline-offset-2 cursor-pointer font-[Inter-SemiBold]"
                   >
-                    Create and account
+                    Create an account
                   </span>
                 </p>
               </Stack>
