@@ -228,7 +228,6 @@ const ResetKey = () => {
 };
 
 export default ResetKey;
-
 const Container = styled(Box)({
   background: `linear-gradient(
       to top,
@@ -237,3 +236,4 @@ const Container = styled(Box)({
     ),
     url(${heroImage}) left/cover no-repeat`,
 });
+

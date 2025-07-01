@@ -195,7 +195,6 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
-
 const Container = styled(Box)({
   background: `linear-gradient(
       to top,
@@ -204,3 +203,4 @@ const Container = styled(Box)({
     ),
     url(${heroImage}) left/cover no-repeat`,
 });
+

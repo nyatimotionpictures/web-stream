@@ -15,6 +15,8 @@ import {
 import ErrorMessage from "../../2-Components/Forms/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { postUserRegister } from "../../5-Store/TanstackStore/services/api";
+import axios from "axios";
+import { BaseUrl } from "../../3-Middleware/apiRequest";
 
 const Register = () => {
   let navigate = useNavigate();
@@ -24,9 +26,11 @@ const Register = () => {
   const mutation = useMutation({
     mutationFn: postUserRegister,
     onSuccess: async (data, variables, context) => {
-     
       let contact = variables?.isEmail ? variables.email : variables.phoneNumber;
       setSnackbarMessage({message: data.message, severity: "success"});
+      if (variables?.isEmail) {
+        await axios.post(`${BaseUrl}/v1/user/send-verification-email`, { email: variables.email });
+      }
       navigate("/verifyaccount", { replace: true, state:{contact:contact, isEmail: variables?.isEmail  } });
     },
     onError: (error) => {
