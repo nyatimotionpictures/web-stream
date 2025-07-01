@@ -39,8 +39,8 @@ import MainDonationPage from "./6-Views/User-Views/13Donations/MainDonationPage.
 import IndividualFilmDonate from "./6-Views/User-Views/14FilmDonations/IndividualFilmDonate.jsx";
 import GeneralDonationValidation from "./6-Views/User-Views/9PaymentValidations/GeneralDonationValidation.jsx";
 
-import ForgotPassword from "./6-Views/Auth/ForgotPassword.jsx";
-import ResetKey from "./6-Views/Auth/ResetKey.jsx";
+import ForgotPasskey from "./6-Views/Auth/ForgotPasskey.jsx";
+import ResetPassKey from "./6-Views/Auth/ResetPassKey.jsx";
 import VerifyForgetKey from "./6-Views/Auth/VerifyForgetKey.jsx";
 import MProcessWatching from "./6-Views/User-Views/3MobileAppWatchFilm/MProcessWatching.jsx";
 import MobileWatchFilm from "./6-Views/User-Views/3MobileAppWatchFilm/MobileWatchFilm.jsx";
@@ -52,6 +52,9 @@ import UWatchFilm2 from "./6-Views/User-Views/0TestFilms/3UserWatchFilm/UWatchFi
 
 import UWatchSeries from "./6-Views/User-Views/3UserWatchSeries/UWatchSeries.jsx";
 import UWatchSeries2 from "./6-Views/User-Views/0TestFilms/3UserWatchSeries/UWatchSeries.jsx";
+import VerifyAccount from "./6-Views/Auth/VerifyAccount.jsx";
+
+
 
 function App() {
   let theme = useMemo(() => createTheme(themeSettings), []);
@@ -144,12 +147,14 @@ function App() {
               <Route path="/login" element={<Login />} />
 
               <Route path="/register" element={<Register />} />
-              <Route path={"/forgotpassword"} element={<ForgotPassword />} />
+              <Route path={"/forgotpasskey"} element={<ForgotPasskey />} />
+              {/* <Route path={"/forgotpassword"} element={<ForgotPassword />} /> */}
               <Route path="/verifyforgotkey" element={<VerifyForgetKey />} />
 
-              <Route path={"/resetkey"} element={<ResetKey />} />
-
-              <Route path="/verifyaccount" element={<VerifyPassKey />} />
+              <Route path={"/resetpasskey"} element={<ResetPassKey />} />
+              {/* <Route path={"/resetkey"} element={<ResetKey />} /> */}
+              {/* <Route path="/verifyaccount" element={<VerifyPassKey />} /> */}
+              <Route path="/verifyaccount" element={<VerifyAccount />} />
               <Route path="/success" element={<RegisterSuccess />} />
 
               {/** Mobile App Routes */}
