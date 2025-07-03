@@ -74,8 +74,8 @@ const USeasonDetailPage = () => {
       if (seasonQuery?.data?.season) {
       //  console.log("seasonQuery?.data?.season", seasonQuery?.data?.season)
         
-          if (seasonQuery?.data?.season?.pricing) {
-            setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing?.priceList);
+          if (seasonQuery?.data?.season?.pricing?.length > 0) {
+            setAllAvailableResolutions(() => seasonQuery?.data?.season?.pricing[0]?.priceList);
             setErrorVideo(false);
             setErrorMessage(null);
           } else {
@@ -277,7 +277,7 @@ const USeasonDetailPage = () => {
                         innerref={formRef}
                         handleStepNext={handleAPISubmission}
                         film={seasonQuery?.data?.season}
-                        pricingData={seasonQuery?.data?.season?.pricing}
+                        pricingData={seasonQuery?.data?.season?.pricing[0]}
                         allAvailableResolutions={allAvailableResolutions}
                       />
                     </div>

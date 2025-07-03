@@ -62,8 +62,8 @@ const UFilmDetailPage = () => {
     if (filmsQuery?.data?.film) {
       if (filmsQuery?.data?.film?.type?.toLowerCase()?.includes("film")) {
        
-        if (filmsQuery?.data?.film?.pricing) {
-          setAllAvailableResolutions(() => filmsQuery?.data?.film?.pricing?.priceList);
+        if (filmsQuery?.data?.film?.pricing?.length > 0) {
+          setAllAvailableResolutions(() => filmsQuery?.data?.film?.pricing[0]?.priceList);
           setErrorVideo(false);
           setErrorMessage(null);
         } else {
@@ -265,7 +265,7 @@ const UFilmDetailPage = () => {
                         innerref={formRef}
                         handleStepNext={handleAPISubmission}
                         film={filmsQuery?.data?.film}
-                        pricingData={filmsQuery?.data?.film?.pricing}
+                        pricingData={filmsQuery?.data?.film?.pricing[0]}
                         allAvailableResolutions={allAvailableResolutions}
                       />
                     </div>
