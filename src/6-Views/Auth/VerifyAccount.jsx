@@ -43,7 +43,7 @@ const VerifyAccount = () => {
   useEffect(() => {
     if (status === 'success') {
       const timer = setTimeout(() => {
-        navigate('/registerSuccess', { replace: true });
+        navigate('/success', { replace: true });
       }, 2000); // 2 seconds delay
       return () => clearTimeout(timer);
     }
