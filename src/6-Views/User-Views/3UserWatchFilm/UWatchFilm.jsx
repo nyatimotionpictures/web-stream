@@ -1,14 +1,13 @@
 
 import React from 'react'
 import styled from 'styled-components';
-import FullCustomPlayer from './FullCustomPlayer';
+import ServerStreamingPlayer from '../../../2-Components/VideoPlayer/ServerStreamingPlayer';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useGetFilm } from '../../../5-Store/TanstackStore/services/queries';
 import CustomLoader from '../../../2-Components/Loader/CustomLoader';
 import { Typography } from '@mui/material';
 import Button from '../../../2-Components/Buttons/Button';
-import { formatDuration, intervalToDuration, isBefore } from 'date-fns';
-import RemainingFilmDays from './RemainingFilmDays';
+
 
 const UWatchFilm = () => {
   const [selectedVideoUrl, setSelectedVideoUrl] = React.useState(null);
@@ -144,9 +143,24 @@ const UWatchFilm = () => {
 
 
   return (
-    <Container className="w-screen h-full bg-secondary-900 overflow-hidden relative duration-300">
-      <FullCustomPlayer purchasedData={purchasedData} filmData={filmsQuery?.data?.film?.type === "movie" || filmsQuery?.data?.film?.type?.includes("film") ? filmsQuery?.data?.film : episodeData}  videoSrc={selectedVideoUrl} allVideos={allVideos} handleResolution={handleResolution}  />
-
+    <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
+      {selectedVideoUrl && (
+        <div className="w-full h-full flex items-center justify-center overflow-hidden">
+          <div className="w-full h-full max-w-full max-h-full">
+            <ServerStreamingPlayer
+              resourceId={params?.id}
+              type={selectedVideoUrl.resolution?.toLowerCase() || 'hd'}
+              title={filmsQuery?.data?.film?.title || 'Film'}
+              thumbnailUrl={filmsQuery?.data?.film?.thumbnailUrl}
+              controls={true}
+              width="100%"
+              height="100%"
+              aspectRatio="16/9"
+              isTrailer={false}
+            />
+          </div>
+        </div>
+      )}
     
       {isCheckingAccess && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
@@ -220,4 +234,20 @@ const UWatchFilm = () => {
 
 export default UWatchFilm
 
-const Container = styled.div``
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  
+  /* Ensure proper viewport constraints */
+  @media (max-width: 768px) {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+`

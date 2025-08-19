@@ -6,6 +6,7 @@ import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import TextClamped from "../../../2-Components/Stacks/TextClamped";
 import { useNavigate } from "react-router-dom";
 import GetRemainingDays from "./GetRemainingDays";
+import HeroTrailerPlayer from "../../../2-Components/VideoPlayer/HeroTrailerPlayer";
 
 const UMobileHero = ({
   filmData,
@@ -21,33 +22,16 @@ const UMobileHero = ({
 }) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
   const [showVideo, setShowVideo] = React.useState(false);
-  const [trailerUrl, setTrailerUrl] = React.useState(null);
-  const [isVideoPlaying, setIsVideoPlaying] = React.useState(false);
-  const [isVideoLoaded, setIsVideoLoaded] = React.useState(false);
   const [isVideoPlayed, setIsVideoPlayed] = React.useState(false);
   const [isVideoMuted, setIsVideoMuted] = React.useState(false);
-  let navigate = useNavigate();
-
-  const videoRef = React.useRef(null);
+  const [trailerVideos, setTrailerVideos] = React.useState([]);
+  const [isVideoVisible, setIsVideoVisible] = React.useState(true); // Track video visibility
+  const [isVideoPaused, setIsVideoPaused] = React.useState(false); // Track if video is paused
   const heroRef = React.useRef(null);
   const timeoutRef = React.useRef(null);
+  const navigate = useNavigate();
 
-  //duration
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [loadedPercentage, setLoadedPercentage] = useState(0);
-
-  const handleTimeUpdate = () => {
-    setCurrentTime(videoRef.current.currentTime);
-    setDuration(videoRef.current.duration);
-  };
-
-  const handleSliderChange = (e, value) => {
-    videoRef.current.currentTime = value;
-    setCurrentTime(value);
-  };
-
-  //disable Controls
+  // Controls visibility for mobile
   const [controlsVisible, setControlsVisible] = React.useState(false);
   const handleMouseMove = () => {
     if (!controlsVisible) {
@@ -72,7 +56,6 @@ const UMobileHero = ({
     const hero = heroRef.current;
     if (hero) {
       hero.addEventListener("mousemove", handleMouseMove);
-
       resetInactivityTimeout();
       return () => {
         hero.removeEventListener("mousemove", handleMouseMove);
@@ -81,19 +64,28 @@ const UMobileHero = ({
     }
   }, []);
 
-  // console.log(filmData)
-
-  {
-    //Plays the video after the page loads
-  }
+  // Auto-show trailer after 2 seconds (reduced from 5 for faster experience)
   React.useEffect(() => {
+    if (!filmData?.id || !trailerVideos?.length > 0) {
+      console.log('🎬 UMobileHero: No film data or trailer, skipping auto-show timer');
+      return;
+    }
+    
+    console.log('🎬 UMobileHero: Starting auto-show timer for trailer');
     const timer = setTimeout(() => {
-      // setShowVideo(true);
+      console.log('🎬 UMobileHero: Auto-show timer triggered, showing video');
+      setShowVideo(true);
+      setIsVideoVisible(true); // Also set video as visible
+    }, 2000); // Reduced from 5000ms to 2000ms for faster experience
+    return () => {
+      console.log('🎬 UMobileHero: Clearing auto-show timer');
+      clearTimeout(timer);
       setShowVideo(false);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, []);
+      setIsVideoVisible(false);
+    };
+  }, [filmData?.id, trailerVideos]);
 
+  // Set backdrop image
   React.useEffect(() => {
     if (
       filmData?.type?.toLowerCase()?.includes("series") ||
@@ -105,7 +97,6 @@ const UMobileHero = ({
         filmData?.season[0]?.episodes[0]?.posters?.length > 0
       ) {
         let bklink = filmData?.season[0]?.episodes[0]?.posters[0]?.url;
-
         setBackdropUrl(() => bklink);
       }
     } else if (filmData?.type?.toLowerCase()?.includes("film")) {
@@ -117,13 +108,11 @@ const UMobileHero = ({
         setBackdropUrl(() => filmData?.posters[0]?.url);
       }
     } else {
-      // console.log("posters",filmData)
       if (filmData?.posters?.length > 0) {
         setBackdropUrl(() => filmData?.posters[0]?.url);
       }
     }
   }, [filmData]);
-
   React.useEffect(() => {
     if (
       filmData?.type?.includes("film") ||
@@ -132,75 +121,91 @@ const UMobileHero = ({
       if (filmData?.video?.length > 0) {
         filmData?.video?.filter((data) => {
           if (data?.isTrailer) {
-            setTrailerUrl(() => data?.url);
+            setTrailerVideos(() => [data]);
           }
         });
       }
     } else {
       // console.log("filmData", filmData);
-      setTrailerUrl(() => filmData?.trailers[0]?.url);
+      setTrailerVideos(() => [filmData?.trailers[0]]);
     }
   }, [filmData]);
 
-  const handleOnLoad = (e) => {
-    //  console.log("loaded", e.target)
-    //setIsVideoPlaying(true)
-    setIsVideoLoaded(true);
-    videoRef.current.play();
-  };
+ 
 
-  const handleLoadedData = (e) => {
-    setDuration(videoRef?.current?.duration);
-  };
-
-  const togglePlayPause = () => {
-    if (isVideoPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
-    setIsVideoPlaying(!isVideoPlaying);
-  };
-
-  const handleOnEnded = () => {
+  const handleVideoEnded = () => {
+    console.log('🎬 UMobileHero: Trailer ended, hiding video and setting played state');
     setShowVideo(false);
     setIsVideoPlayed(true);
-    setIsVideoLoaded(false);
-  };
-
-  const handleMuteVideo = () => {
-    setIsVideoMuted(!isVideoMuted);
+    setIsVideoVisible(false); // Reset visibility when video ends
   };
 
   const handleReplayVideo = () => {
+    console.log('🎬 UMobileHero: Replay requested, showing video again');
     setIsVideoPlayed(false);
     setShowVideo(true);
+    setIsVideoVisible(true); // Set video as visible when replaying
+    setIsVideoPaused(false); // Ensure video is not paused when replaying
   };
 
-  //handle the scroll behaviour
+  const handleVideoError = (error) => {
+    console.error('🎬 UMobileHero: Trailer error:', error);
+    setShowVideo(false);
+  };
+
+  const handleVideoLoaded = () => {
+    console.log('🎬 UMobileHero: Trailer loaded successfully');
+  };
+
+  const handleVideoPlay = () => {
+    console.log('🎬 UMobileHero: Video started playing');
+    setIsVideoPaused(false);
+  };
+
+  const handleVideoPause = () => {
+    console.log('🎬 UMobileHero: Video paused');
+    setIsVideoPaused(true);
+  };
+
+  const handleTogglePlayPause = () => {
+    if (isVideoPaused) {
+      console.log('🎬 UMobileHero: Resuming video playback');
+      setIsVideoPaused(false);
+      setIsVideoVisible(true); // Ensure video is visible when resuming
+    } else {
+      console.log('🎬 UMobileHero: Pausing video playback');
+      setIsVideoPaused(true);
+      setIsVideoVisible(false); // Hide video when pausing
+    }
+  };
+
+  // Handle scroll behavior for video pausing
   useEffect(() => {
     const handleScroll = () => {
-      if (!videoRef.current || !heroRef.current) return;
+      if (!heroRef.current) return;
 
       const heroBounds = heroRef.current.getBoundingClientRect();
       const isHeroInView =
         heroBounds.top >= 0 && heroBounds.bottom <= window.innerHeight;
 
-      if (!isHeroInView && !videoRef.current.paused) {
-        videoRef.current.pause(); // Pause video when out of view
-        setIsVideoPlaying(false);
-      } else if (isHeroInView && videoRef.current.paused && showVideo) {
-        videoRef.current.play(); // Resume video if it’s back in view
-        setIsVideoPlaying(true);
+      if (!isHeroInView && isVideoVisible) {
+        console.log('🎬 UMobileHero: Hero out of view, pausing video');
+        // Pause video when out of view
+        setIsVideoVisible(false);
+      } else if (isHeroInView && !isVideoVisible && !isVideoPlayed) {
+        console.log('🎬 UMobileHero: Hero back in view, resuming video');
+        // Resume video when back in view (but only if it hasn't finished playing)
+        setIsVideoVisible(true);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [showVideo]);
+  }, [isVideoVisible, isVideoPlayed]);
+
+  //console.log(filmData)
 
   //handle likes
   const handleLikes = (type) => {
@@ -281,170 +286,151 @@ const UMobileHero = ({
       className="flex flex-col relative lg:hidden w-full h-full"
     >
       {/** Video */}
-      {!trailerUrl ? (
-            <div className="flex items-center justify-center w-full h-full min-h-[30vh] text-whites-40 text-lg">
-               {/** Close Button */}
-               <div className="absolute flex right-2 top-2 z-50 w-max  h-max   ">
+      {!trailerVideos?.length > 0 ? (
+        <div className="flex items-center justify-center w-full h-full min-h-[30vh] text-whites-40 text-lg">
+          {/** Close Button */}
+          <div className="absolute flex right-2 top-2 z-50 w-max h-max">
+            <Button
+              onClick={() => navigate(-1)}
+              className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent hover:bg-transparent rounded-full z-50"
+            >
+              <div>
+                <IconButton>
+                  <span className="icon-[carbon--close] h-6 w-6 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
+                </IconButton>
+              </div>
+            </Button>
+          </div>
+          No Trailer Uploaded
+        </div>
+      ) : !showVideo && isVideoPlayed ? (
+        <div className="flex items-center justify-center w-full h-full min-h-[30vh] text-whites-40 text-lg">
+          {/** Close Button */}
+          <div className="absolute flex right-2 top-2 z-50 w-max h-max">
+            <Button
+              onClick={() => navigate(-1)}
+              className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent hover:bg-transparent rounded-full z-50"
+            >
+              <div>
+                <IconButton>
+                  <span className="icon-[carbon--close] h-6 w-6 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
+                </IconButton>
+              </div>
+            </Button>
+          </div>
+          
+          <div className="flex flex-col items-center gap-4">
+            <p>Trailer finished</p>
+            <Button
+              onClick={handleReplayVideo}
+              className="flex px-6 py-3 items-center justify-center space-x-2 rounded-full bg-secondary-300 bg-opacity-80 text-whites-40 hover:bg-secondary-300 hover:bg-opacity-100"
+            >
+              <span className="icon-[solar--restart-bold] h-6 w-6 text-whites-40"></span>
+              <span className="font-medium">Replay Trailer</span>
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="w-full h-full relative">
+          <div className="flex justify-center items-center object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden relative">
+            
+            <HeroTrailerPlayer
+              resourceId={filmData?.id}
+              onEnded={handleVideoEnded}
+              onError={handleVideoError}
+              onLoaded={handleVideoLoaded}
+              onPlay={handleVideoPlay}
+              onPause={handleVideoPause}
+              autoPlay={true}
+              muted={isVideoMuted}
+              loop={false}
+              showControls={false}
+              isVisible={isVideoVisible && !isVideoPaused}
+              className="w-full h-full"
+              style={{
+                width: '100%',
+                height: '100%'
+              }}
+            />
+
+     
+
+            {/** controls */}
+            <div
+              className={`flex absolute top-0 flex-col justify-end items-flex z-50 w-full h-full ${
+                controlsVisible || isVideoPaused
+                  ? "bg-secondary-900 bg-opacity-20"
+                  : "bg-transparent bg-opacity-80"
+              }`}
+            >
+              {/** Play/Pause Button */}
+              <div className="absolute flex right-0 left-0 bottom-0 top-0 m-auto z-50 w-max h-max">
+                {!isVideoPlayed ? (
                   <Button
-                    onClick={() => navigate(-1)}
-                    className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent hover:bg-transparent rounded-full z-50 "
+                    onClick={handleTogglePlayPause}
+                    className={`flex-col justify-center items-start px-2 py-2 max-w-max h-full bg-secondary-300 bg-opacity-40 rounded-full ${
+                      controlsVisible || isVideoPaused ? "flex" : "hidden"
+                    }`}
                   >
-                    <div>
-                      <IconButton  >
-                        <span className="icon-[carbon--close]  h-6 w-6 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
-                      </IconButton>
-                    </div>
-                  </Button>
-                </div>
-              No Trailer Uploaded
-            </div>
-          ): (
-            <div className="w-full h-full  relative ">
-            <div className="flex justify-center items-center  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden relative ">
-              
-              <video
-                // poster={backDropUrl ? backDropUrl : ""}
-                ref={videoRef}
-                autoPlay
-                src={trailerUrl}
-                playsInline
-                onTimeUpdate={handleTimeUpdate}
-                onLoadedData={handleLoadedData}
-                onCanPlay={handleOnLoad}
-                onPlay={() => setIsVideoPlaying(true)}
-                controls={false}
-                onEnded={() => handleOnEnded()}
-                muted={isVideoMuted}
-                disablePictureInPicture
-                className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
-              ></video>
-    
-              {/** controls */}
-              <div
-                className={`flex absolute top-0 flex-col justify-end items-flex z-50 w-full h-full ${
-                  controlsVisible || videoRef?.current?.paused
-                    ? " bg-secondary-900 bg-opacity-20 "
-                    : "bg-transparent bg-opacity-80  "
-                }  `}
-              >
-                {/** Play Button */}
-                <div className="absolute flex right-0 left-0 bottom-0 top-0 m-auto  z-50 w-max  h-max   ">
-                  {isVideoLoaded ? (
-                    <Button
-                      onClick={togglePlayPause}
-                      className={` flex-col justify-center items-start px-2 py-2   max-w-max h-full bg-secondary-300 bg-opacity-40 rounded-full ${
-                        controlsVisible || videoRef?.current?.paused
-                          ? "flex"
-                          : "hidden"
-                      }`}
-                    >
-                      {isVideoPlaying ? (
-                         <IconButton  >
-                            <span className="icon-[solar--pause-bold] flex  h-10 w-10 text-whites-40 hover:text-whites-40"></span>
-                         </IconButton>
-                      
-                      ) : (
-                        <IconButton>
-                          <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
-                        </IconButton>
-                        
-                      )}
-                    </Button>
-                  ) : (
-                    <div className="flex flex-col justify-center items-start px-2 py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ">
-                      {isVideoPlayed ? (
-                        <IconButton>
-                          <span
-                          onClick={handleReplayVideo}
-                          className="icon-[solar--restart-bold] h-8 w-8 text-whites-40 hover:text-whites-40"
-                        ></span>
-                        </IconButton>
-                        
-                      ) : (
-                        <>
-                          {/* <span className="icon-[solar--play-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span> */}
-    
-                          <CustomLoader />
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-                {/** Close Button */}
-                <div className="absolute flex right-2 top-2 z-50 w-max  h-max   ">
-                  <Button
-                    onClick={() => navigate(-1)}
-                    className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent md:bg-secondary-900 bg-opacity-80 rounded-full z-50 "
-                  >
-                    <div>
-                      <IconButton  >
-                        <span className="icon-[carbon--close]  h-10 w-10 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
-                      </IconButton>
-                    </div>
-                  </Button>
-                </div>
-    
-                {/** Mute Button */}
-                {!isVideoPlayed && (
-                  <div className="absolute flex right-2 bottom-12 sm:bottom-8 z-50 w-max  h-max   ">
-                    <div
-                      className={` flex-col justify-center items-start sm:px-2 sm:py-2  max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ${
-                        controlsVisible || videoRef?.current?.paused
-                          ? "flex"
-                          : "hidden"
-                      } `}
-                    >
+                    {isVideoPaused ? (
                       <IconButton>
-                      {isVideoMuted ? (
-                        <span
-                          onClick={handleMuteVideo}
-                          className="icon-[solar--muted-bold] h-6 w-6 text-whites-40 hover:text-whites-40"
-                        ></span>
-                      ) : (
-                        <span
-                          onClick={handleMuteVideo}
-                          className="icon-[solar--volume-loud-bold] h-6 w-6 text-whites-40 hover:text-whites-40"
-                        ></span>
-                      )}
+                        <span className="icon-[solar--play-bold] flex h-10 w-10 text-whites-40 hover:text-whites-40"></span>
                       </IconButton>
-                    </div>
-                  </div>
-                )}
-    
-                {/** slider Btn */}
-                {!isVideoPlayed && (
-                  <div
-                    className={`flex right-0 bottom-0  ${
-                      controlsVisible
-                        ? "bg-secondary-900 bg-opacity-20"
-                        : "bg-transparent bg-opacity-20"
-                    }  z-50 w-full`}
-                  >
-                    <Slider
-                      size="medium"
-                      step={0.1}
-                      onChange={handleSliderChange}
-                      value={currentTime}
-                      min={0}
-                      max={duration}
-                      sx={{
-                        "& .MuiSlider-thumb": {
-                          color: "red",
-                        },
-                        "& .MuiSlider-track": {
-                          color: "red",
-                        },
-                        "& .MuiSlider-rail": {
-                          color: "rgba(255,255,255,0.8)",
-                        },
-                      }}
-                    />
+                    ) : (
+                      <IconButton>
+                        <span className="icon-[solar--pause-bold] h-10 w-10 text-whites-40 hover:text-whites-40"></span>
+                      </IconButton>
+                    )}
+                  </Button>
+                ) : (
+                  <div className="flex flex-col justify-center items-start px-2 py-2 max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full">
+                    <IconButton>
+                      <span
+                        onClick={handleReplayVideo}
+                        className="icon-[solar--restart-bold] h-8 w-8 text-whites-40 hover:text-whites-40 cursor-pointer"
+                        title="Replay trailer"
+                      ></span>
+                    </IconButton>
                   </div>
                 )}
               </div>
+
+              {/** Close Button */}
+              <div className="absolute flex right-2 top-2 z-50 w-max h-max">
+                <Button
+                  onClick={() => navigate(-1)}
+                  className="flex flex-col justify-center items-start px-0 sm:px-2 sm:py-2 md:max-w-max h-full bg-transparent md:bg-secondary-900 bg-opacity-80 rounded-full z-50"
+                >
+                  <div>
+                    <IconButton>
+                      <span className="icon-[carbon--close] h-10 w-10 md:h-6 md:w-6 text-whites-40 hover:text-whites-40"></span>
+                    </IconButton>
+                  </div>
+                </Button>
+              </div>
+
+              {/** Mute Button */}
+              {!isVideoPlayed && (
+                <div className="absolute flex right-2 bottom-12 sm:bottom-8 z-50 w-max h-max">
+                  <div
+                    className={`flex-col justify-center items-start sm:px-2 sm:py-2 max-w-max h-full bg-secondary-900 bg-opacity-80 rounded-full ${
+                      controlsVisible || isVideoPaused ? "flex" : "hidden"
+                    }`}
+                  >
+                    <IconButton onClick={() => setIsVideoMuted(!isVideoMuted)}>
+                      {isVideoMuted ? (
+                        <span className="icon-[solar--muted-bold] h-6 w-6 text-whites-40 hover:text-whites-40"></span>
+                      ) : (
+                        <span className="icon-[solar--volume-loud-bold] h-6 w-6 text-whites-40 hover:text-whites-40"></span>
+                      )}
+                    </IconButton>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          )}
+        </div>
+      )}
     
 
       {/** Other details */}

@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { Box, Stack, Typography } from "@mui/material";
 import Button from "../../../2-Components/Buttons/Button";
 import heroImg from "../../../1-Assets/Hero.png";
-import { Player } from "video-react";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import { formatDuration, intervalToDuration } from "date-fns";
 import GetRemainingDays from "./GetRemainingDays";
+import HeroTrailerPlayer from "../../../2-Components/VideoPlayer/HeroTrailerPlayer";
 
 const UDetailHero = ({
   filmData,
@@ -22,27 +22,46 @@ const UDetailHero = ({
 }) => {
   const [backDropUrl, setBackdropUrl] = React.useState(null);
   const [showVideo, setShowVideo] = React.useState(false);
-  const [trailerUrl, setTrailerUrl] = React.useState(null);
   const [isVideoPlayed, setIsVideoPlayed] = React.useState(false);
   const [isVideoMuted, setIsVideoMuted] = React.useState(false);
-  const [timer, setTimer] = React.useState(null);
-  const videoRef = React.useRef(null);
+  const [isVideoVisible, setIsVideoVisible] = React.useState(true); // Track video visibility
+  const [isVideoPaused, setIsVideoPaused] = React.useState(false); // Track if video is paused
   const heroRef = React.useRef(null);
 
-  // const handlevideoEnd = () => {
-  //   setShowVideo(false);
-  // };
-
-
+  // Auto-show trailer after 2 seconds (reduced from 5 for faster experience)
   React.useEffect(() => {
+    if (!filmData?.id) {
+      console.log('🎬 UDetailHero: No film data, skipping auto-show timer');
+      return;
+    }
+    
+    console.log('🎬 UDetailHero: Starting auto-show timer for trailer');
     const timer = setTimeout(() => {
+      console.log('🎬 UDetailHero: Auto-show timer triggered, showing video');
       setShowVideo(true);
-    }, 5000);
+      setIsVideoVisible(true); // Also set video as visible
+    }, 2000); // Reduced from 5000ms to 2000ms for faster experience
     return () => {
+      console.log('🎬 UDetailHero: Clearing auto-show timer');
       clearTimeout(timer);
       setShowVideo(false);
+      setIsVideoVisible(false);
     };
-  }, []);
+  }, [filmData?.id]);
+
+  // Reset video display state when film changes (navigating to different film)
+  React.useEffect(() => {
+    console.log('🎬 UDetailHero: Film data changed, resetting video display state');
+    
+    // Only reset the display state, let the HeroTrailerPlayer handle its own cleanup
+    setShowVideo(false);
+    setIsVideoPlayed(false);
+    setIsVideoPaused(false);
+    
+    console.log('🎬 UDetailHero: Video display state reset complete');
+  }, [filmData?.id]);
+
+  // Set backdrop image
   React.useEffect(() => {
     if (
       filmData?.type?.toLowerCase()?.includes("series") ||
@@ -54,7 +73,6 @@ const UDetailHero = ({
         filmData?.season[0]?.episodes[0]?.posters?.length > 0
       ) {
         let bklink = filmData?.season[0]?.episodes[0]?.posters[0]?.url;
-
         setBackdropUrl(() => bklink);
       }
     } else if (filmData?.type?.toLowerCase()?.includes("film")) {
@@ -66,73 +84,82 @@ const UDetailHero = ({
         setBackdropUrl(() => filmData?.posters[0]?.url);
       }
     } else {
-      // console.log("posters",filmData)
       if (filmData?.posters?.length > 0) {
         setBackdropUrl(() => filmData?.posters[0]?.url);
       }
     }
   }, [filmData]);
 
-  React.useEffect(() => {
-    if (
-      filmData?.type?.includes("film") ||
-      filmData?.type?.includes("series")
-    ) {
-      if (filmData?.video?.length > 0) {
-        filmData?.video?.filter((data) => {
-          if (data?.isTrailer) {
-            setTrailerUrl(() => data?.url);
-          }
-        });
-      }
-    } else {
-      // console.log("filmData", filmData);
-      setTrailerUrl(() => filmData?.trailers[0]?.url);
-    }
-  }, [filmData]);
-
-  const handleOnLoad = (e) => {
-    // console.log("loaded", e.target)
-    //setIsVideoPlaying(true)
-    videoRef.current.play();
-  };
-
-  const handleOnEnded = () => {
+  const handleVideoEnded = () => {
+    console.log('🎬 UDetailHero: Trailer ended, hiding video and setting played state');
     setShowVideo(false);
     setIsVideoPlayed(true);
-  };
-
-  const handleMuteVideo = () => {
-    setIsVideoMuted(!isVideoMuted);
+    setIsVideoVisible(false); // Reset visibility when video ends
   };
 
   const handleReplayVideo = () => {
+    console.log('🎬 UDetailHero: Replay requested, showing video again');
     setIsVideoPlayed(false);
     setShowVideo(true);
+    setIsVideoVisible(true); // Set video as visible when replaying
   };
 
-  //handle the scroll behaviour
+  const handleVideoError = (error) => {
+    console.error('🎬 UDetailHero: Trailer error:', error);
+    setShowVideo(false);
+  };
+
+  const handleVideoLoaded = () => {
+    console.log('🎬 UDetailHero: Trailer loaded successfully');
+  };
+
+  const handleVideoPlay = () => {
+    console.log('🎬 UDetailHero: Video started playing');
+    setIsVideoPaused(false);
+  };
+
+  const handleVideoPause = () => {
+    console.log('🎬 UDetailHero: Video paused');
+    setIsVideoPaused(true);
+  };
+
+  const handleTogglePlayPause = () => {
+    if (isVideoPaused) {
+      console.log('🎬 UDetailHero: Resuming video playback');
+      setIsVideoPaused(false);
+      setIsVideoVisible(true); // Ensure video is visible when resuming
+    } else {
+      console.log('🎬 UDetailHero: Pausing video playback');
+      setIsVideoPaused(true);
+      setIsVideoVisible(false); // Hide video when pausing
+    }
+  };
+
+  // Handle scroll behavior for video pausing
   useEffect(() => {
     const handleScroll = () => {
-      if (!videoRef.current || !heroRef.current) return;
+      if (!heroRef.current) return;
 
       const heroBounds = heroRef.current.getBoundingClientRect();
       const isHeroInView =
         heroBounds.top >= 0 && heroBounds.bottom <= window.innerHeight;
 
-      if (!isHeroInView && !videoRef.current.paused) {
-        videoRef.current.pause(); // Pause video when out of view
-      } else if (isHeroInView && videoRef.current.paused && showVideo) {
-        videoRef.current.play(); // Resume video if it’s back in view
+      if (!isHeroInView && isVideoVisible) {
+        console.log('🎬 UDetailHero: Hero out of view, pausing video');
+        // Pause video when out of view
+        setIsVideoVisible(false);
+      } else if (isHeroInView && !isVideoVisible && !isVideoPlayed) {
+        console.log('🎬 UDetailHero: Hero back in view, resuming video');
+        // Resume video when back in view (but only if it hasn't finished playing)
+        setIsVideoVisible(true);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [showVideo]);
+  }, [isVideoVisible, isVideoPlayed]);
 
   //handle likes
   const handleLikes = (type) => {
@@ -217,50 +244,81 @@ const UDetailHero = ({
         />
       ) : (
         <div className="flex justify-center items-center absolute top-0 object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden">
-          <video
-            ref={videoRef}
-            autoPlay
-            src={trailerUrl}
-            playsInline
-            onLoadedData={handleOnLoad}
-            onCanPlay={handleOnLoad}
-            controls={false}
-            onEnded={() => handleOnEnded()}
+          <HeroTrailerPlayer
+            key={filmData?.id} // Force re-render when film changes
+            resourceId={filmData?.id}
+            onEnded={handleVideoEnded}
+            onError={handleVideoError}
+            onLoaded={handleVideoLoaded}
+            onPlay={handleVideoPlay}
+            onPause={handleVideoPause}
+            autoPlay={true}
             muted={isVideoMuted}
-            className="flex  object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700"
-          ></video>
+            loop={false}
+            showControls={false}
+            isVisible={isVideoVisible && !isVideoPaused}
+            className="w-full h-full"
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
+          />
+          
+          {/* Pause overlay indicator */}
+          {isVideoPaused && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+              <div className="text-white text-center">
+                <span className="icon-[solar--pause-circle-bold] h-16 w-16 text-white opacity-80"></span>
+                <p className="mt-2 text-lg font-medium">Trailer Paused</p>
+                <p className="text-sm opacity-80">Click play button to resume</p>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
       {isVideoPlayed || showVideo ? (
-        <div className="absolute flex right-0 bottom-20 z-50 w-20 h-10   ">
+        <div className="absolute flex right-0 bottom-20 z-50 w-32 h-12   ">
           {isVideoPlayed ? (
-            <div className="flex flex-col justify-center items-start px-3  w-full h-full bg-secondary-900 ">
+            <div className="flex flex-row justify-center items-center px-3 py-2 w-full h-full bg-secondary-900">
               <span
                 onClick={handleReplayVideo}
-                className="icon-[solar--restart-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
+                className="icon-[solar--restart-bold] h-6 w-6 text-primary-500 hover:text-whites-40 cursor-pointer"
+                title="Replay trailer"
               ></span>
             </div>
           ) : (
-            <div className="flex flex-col justify-center items-start px-3  w-full h-full bg-secondary-900 ">
+            <div className="flex flex-row justify-center items-center px-3 py-2 w-full h-full bg-secondary-900 space-x-3">
+              {/* Mute/Unmute button */}
               {isVideoMuted ? (
                 <span
-                  onClick={handleMuteVideo}
-                  className="icon-[solar--muted-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
+                  onClick={() => setIsVideoMuted(false)}
+                  className="icon-[solar--muted-bold] h-6 w-6 text-primary-500 hover:text-whites-40 cursor-pointer"
+                  title="Unmute trailer"
                 ></span>
               ) : (
                 <span
-                  onClick={handleMuteVideo}
-                  className="icon-[solar--volume-loud-bold] h-6 w-6 text-primary-500 hover:text-whites-40"
+                  onClick={() => setIsVideoMuted(true)}
+                  className="icon-[solar--volume-loud-bold] h-6 w-6 text-primary-500 hover:text-whites-40 cursor-pointer"
+                  title="Mute trailer"
                 ></span>
               )}
+              
+              {/* Play/Pause button */}
+              <span
+                onClick={handleTogglePlayPause}
+                className={`h-6 w-6 text-primary-500 hover:text-whites-40 cursor-pointer ${
+                  isVideoPaused ? 'icon-[solar--play-circle-bold]' : 'icon-[solar--pause-circle-bold]'
+                }`}
+                title={isVideoPaused ? 'Play trailer' : 'Pause trailer'}
+              ></span>
             </div>
           )}
         </div>
       ) : null}
 
       <div className="flex absolute top-0 object-cover h-full w-full slect-none  bg-gradient-to-b from-transparent to-secondary-800" />
-      <Box className="mx-auto h-screen px-5  md:px-16 py-32 flex items-center">
+      <Box className="mx-auto h-screen px-5  md:px-16 py-32 flex items-center z-20">
         <Box className="flex flex-col relative  h-screen w-screen ">
           <Box className="w-max absolute left-0 bottom-20">
             <Stack

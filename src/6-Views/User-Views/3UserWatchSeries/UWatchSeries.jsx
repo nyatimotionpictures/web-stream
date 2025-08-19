@@ -10,7 +10,7 @@ import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
-import SeriesFullCustomPlayer from "./SeriesFullCustomPlayer";
+import SeriesStreamingPlayer from "../../../2-Components/VideoPlayer/SeriesStreamingPlayer";
 
 const UWatchSeries = () => {
   const [selectedVideoUrl, setSelectedVideoUrl] = React.useState(null);
@@ -33,6 +33,12 @@ const UWatchSeries = () => {
   // console.log(data?.season);
 
   const handleCheckingVideo = () => {
+    // Safety check: ensure we have an episode ID before processing
+    if (!episodeId) {
+      console.log('⚠️ No episode ID available, skipping video check');
+      return;
+    }
+    
     if (data?.season && !isPending) {
       //free
       if (data?.season?.access?.includes("free")) {
@@ -196,8 +202,21 @@ const UWatchSeries = () => {
   };
 
   React.useEffect(() => {
-    handleCheckingVideo();
-  }, [data?.season, episodeId]);
+    // If no episode ID is set and we have season data, navigate to first episode
+    if (!episodeId && data?.season && !isPending) {
+      const firstEpisode = data.season.episodes?.[0];
+      if (firstEpisode) {
+        console.log('🔄 No episode ID found, navigating to first episode:', firstEpisode.id);
+        navigate(`/watch/s/${params?.id}?ep=${firstEpisode.id}`, { replace: true });
+        return; // Don't process video checking yet, wait for navigation
+      }
+    }
+    
+    // Only process video checking when we have both season data and episode ID
+    if (episodeId && data?.season && !isPending) {
+      handleCheckingVideo();
+    }
+  }, [data?.season, episodeId, isPending, navigate, params?.id]);
 
   //selecting different resolution
   const handleResolution = (resolution) => {
@@ -206,20 +225,43 @@ const UWatchSeries = () => {
 
   return (
     <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
-      <SeriesFullCustomPlayer
-        purchasedData={purchasedData}
-        filmData={episodeData}
-        allVideos={allVideos}
-        videoSrc={selectedVideoUrl}
-        handleResolution={handleResolution}
-        handleNextEpisode={handleNextEpisode}
-        episodeIndex={episodeIndex}
-        allEpisodes={allEpisodes}
-      />
-      {isCheckingAccess && (
+      {/* Only render SeriesStreamingPlayer when we have a valid episodeId and episodeData */}
+      {episodeId && episodeData && !isCheckingAccess && !errorVideo ? (
+        <SeriesStreamingPlayer
+          purchasedData={purchasedData}
+          filmData={episodeData}
+          allVideos={allVideos}
+          videoSrc={selectedVideoUrl}
+          handleResolution={handleResolution}
+          handleNextEpisode={handleNextEpisode}
+          episodeIndex={episodeIndex}
+          allEpisodes={allEpisodes}
+          episodeData={episodeData}
+          resourceId={episodeId}
+          type={selectedVideoUrl?.resolution?.toLowerCase() || 'hd'}
+          thumbnailUrl={episodeData?.thumbnailUrl}
+          title={episodeData?.title}
+          controls={true}
+          width="100%"
+          height="100%"
+          aspectRatio="16/9"
+          isTrailer={false}
+        />
+      ) : null}
+      {/* Loading state when checking access or waiting for episode ID */}
+      {(isCheckingAccess || !episodeId) && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
           <div className="w-full h-full flex flex-col justify-center items-center ">
-            <CustomLoader text="checking access, please wait..." />
+            {!episodeId ? (
+              <div className="text-center">
+                <CustomLoader text="Loading episode..." />
+                <p className="text-white text-sm mt-4 opacity-70">
+                  Redirecting to first episode...
+                </p>
+              </div>
+            ) : (
+              <CustomLoader text="checking access, please wait..." />
+            )}
           </div>
         </div>
       )}
