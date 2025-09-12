@@ -7,6 +7,7 @@ import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import { formatDuration, intervalToDuration } from "date-fns";
 import GetRemainingDays from "./GetRemainingDays";
 import HeroTrailerPlayer from "../../../2-Components/VideoPlayer/HeroTrailerPlayer";
+import TestHeroTrailerPlayer from "../../../2-Components/VideoPlayer/TestHeroTrailerPlayer";
 
 const UDetailHero = ({
   filmData,
@@ -244,7 +245,7 @@ const UDetailHero = ({
         />
       ) : (
         <div className="flex justify-center items-center absolute top-0 object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden">
-          <HeroTrailerPlayer
+          <TestHeroTrailerPlayer
             key={filmData?.id} // Force re-render when film changes
             resourceId={filmData?.id}
             onEnded={handleVideoEnded}
