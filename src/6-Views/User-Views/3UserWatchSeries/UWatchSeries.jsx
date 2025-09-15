@@ -10,7 +10,7 @@ import Button from "../../../2-Components/Buttons/Button";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
-import SeriesStreamingPlayer from "../../../2-Components/VideoPlayer/SeriesStreamingPlayer";
+import SeriesStreamingPlayer from "../../../2-Components/VideoPlayer/TestSeriesStreamingPlayer";
 
 const UWatchSeries = () => {
   const [selectedVideoUrl, setSelectedVideoUrl] = React.useState(null);
@@ -250,7 +250,7 @@ const UWatchSeries = () => {
       ) : null}
       {/* Loading state when checking access or waiting for episode ID */}
       {(isCheckingAccess || !episodeId) && (
-        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70">
+        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-secondary-900 bg-opacity-70 ">
           <div className="w-full h-full flex flex-col justify-center items-center ">
             {!episodeId ? (
               <div className="text-center">
