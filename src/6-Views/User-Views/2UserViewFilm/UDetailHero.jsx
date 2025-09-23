@@ -7,7 +7,7 @@ import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 import { formatDuration, intervalToDuration } from "date-fns";
 import GetRemainingDays from "./GetRemainingDays";
 import HeroTrailerPlayer from "../../../2-Components/VideoPlayer/HeroTrailerPlayer";
-import TestHeroTrailerPlayer from "../../../2-Components/VideoPlayer/TestHeroTrailerPlayer";
+import TestHeroTrailerPlayer from "../../../2-Components/VideoPlayer/TestHeroPlayer5";
 
 const UDetailHero = ({
   filmData,
@@ -263,6 +263,8 @@ const UDetailHero = ({
               width: '100%',
               height: '100%'
             }}
+            isTrailer={true}
+            thumbnailUrl={backDropUrl ? backDropUrl : ""}
           />
           
           {/* Pause overlay indicator */}

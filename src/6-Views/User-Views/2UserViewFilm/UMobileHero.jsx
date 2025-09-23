@@ -7,7 +7,7 @@ import TextClamped from "../../../2-Components/Stacks/TextClamped";
 import { useNavigate } from "react-router-dom";
 import GetRemainingDays from "./GetRemainingDays";
 import HeroTrailerPlayer from "../../../2-Components/VideoPlayer/HeroTrailerPlayer";
-import TestHeroTrailerPlayer from "../../../2-Components/VideoPlayer/TestHeroTrailerPlayer";
+import TestHeroTrailerPlayer from "../../../2-Components/VideoPlayer/TestHeroPlayer5";
 
 const UMobileHero = ({
   filmData,
@@ -333,7 +333,7 @@ const UMobileHero = ({
         </div>
       ) : (
         <div className="w-full h-full relative">
-          <div className="flex justify-center items-center object-cover h-full w-screen md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden relative">
+          <div className="flex justify-center items-center object-cover h-full w-screen min-h-[30vh] md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden relative">
             
             <TestHeroTrailerPlayer
               resourceId={filmData?.id}
@@ -345,6 +345,7 @@ const UMobileHero = ({
               autoPlay={true}
               muted={isVideoMuted}
               loop={false}
+              thumbnailUrl={backDropUrl}
               showControls={false}
               isVisible={isVideoVisible && !isVideoPaused}
               className="w-full h-full"
@@ -352,6 +353,7 @@ const UMobileHero = ({
                 width: '100%',
                 height: '100%'
               }}
+              isTrailer={true}
             />
 
      
