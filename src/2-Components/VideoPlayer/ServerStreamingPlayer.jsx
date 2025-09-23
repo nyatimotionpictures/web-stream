@@ -2565,7 +2565,7 @@ const handleSeek = (e) => {
  {(isLoading || showBufferLoader) && <BufferLoader />}
 
   {/* Clean Netflix-style Paused Interface */}
-  {!isPlaying && (
+  {(!isPlaying && !isLoading && !showBufferLoader) && (
         <div style={{
           position: 'absolute',
           top: 0,
