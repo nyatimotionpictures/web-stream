@@ -228,76 +228,6 @@ const TestSeriesStreamingPlayer = ({
   // };
 
 
-
-
-
- 
-
-
-
-  // Audio sync monitoring and correction
-  // const monitorAudioSync = () => {
-  //   const video = videoRef.current;
-  //   if (!video || !isPlaying) return;
-
-  //   try {
-  //     // Check for audio drift
-  //     const currentTime = video.currentTime;
-  //     const duration = video.duration;
-
-  //     if (duration && currentTime > 0) {
-  //       // Monitor audio buffer
-  //       if (video.buffered.length > 0) {
-  //         const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-  //         const bufferAhead = bufferedEnd - currentTime;
-
-  //         // If buffer is too small, audio might lag
-  //         if (bufferAhead < 2) {
-  //           console.warn('⚠️ Low audio buffer detected - potential audio lag');
-
-  //           // Try to increase buffer by pausing briefly
-  //           if (bufferAhead < 1) {
-  //             console.log('🔄 Audio buffer too low, attempting to increase buffer...');
-  //             const wasPlaying = !video.paused;
-  //             if (wasPlaying) {
-  //               video.pause();
-  //               setTimeout(() => {
-  //                 if (wasPlaying) {
-  //                   video.play().catch(console.error);
-  //                 }
-  //               }, 1000); // Wait 1 second to build buffer
-  //             }
-  //           }
-  //         }
-  //       }
-
-  //       // Check for audio sync issues
-  //       const audioTracks = video.audioTracks;
-  //       if (audioTracks && audioTracks.length > 0) {
-  //         const audioTrack = audioTracks[0];
-  //         if (audioTrack.readyState === 'loaded') {
-  //           // Monitor for audio drift
-  //           const expectedTime = Math.floor(currentTime * 100) / 100; // Round to 2 decimal places
-  //           const actualTime = Math.floor(video.currentTime * 100) / 100;
-  //           const drift = Math.abs(expectedTime - actualTime);
-
-  //           if (drift > 0.1) { // More than 100ms drift
-  //             console.warn(`⚠️ Audio drift detected: ${drift.toFixed(3)}s`);
-
-  //             // Correct significant audio drift
-  //             if (drift > 0.5) { // More than 500ms drift
-  //               console.log('🔄 Correcting significant audio drift...');
-  //               video.currentTime = expectedTime;
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('❌ Error monitoring audio sync:', error);
-  //   }
-  // };
-
   // Helper function to add authentication token to URLs
   const addAuthTokenToUrl = (url) => {
     if (!url) return url;
@@ -1705,9 +1635,9 @@ useEffect(() => {
               if (bufferAhead < 3) {
                 console.warn('⚠️ Low buffer detected - potential audio lag');
                 // Monitor audio sync more frequently when buffer is low
-                if (isPlaying) {
-                  monitorAudioSync();
-                }
+                // if (isPlaying) {
+                //   monitorAudioSync();
+                // }
               }
             }
           });
