@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import apiRequest from '../../3-Middleware/apiRequest';
 import { useNetworkState } from '../hooks/useNetworkState';
+import RemainingFilmDays from "../../6-Views/User-Views/3UserWatchFilm/RemainingFilmDays";
+import { AuthContext } from '../../5-Store/AuthContext';
 
 // Global state to track all active players
 const globalPlayerState = {
@@ -69,6 +71,8 @@ const TestSeriesStreamingPlayer = ({
 
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
+  const userData = useContext(AuthContext);
+  const filmKey = userData.currentUser?.user.id ? `episode_${resourceId}_${userData.currentUser?.user.id}_time` : `episode_${resourceId}_time`;
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -128,6 +132,15 @@ const TestSeriesStreamingPlayer = ({
     rangeRequestTotal: 0,
     averageLoadTime: 0
   });
+
+  useEffect(() => {
+    const savedTime = localStorage.getItem(filmKey);
+    if (savedTime && videoRef.current) {
+      videoRef.current.currentTime = parseFloat(savedTime);
+    } else {
+      videoRef.current.currentTime = 0;
+    }
+  }, [videoSrc, resourceId]);
 
     // Register/unregister this player instance
     useEffect(()=>{
@@ -1140,7 +1153,10 @@ useEffect(() => {
     //     monitorAudioSync();
     //   }
     // };
-    const handleTimeUpdate = () => setCurrentTime(video.currentTime);
+    const handleTimeUpdate = () => {
+      localStorage.setItem(filmKey, videoRef.current.currentTime);
+      setCurrentTime(video.currentTime)
+    };
     const handleDurationChange = () => setDuration(video.duration);
     const handlePlay = () => {
       setIsPlaying(true);
@@ -1309,6 +1325,8 @@ useEffect(() => {
       video.removeEventListener('pause', handlePause);
       video.removeEventListener('loadstart', handleLoadStart);
       video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('waiting', handleWaiting);
+    video.removeEventListener('playing', handlePlaying);
       video.removeEventListener('progress', handleProgress);
       video.removeEventListener('error', handleError);
       video.removeEventListener('cuechange', handleCueChange);
@@ -1504,7 +1522,9 @@ useEffect(() => {
     setIsPlaying(false);
     setError(null);
     setShowBufferLoader(false);
-    setCurrentTime(0);
+    let savedTime = localStorage.getItem(filmKey) ? localStorage.getItem(filmKey) : videoRef.current.currentTime ? videoRef.current.currentTime : 0;
+    setCurrentTime(parseFloat(savedTime));
+    // setCurrentTime(0);
     setDuration(0);
     setBuffered(0);
     setBufferProgress(0);
@@ -1695,483 +1715,6 @@ useEffect(() => {
       video.load();
     }
 
-  
-
-    console.log(`🎬 Loading video from server: ${streamingUrl}`);
-
-    // if (isHLS) {
-    //   // Handle HLS files with optimized HLS.js configuration
-    //   const loadHLS = async () => {
-    //     try {
-    //       // Dynamically import HLS.js
-    //       const Hls = (await import('hls.js')).default;
-
-    //       if (Hls.isSupported()) {
-    //         console.log('✅ HLS.js is supported, initializing with optimized config...');
-
-    //         const hls = new Hls({
-    //           debug: false,
-    //           enableWorker: true,
-    //           lowLatencyMode: false, // Disable low latency mode to reduce stalling
-    //           backBufferLength: 30,
-
-    //           // Enhanced buffering configuration for continuous streaming
-    //           maxBufferLength: 90, // Increase buffer length for better preloading
-    //           maxMaxBufferLength: 120, // Maximum buffer length
-    //           maxBufferSize: 60 * 1000 * 1000, // 120MB max buffer size for better preloading
-    //           maxBufferHole: 0.1, // Reduce buffer hole tolerance for smoother playback
-    //           highBufferWatchdogPeriod: 1, // More frequent buffer monitoring
-    //           nudgeOffset: 0.05, // Smaller nudge offset for smoother recovery
-    //           nudgeMaxRetry: 10, // More retries for better recovery
-    //           maxFragLookUpTolerance: 0.1, // Tighter fragment lookup tolerance
-
-    //           // Audio sync configuration to prevent audio lag
-    //           maxAudioFramesDrift: 0.1, // Reduce audio drift tolerance
-    //           maxStarvationDelay: 2, // Reduce starvation delay
-    //           maxLoadingDelay: 2, // Reduce loading delay
-    //           enableSoftwareAES: true, // Enable software AES
-
-    //           // Audio-specific settings to prevent lag
-    //           audioBufferLength: 30, // Audio buffer length in seconds
-    //           audioBufferSize: 60 * 1000 * 1000, // 60MB audio buffer
-    //           audioBufferHole: 0.05, // Smaller audio buffer hole tolerance
-    //           audioNudgeOffset: 0.02, // Smaller audio nudge offset
-    //           audioNudgeMaxRetry: 5, // Audio nudge retries
-
-    //           // Live streaming settings
-    //           liveSyncDurationCount: 3, // Live sync duration count
-    //           liveMaxLatencyDurationCount: 10, // Max latency for live streams
-
-    //           // ABR (Adaptive Bitrate) settings
-    //           abrEwmaDefaultEstimate: 500000, // Default bandwidth estimate
-    //           abrEwmaFastLive: 3.0, // Fast live ABR
-    //           abrEwmaSlowLive: 9.0, // Slow live ABR
-    //           abrEwmaFastVoD: 3.0, // Fast VoD ABR
-    //           abrEwmaSlowVoD: 9.0, // Slow VoD ABR
-    //           abrBandWidthFactor: 0.95, // Conservative bandwidth factor
-    //           abrBandWidthUpFactor: 0.7, // Conservative up factor
-    //           abrMaxWithRealBitrate: true, // Use real bitrate
-
-    //           // Quality and performance settings
-    //           startLevel: -1, // Auto start level
-    //           capLevelToPlayerSize: true, // Cap level to player size
-    //           testBandwidth: true, // Test bandwidth for better quality selection
-    //           progressive: false, // Disable progressive parsing
-    //           stretchShortVideoTrack: false, // Don't stretch short video tracks
-
-    //           // Buffer management
-    //           maxBufferStarvationDelay: 2, // Reduce starvation delay
-
-    //           // Enhanced caption support for professional subtitle approach
-    //           enableWebVTT: true, // Enable WebVTT captions
-    //           enableIMSC1: true, // Enable IMSC1 captions
-    //           enableCEA708Captions: true, // Enable CEA708 captions
-    //           enableDateRangeMetadataCues: true, // Enable date range metadata for captions
-    //           enableEmsgMetadataCues: true, // Enable emsg metadata for series
-
-    //           // Professional subtitle approach: Enhanced subtitle handling for individual resolutions
-    //           subtitleDisplay: true, // Enable subtitle display for series
-    //           subtitleTrackSelectionMode: 'auto', // Enable subtitle track selection for series
-    //           subtitlePreference: ['en', 'eng', 'english'], // Enable subtitle preferences for series
-
-    //           // Individual resolution subtitle support
-    //           enableSubtitleStreaming: true, // Enable subtitle streaming for series
-    //           subtitleStreamingMode: 'external', // Enable subtitle streaming mode for series
-
-    //           // Preloading settings
-    //           startFragPrefetch: true, // Prefetch start fragment
-
-    //           // Custom loader that adds authentication tokens to all requests
-    //           loader: class AuthenticatedLoader extends Hls.DefaultConfig.loader {
-    //             load(context, config, callbacks) {
-    //               // Add authentication token to all requests
-    //               const originalUrl = context.url;
-    //               let authenticatedUrl = originalUrl;
-
-    //               // Get the auth token from user object
-    //               const user = JSON.parse(localStorage.getItem("user"));
-    //               const token = user !== null && user.token ? user.token : null;
-
-    //               if (token && !originalUrl.includes('token=')) {
-    //                 const separator = originalUrl.includes('?') ? '&' : '?';
-    //                 authenticatedUrl = `${originalUrl}${separator}token=${token}`;
-    //                 console.log(`🔐 HLS Loader: Added token to request: ${originalUrl} -> ${authenticatedUrl}`);
-    //               } else if (originalUrl.includes('token=')) {
-    //                 console.log(`🔐 HLS Loader: URL already has token: ${originalUrl}`);
-    //               }
-
-    //               // Update the context with authenticated URL
-    //               context.url = authenticatedUrl;
-
-    //               // Add retry logic for failed requests
-    //               const originalLoad = super.load.bind(this);
-    //               let retryCount = 0;
-    //               const maxRetries = 5; // Increased retries
-
-    //               const loadWithRetry = (context, config, callbacks) => {
-    //                 originalLoad(context, config, {
-    //                   ...callbacks,
-    //                   onError: (response, context, networkDetails) => {
-    //                     console.log(`🔄 Loader retry ${retryCount + 1}/${maxRetries} for ${context.url}`);
-    //                     if (retryCount < maxRetries) {
-    //                       retryCount++;
-    //                       setTimeout(() => {
-    //                         loadWithRetry(context, config, callbacks);
-    //                       }, 500 * retryCount); // Faster exponential backoff
-    //                     } else {
-    //                       callbacks.onError(response, context, networkDetails);
-    //                     }
-    //                   }
-    //                 });
-    //               };
-
-    //               loadWithRetry(context, config, callbacks);
-    //             }
-    //           }
-    //         });
-
-    //         hlsRef.current = hls;
-
-    //         hls.loadSource(streamingUrl);
-    //         hls.attachMedia(video);
-
-    //         // Start loading when manifest is parsed
-    //         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-    //           console.log('✅ HLS manifest parsed, starting buffer loading...');
-    //           setBufferStatus('Loading manifest...');
-    //           // Start loading fragments immediately
-    //           hls.startLoad();
-    //         });
-
-    //         hls.on(Hls.Events.LEVEL_LOADED, (event, data) => {
-    //           console.log(`📊 Level loaded: ${data.level} (${data.details.bitrate} bps)`);
-    //         });
-
-    //         hls.on(Hls.Events.LEVEL_SWITCHING, (event, data) => {
-    //           console.log(`🔄 Switching to level: ${data.level}`);
-    //         });
-
-    //         hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
-    //           console.log(`✅ Switched to level: ${data.level}`);
-
-    //           // Track quality switches
-    //           setPerformanceMetrics(prev => ({
-    //             ...prev,
-    //             qualitySwitches: prev.qualitySwitches + 1
-    //           }));
-    //         });
-
-    //         hls.on(Hls.Events.FRAG_LOADING, (event, data) => {
-    //           console.log(`📥 Loading fragment: ${data.frag.sn} (${data.frag.duration}s)`);
-    //           setBufferStatus(`Loading fragment ${data.frag.sn}...`);
-
-    //           // Track fragment loading start time
-    //           data.loadStartTime = performance.now();
-    //         });
-
-    //         hls.on(Hls.Events.FRAG_LOADED, (event, data) => {
-    //           // Calculate and track fragment load time
-    //           const loadTime = performance.now() - (data.loadStartTime || performance.now());
-    //           console.log(`✅ Fragment loaded: ${data.frag.sn} (${data.frag.duration}s) in ${loadTime.toFixed(2)}ms`);
-
-    //           setFragmentsLoaded(prev => prev + 1);
-    //           setBufferStatus(`Loaded ${fragmentsLoaded + 1} fragments...`);
-
-    //           // Update performance metrics
-    //           setPerformanceMetrics(prev => {
-    //             const newLoadTimes = [...prev.fragmentLoadTime, loadTime].slice(-10); // Keep last 10
-    //             const averageLoadTime = newLoadTimes.reduce((sum, time) => sum + time, 0) / newLoadTimes.length;
-
-    //             return {
-    //               ...prev,
-    //               fragmentLoadTime: newLoadTimes,
-    //               averageLoadTime: averageLoadTime
-    //             };
-    //           });
-    //         });
-
-    //         hls.on(Hls.Events.FRAG_PARSED, (event, data) => {
-    //           console.log(`📋 Fragment parsed: ${data.frag.sn}`);
-    //         });
-
-    //         hls.on(Hls.Events.BUFFER_STALLED, () => {
-    //           console.log('⚠️ Buffer stalled, attempting recovery...');
-    //         });
-
-    //         hls.on(Hls.Events.BUFFER_APPENDING, () => {
-    //           console.log('📥 Buffer appending...');
-    //         });
-
-    //         hls.on(Hls.Events.BUFFER_APPENDED, () => {
-    //           console.log('✅ Buffer appended successfully');
-
-    //           // Check if we have sufficient buffer before allowing playback
-    //           if (video.buffered.length > 0) {
-    //             const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-    //             const currentTime = video.currentTime || 0;
-    //             const bufferAhead = bufferedEnd - currentTime;
-
-    //             console.log(`📊 Buffer status: ${bufferAhead.toFixed(2)}s ahead, ${(bufferedEnd).toFixed(2)}s total`);
-
-    //             // Update buffer progress
-    //             const progress = Math.min((bufferAhead / 10) * 100, 100); // Target 10 seconds of buffer
-    //             setBufferProgress(progress);
-    //             setBufferStatus(`Buffering: ${bufferAhead.toFixed(1)}s ahead`);
-
-    //             // Track buffer efficiency
-    //             const efficiency = Math.min((bufferAhead / 10) * 100, 100);
-    //             setPerformanceMetrics(prev => ({
-    //               ...prev,
-    //               bufferEfficiency: efficiency
-    //             }));
-
-    //             // Enable playback when we have at least 5 seconds of buffer
-    //             if (bufferAhead >= 5 && isLoading) {
-    //               console.log('✅ Sufficient buffer loaded, enabling playback');
-    //               setIsLoading(false);
-    //               setBufferStatus('Ready to play');
-    //             }
-
-    //             // Audio sync check - ensure audio buffer is sufficient
-    //             if (bufferAhead < 3) {
-    //               console.warn('⚠️ Low buffer detected - potential audio lag');
-    //               // Monitor audio sync more frequently when buffer is low
-    //               if (isPlaying) {
-    //                 monitorAudioSync();
-    //               }
-    //             }
-    //           }
-    //         });
-
-    //         // Enhanced buffering events for continuous streaming
-    //         hls.on(Hls.Events.BUFFER_EOS, () => {
-    //           console.log('📋 Buffer end of stream reached');
-    //         });
-
-    //         hls.on(Hls.Events.BUFFER_FREE, () => {
-    //           console.log('🗑️ Buffer freed');
-    //         });
-
-    //         hls.on(Hls.Events.BUFFER_SEEKING, () => {
-    //           console.log('🔍 Buffer seeking...');
-    //         });
-
-    //         hls.on(Hls.Events.BUFFER_SEEKED, () => {
-    //           console.log('✅ Buffer seeked successfully');
-    //         });
-
-    //         // Monitor bandwidth for quality selection
-    //         hls.on(Hls.Events.BANDWIDTH_ESTIMATE, (event, data) => {
-    //           console.log(`📊 Bandwidth estimate: ${Math.round(data.bandwidth / 1000)} kbps`);
-    //         });
-
-    //         // Enhanced error handling with intelligent recovery
-    //         hls.on(Hls.Events.ERROR, (event, data) => {
-    //           console.error('❌ HLS error:', data);
-
-    //           // Track error rate
-    //           setPerformanceMetrics(prev => ({
-    //             ...prev,
-    //             errorRate: prev.errorRate + 1
-    //           }));
-
-    //           // Handle different types of errors with enhanced recovery
-    //           if (data.fatal) {
-    //             switch (data.type) {
-    //               case Hls.ErrorTypes.NETWORK_ERROR:
-    //                 console.log('🔄 Network error, implementing intelligent recovery...');
-    //                 handleStreamingError({ type: 'network', details: data.details }, 'hls');
-    //                 hls.startLoad();
-    //                 break;
-    //               case Hls.ErrorTypes.MEDIA_ERROR:
-    //                 console.log('🔄 Media error, implementing intelligent recovery...');
-    //                 handleStreamingError({ type: 'media', details: data.details }, 'hls');
-    //                 hls.recoverMediaError();
-    //                 break;
-    //               default:
-    //                 console.error('❌ Fatal HLS error, cannot recover');
-    //                 setError('HLS playback error');
-    //                 setIsLoading(false);
-    //                 break;
-    //             }
-    //           } else {
-    //             // Handle non-fatal errors with enhanced strategies
-    //             switch (data.details) {
-    //               case 'bufferStalledError':
-    //                 console.log('⚠️ Buffer stalling detected, implementing recovery...');
-    //                 // Try to recover by seeking slightly forward
-    //                 if (video.currentTime) {
-    //                   const newTime = video.currentTime + 0.1;
-    //                   if (newTime < video.duration) {
-    //                     video.currentTime = newTime;
-    //                     console.log(`🔄 Seeking to ${newTime}s to recover from buffer stall`);
-    //                   }
-    //                 }
-    //                 break;
-    //               case 'bufferNudgeOnStall':
-    //                 console.log('⚠️ Buffer nudge applied, continuing playback...');
-    //                 // This is usually handled automatically by HLS.js
-    //                 break;
-    //               case 'manifestLoadError':
-    //                 console.log('⚠️ Manifest load error, implementing retry strategy...');
-    //                 handleStreamingError({ type: 'network', details: data.details }, 'manifest');
-    //                 hls.startLoad();
-    //                 break;
-    //               case 'levelLoadError':
-    //                 console.log('⚠️ Level load error, switching to lower quality...');
-    //                 // HLS.js will automatically switch to a lower quality level
-    //                 break;
-    //               default:
-    //                 console.log('⚠️ Non-fatal HLS error:', data.details);
-    //                 break;
-    //             }
-    //           }
-    //         });
-
-    //         // Audio sync monitoring and correction
-    //         hls.on(Hls.Events.AUDIO_TRACKS_UPDATED, (event, data) => {
-    //           console.log('🎵 Audio tracks updated:', data.audioTracks);
-    //         });
-
-    //         hls.on(Hls.Events.AUDIO_TRACK_SWITCHED, (event, data) => {
-    //           console.log('🎵 Audio track switched:', data);
-    //         });
-
-    //         // Monitor audio drift and sync issues
-    //         hls.on(Hls.Events.AUDIO_FRAG_PARSED, (event, data) => {
-    //           console.log('🎵 Audio fragment parsed:', data);
-    //           // Check for audio drift
-    //           if (data.frag && data.frag.duration) {
-    //             const expectedTime = data.frag.start + data.frag.duration;
-    //             const actualTime = video.currentTime;
-    //             const drift = Math.abs(expectedTime - actualTime);
-
-    //             if (drift > 0.1) { // More than 100ms drift
-    //               console.warn(`⚠️ Audio drift detected: ${drift.toFixed(3)}s`);
-    //               // Attempt to correct audio drift
-    //               if (drift > 0.5) { // More than 500ms drift
-    //                 console.log('🔄 Correcting significant audio drift...');
-    //                 video.currentTime = expectedTime;
-    //               }
-    //             }
-    //           }
-    //         });
-
-    //         // Monitor audio buffer underruns
-    //         hls.on(Hls.Events.AUDIO_BUFFER_STALLED, () => {
-    //           console.warn('⚠️ Audio buffer stalled - potential audio lag');
-    //         });
-
-    //         hls.on(Hls.Events.AUDIO_BUFFER_APPENDED, () => {
-    //           console.log('✅ Audio buffer appended successfully');
-    //         });
-
-    //         // Monitor overall media sync
-    //         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-    //           console.log('🎬 Media attached, setting up audio sync monitoring...');
-
-    //           // Set up audio sync monitoring
-    //           const checkAudioSync = () => {
-    //             if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
-    //               const audioTracks = video.audioTracks;
-    //               if (audioTracks && audioTracks.length > 0) {
-    //                 const audioTrack = audioTracks[0];
-    //                 if (audioTrack.readyState === 'loaded') {
-    //                   // Monitor audio sync
-    //                   const currentTime = video.currentTime;
-    //                   const buffered = video.buffered;
-
-    //                   if (buffered.length > 0) {
-    //                     const bufferedEnd = buffered.end(buffered.length - 1);
-    //                     const bufferAhead = bufferedEnd - currentTime;
-
-    //                     // If buffer is too small, audio might lag
-    //                     if (bufferAhead < 2) {
-    //                       console.warn('⚠️ Low audio buffer - potential lag');
-    //                     }
-    //                   }
-    //                 }
-    //               }
-    //             }
-    //           };
-
-    //           // Check audio sync periodically
-    //           const audioSyncInterval = setInterval(checkAudioSync, 2000);
-
-    //           // Clean up interval when video is destroyed
-    //           video.addEventListener('destroyed', () => {
-    //             clearInterval(audioSyncInterval);
-    //           });
-    //         });
-
-    //       } else {
-    //         console.log('❌ HLS.js not supported, falling back to native video');
-    //         // Fallback to native video (won't work for HLS but will show error)
-    //         video.src = streamingUrl;
-    //         video.load();
-    //       }
-    //     } catch (error) {
-    //       console.error('❌ Error loading HLS.js:', error);
-    //       setError('Failed to load HLS player');
-    //       setIsLoading(false);
-    //     }
-    //   };
-
-    //   loadHLS();
-    // } else {
-    //   // Handle MP4 files with native video element and enhanced optimization
-    //   console.log('🎬 Loading MP4 with enhanced optimized settings');
-
-    //   // Set optimized video attributes
-    //   video.preload = 'auto';
-    //   video.crossOrigin = 'anonymous';
-
-    //   // Add enhanced optimized data attributes
-    //   video.setAttribute('data-optimized-streaming', 'true');
-    //   video.setAttribute('data-range-support', rangeRequestSupported.toString());
-    //   video.setAttribute('data-streaming-config', JSON.stringify(streamingConfig));
-
-    //   if (streamingConfig) {
-    //     video.setAttribute('data-chunk-size', streamingConfig.optimizedChunkSizes?.mp4 || STREAMING_CONFIG.CHUNK_SIZES.mp4);
-    //     video.setAttribute('data-max-range-size', streamingConfig.maxRangeSize || STREAMING_CONFIG.MAX_RANGE_SIZE);
-    //     video.setAttribute('data-cache-duration', streamingConfig.cacheDurations?.mp4 || '604800');
-    //   }
-
-    //   // Enhanced MP4 error handling
-    //   video.addEventListener('error', (e) => {
-    //     console.error('❌ MP4 video error:', e);
-    //     handleStreamingError({ type: 'media', details: 'MP4 playback error' }, 'mp4');
-    //   });
-
-    //   // Enhanced MP4 performance monitoring
-    //   video.addEventListener('loadstart', () => {
-    //     console.log('📥 MP4 loading started');
-    //     setBufferStatus('Loading MP4...');
-    //   });
-
-    //   video.addEventListener('canplay', () => {
-    //     console.log('✅ MP4 can play');
-    //     setIsLoading(false);
-    //     setBufferStatus('Ready to play');
-    //   });
-
-    //   video.addEventListener('progress', () => {
-    //     if (video.buffered.length > 0) {
-    //       const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-    //       const currentTime = video.currentTime || 0;
-    //       const bufferAhead = bufferedEnd - currentTime;
-    //       const efficiency = Math.min((bufferAhead / 10) * 100, 100);
-
-    //       setPerformanceMetrics(prev => ({
-    //         ...prev,
-    //         bufferEfficiency: efficiency
-    //       }));
-    //     }
-    //   });
-
-    //   video.src = streamingUrl;
-    //   video.load();
-    // }
 
     return () => {
       cleanupIntervals();
@@ -2206,8 +1749,10 @@ useEffect(() => {
   const handlePlayPause = () => {
     if (videoRef.current) {
       if (isPlaying) {
+        setIsPlaying(false)
         videoRef.current.pause();
       } else {
+        setIsPlaying(true)
         videoRef.current.play().catch(err => {
           console.error('Error playing video:', err);
         });
@@ -3161,7 +2706,7 @@ const handleSeek = (e) => {
  {/* Loading/Buffering Overlay */}
  {(isLoading || showBufferLoader) && <BufferLoader />}
       {/* Clean Netflix-style Paused Interface */}
-      {!isPlaying && (
+      {(!isPlaying && !isLoading && !showBufferLoader) && (
         <div style={{
           position: 'absolute',
           top: 0,
@@ -4731,6 +4276,10 @@ const handleSeek = (e) => {
           transition: 'opacity 0.3s ease'
         }} />
       )}
+
+       {purchasedData?.length > 0 && (
+          <RemainingFilmDays videoRef={videoRef} expiryDate={purchasedData[0]?.expiresAt} />
+        )}
     </div>
   );
 };
