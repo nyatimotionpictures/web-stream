@@ -253,6 +253,7 @@ const UDetailHero = ({
             onLoaded={handleVideoLoaded}
             onPlay={handleVideoPlay}
             onPause={handleVideoPause}
+            isPaused={setIsVideoMuted}
             autoPlay={true}
             muted={isVideoMuted}
             loop={false}
@@ -270,8 +271,8 @@ const UDetailHero = ({
           {/* Pause overlay indicator */}
           {isVideoPaused && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-              <div className="text-white text-center">
-                <span className="icon-[solar--pause-circle-bold] h-16 w-16 text-white opacity-80"></span>
+              <div className="text-whites-100 text-center">
+                <span className="icon-[solar--pause-circle-bold] h-16 w-16 text-whites-100 opacity-80"></span>
                 <p className="mt-2 text-lg font-medium">Trailer Paused</p>
                 <p className="text-sm opacity-80">Click play button to resume</p>
               </div>
