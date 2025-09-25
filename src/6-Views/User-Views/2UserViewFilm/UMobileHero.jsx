@@ -336,12 +336,14 @@ const UMobileHero = ({
           <div className="flex justify-center items-center object-cover h-full w-screen min-h-[30vh] md:h-full md:w-full select-none bg-gradient-to-b from-transparent to-secondary-700 overflow-hidden relative">
             
             <TestHeroTrailerPlayer
+              key={filmData?.id} // Force re-render when film changes
               resourceId={filmData?.id}
               onEnded={handleVideoEnded}
               onError={handleVideoError}
               onLoaded={handleVideoLoaded}
               onPlay={handleVideoPlay}
               onPause={handleVideoPause}
+              isPaused={setIsVideoMuted}
               autoPlay={true}
               muted={isVideoMuted}
               loop={false}
