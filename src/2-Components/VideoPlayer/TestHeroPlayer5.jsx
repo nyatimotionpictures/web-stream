@@ -1178,6 +1178,24 @@ useEffect(() => {
       if (typeof onLoaded === 'function') {
         onLoaded();
       }
+
+      if (autoPlay && isVisible) {
+        console.log('🎬 HeroTrailerPlayer: Starting immediate playback');
+        // Try muted autoplay first (more likely to succeed)
+        // video.muted = true;
+        onPlay()
+        video.play().then(() => {
+          console.log('🎬 HeroTrailerPlayer: Muted autoplay successful');
+          // Unmute after successful start
+        //   setTimeout(() => {
+        //     video.muted = muted;
+        //   }, 100);
+        }).catch((error) => {
+          console.log('🎬 HeroTrailerPlayer: Playback failed:', error.message);
+          // If autoplay fails, wait for user interaction
+        //   setUserInteracted(false);
+        });
+      }
     };
     const handleEnded = () => {
       setIsPlaying(false);
@@ -1334,16 +1352,18 @@ useEffect(() => {
     if (!isVisible) {
       if (!video.paused) {
         video.pause();
+        onPause()
       }
     } else {
       // When visible, attempt to play (user gesture may be required if not muted)
       if (autoPlay) {
+        onPlay()
         video.play().catch(() => {
           // Ignore autoplay rejection; user interaction may be needed
         });
       }
     }
-  }, [isVisible, autoPlay, streamingUrl]);
+  }, [isVisible, autoPlay, streamingUrl, videoRef]);
 
   // Keep muted in sync with prop changes from parent
   useEffect(() => {
@@ -2417,7 +2437,7 @@ useEffect(() => {
         preload="metadata"
         playsInline
         muted={isMuted}
-        poster={thumbnailUrl}
+        // poster={thumbnailUrl}
         autoBuffer={true}
         autoPlay={autoPlay}
         data-preload="auto"
