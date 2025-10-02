@@ -106,7 +106,7 @@ const ContentTab = ({ filmdata, loggedIn }) => {
             {filmdata?.soundcore?.length > 0 && (
               <Stack spacing={"7px"}>
                 <Typography className="font-[Inter-SemiBold] text-base sm:text-lg text-whites-40">
-                  Sound Core
+                  Sound Score
                 </Typography>
                 <ul>
                   {filmdata?.soundcore?.map((data, index) => (
