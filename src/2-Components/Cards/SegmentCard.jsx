@@ -16,9 +16,11 @@ const SegmentCard = ({
         // Pause all videos on the page
         document.querySelectorAll('video').forEach(v => v.pause());
         const trailerVideo = seasondata.trailers.find(video => video.isTrailer);
-        if (onOpenTrailer && trailerVideo?.url) {
-            onOpenTrailer(trailerVideo.url);
-        }
+       onOpenTrailer(seasondata?.id)
+        // if (onOpenTrailer && trailerVideo?.url) {
+          
+        //     onOpenTrailer(trailerVideo.url);
+        // }
     };
 
   return (
@@ -70,7 +72,7 @@ const SegmentCard = ({
           {seasondata?.trailers && seasondata.trailers.some(video => video.isTrailer) && (
             <Button
               onClick={handleTrailerClick}
-              className="mt-0 flex items-center justify-center px-4 sm:px-8 py-2 h-12 w-full sm:w-auto min-w-0 sm:min-w-[140px] rounded-full bg-[#FF6B00] text-white font-[Roboto-Regular] text-sm sm:text-base shadow-lg transition-all duration-200 hover:bg-[#ff8c1a] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FF6B00]"
+              className="mt-0 flex items-center justify-center px-4 sm:px-8 py-2 h-12 w-full sm:w-auto min-w-0 sm:min-w-[140px] rounded-full bg-[#EE5170] text-whites-100 font-[Roboto-Regular] text-sm sm:text-base shadow-lg transition-all duration-200 hover:bg-[#F27C94] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#EE5170]"
               style={{ gap: '0.5rem' }}
             >
               <span className="icon-[solar--play-circle-line-duotone] h-6 w-6"></span>
