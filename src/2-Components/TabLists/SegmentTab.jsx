@@ -11,6 +11,7 @@ import {
 import CustomStack from "../Stacks/CustomStack";
 import { FormContainer } from "../Stacks/InputFormStack";
 import SegmentCard from "../Cards/SegmentCard";
+import TestHeroTrailerPlayer from "../../2-Components/VideoPlayer/TestHeroPlayer5";
 
 const SegmentTab = ({
   filmdata,
@@ -21,14 +22,17 @@ const SegmentTab = ({
   const [seasonData, setSeasonData] = React.useState([]);
   const [trailerDialogOpen, setTrailerDialogOpen] = React.useState(false);
   const [trailerUrl, setTrailerUrl] = React.useState("");
+  const [resourceId, setResourceId] = React.useState("")
 
-  const handleOpenTrailer = (url) => {
-    setTrailerUrl(url);
+  const handleOpenTrailer = (id) => {
+    setResourceId(id)
+    // setTrailerUrl(url);
     setTrailerDialogOpen(true);
   };
   const handleCloseTrailer = () => {
     setTrailerDialogOpen(false);
     setTrailerUrl("");
+    setResourceId("")
   };
 
   React.useEffect(() => {
@@ -42,6 +46,41 @@ const SegmentTab = ({
       setSeasonData(() => []);
     };
   }, [filmdata, filmdata?.title, filmdata?.filmType, filmdata?.season]);
+
+  const handleVideoEnded = () => {
+    // console.log('🎬 UMobileHero: Trailer ended, hiding video and setting played state');
+    // setShowVideo(false);
+    // setIsVideoPlayed(true);
+    //setIsVideoVisible(false); // Reset visibility when video ends
+  };
+
+  const handleReplayVideo = () => {
+    // console.log('🎬 UMobileHero: Replay requested, showing video again');
+    //setIsVideoPlayed(false);
+    //setShowVideo(true);
+    //setIsVideoVisible(true); // Set video as visible when replaying
+    //setIsVideoPaused(false); // Ensure video is not paused when replaying
+  };
+
+  const handleVideoError = (error) => {
+    // console.error('🎬 UMobileHero: Trailer error:', error);
+    // setShowVideo(false);
+  };
+
+  const handleVideoLoaded = () => {
+    // console.log('🎬 UMobileHero: Trailer loaded successfully');
+  };
+
+  const handleVideoPlay = () => {
+    // console.log('🎬 UMobileHero: Video started playing');
+    // setIsVideoPaused(false);
+  };
+
+  const handleVideoPause = () => {
+    // console.log('🎬 UMobileHero: Video paused');
+    // setIsVideoPaused(true);
+  };
+
 
   return (
     <Container>
@@ -84,7 +123,7 @@ const SegmentTab = ({
           >
             Close
           </button>
-          <video
+          {/* <video
             src={trailerUrl}
             controls
             autoPlay
@@ -96,7 +135,29 @@ const SegmentTab = ({
             }}
           >
             Your browser does not support the video tag.
-          </video>
+          </video> */}
+           <TestHeroTrailerPlayer
+              key={resourceId} // Force re-render when film changes
+              resourceId={resourceId}
+              onEnded={handleVideoEnded}
+              onError={handleVideoError}
+              onLoaded={handleVideoLoaded}
+              onPlay={handleVideoPlay}
+              onPause={handleVideoPause}
+              
+              autoPlay={false}
+              muted={false}
+              loop={false}
+              
+              showControls={true}
+              isVisible={true}
+              className="w-full h-full"
+              style={{
+                width: '100%',
+                height: '100%'
+              }}
+              isTrailer={true}
+            />
         </div>
       )}
     </Container>
