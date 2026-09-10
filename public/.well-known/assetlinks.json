@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.nyatimotionpictures.nyatiflix",
+      "sha256_cert_fingerprints": [
+        "49:54:5C:7D:A2:F1:01:81:CF:82:41:95:6E:3D:48:C8:A4:2A:AE:31:CB:06:1D:F8:CF:A2:E2:8E:9B:ED:F6:FF"
+      ]
+    }
+  }
+]
