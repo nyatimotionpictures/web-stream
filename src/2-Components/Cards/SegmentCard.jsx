@@ -2,6 +2,7 @@ import { Stack, Typography } from '@mui/material'
 import React from 'react'
 import Button from '../Buttons/Button'
 import { useNavigate } from 'react-router-dom'
+import { seasonPath } from '../../lib/contentLinks';
 import TextClamped from '../Stacks/TextClamped'
 
 const SegmentCard = ({
@@ -26,7 +27,7 @@ const SegmentCard = ({
   return (
     <Stack
     onClick={() =>
-        navigate(`/segments/${seasondata?.id}`)
+        navigate(seasonPath(seasondata))
     }
     className="flex-col md:flex-row w-full xs:w-[280px] gap-6 sm:w-full h-max justify-start items-start"
     ref={ref}
@@ -57,7 +58,7 @@ const SegmentCard = ({
         <Stack spacing={"20px"} className="flex flex-row flex-wrap items-center gap-2 sm:gap-4">
           <Button
             onClick={() =>
-                navigate(`/segments/${seasondata?.id}`)
+                navigate(seasonPath(seasondata))
             }
             className="flex items-center justify-center px-4 sm:px-8 py-2 h-12 w-full sm:w-auto min-w-0 sm:min-w-[140px] rounded-full border-2 border-[#706e72] bg-transparent text-[#FFFAF6] font-[Roboto-Regular] text-sm sm:text-base shadow-md transition-all duration-200 hover:bg-[#706e72] hover:text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#706e72] mb-2 sm:mb-0 sm:mr-4"
             style={{ gap: '0.5rem' }}

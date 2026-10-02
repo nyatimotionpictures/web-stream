@@ -31,8 +31,19 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthContext } from "../../../5-Store/AuthContext";
 import CustomLoader from "../../../2-Components/Loader/CustomLoader";
 
+/**
+ * Public episode urls carry slugs, but older links and in-app navigation carry
+ * ObjectIds, and the api resolves both. So a record in the path has to be
+ * matched on either.
+ */
+const matchesPathParam = (record, param) =>
+  Boolean(record) && Boolean(param) && (record.id === param || record.slug === param);
+
 const UEpisodeDetailPage = () => {
   const [selectedFilm, setSelectedFilm] = React.useState(null);
+  // kept separately because the payment flow needs real ids, and the url may
+  // have arrived carrying slugs
+  const [selectedSeason, setSelectedSeason] = React.useState(null);
   const [payModal, setPayModal] = React.useState(false);
   const [currentUserData, setCurrentUserData] = React.useState(null);
   const [includedInWatchlist, setIncludedInWatchlist] = React.useState(false);
@@ -58,13 +69,14 @@ const UEpisodeDetailPage = () => {
 
   React.useEffect(() => {
     if (filmsQuery?.data?.film) {
-      let checkSeason = filmsQuery?.data?.film?.season?.filter(
-        (data) => data?.id === params?.seasonid
+      let checkSeason = filmsQuery?.data?.film?.season?.filter((data) =>
+        matchesPathParam(data, params?.seasonid)
       );
-      console.log("checkSeason", checkSeason);
       if (checkSeason?.length > 0) {
+        setSelectedSeason(() => checkSeason[0]);
+
         let checkEpisode = checkSeason[0]?.episodes
-          ?.filter((data) => data?.id === params?.episodeid)
+          ?.filter((data) => matchesPathParam(data, params?.episodeid))
           .map((data) => ({ ...data, type: "episode" }));
         if (checkEpisode?.length > 0) {
           setSelectedFilm(() => checkEpisode[0]);
@@ -105,8 +117,8 @@ const UEpisodeDetailPage = () => {
     navigate("/payment", {
       state: {
         filmId: filmsQuery?.data?.film?.id,
-        seasonId: params?.seasonid,
-        episodeId: params?.episodeid,
+        seasonId: selectedSeason?.id ?? params?.seasonid,
+        episodeId: selectedFilm?.id ?? params?.episodeid,
         type: selectedFilm?.type,
         videoId: values.videoId,
         resolution: values.resolution,
@@ -184,7 +196,7 @@ const UEpisodeDetailPage = () => {
   //handle Watch Video
   const handleWatchVideo = () => {
     navigate(
-      `/watch/${filmsQuery?.data?.film?.id}?eid=${params?.episodeid}&sid=${params?.seasonid}`
+      `/watch/${filmsQuery?.data?.film?.id}?eid=${selectedFilm?.id}&sid=${selectedSeason?.id}`
     );
   };
 

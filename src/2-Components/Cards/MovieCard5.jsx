@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Typography, Stack } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
+import { filmPath, seasonPath, episodePath } from "../../lib/contentLinks";
 import Button from "../Buttons/Button";
 import ImageLoad from "../Loader/ImageLoad";
 
@@ -98,19 +99,20 @@ const MovieCard5 = ({ data, stylecard }) => {
   // console.log(data);
   return (
     <MovieContainer
-      onClick={() =>
-        data?.type?.includes("film") || data?.type?.includes("movie")
-          ? navigate(`/film/${data?.id}`)
-          : data?.type?.includes("series")
-          ? navigate(`/series/${data?.id}`)
-          : data?.type?.includes("episode")
-          ? navigate(
-              `/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`
-            )
-          : data?.type?.includes("season") || data?.season 
-          ? navigate(`/segments/${data?.id}`)
-          : null
-      }
+      onClick={() => {
+        // see MovieCard4: an episode needs its parents, which a card list does
+        // not carry, so it resolves to null and does not navigate
+        const path = episodePath(data, data?.film, data?.seasonRecord)
+          ?? (data?.type?.includes("film") || data?.type?.includes("movie")
+            ? filmPath(data)
+            : data?.type?.includes("series")
+            ? filmPath(data)
+            : data?.type?.includes("season") || data?.season
+            ? seasonPath(data)
+            : null);
+
+        if (path) navigate(path);
+      }}
       ref={ref}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { filmPath, seasonPath, episodePath } from "../../lib/contentLinks";
 import noImage from "../../1-Assets/no-image.svg";
 import ImageLoad from "../Loader/ImageLoad";
 
@@ -55,19 +56,21 @@ const  MovieCard4 = ({data, cardType}) => {
    
   return (
     <MovieContainer
-      onClick={() =>
-        data?.type.includes("film") || data?.type.includes("movie")
-          ? navigate(`/film/${data?.id}`)
-          : data?.type.includes("series")
-          ? navigate(`/series/${data?.id}`)
-          : data?.type.includes("episode")
-          ? navigate(
-              `/episode/${data?.id}/${data?.seasonId}/${data?.seasonData?.season}`
-            )
-          : data?.type?.includes("season")
-          ? navigate(`/segments/${data?.id}`)
-          : navigate(`/segments/${data?.id}`)
-      }
+      onClick={() => {
+        // the episode page needs the parent film and season, which a card list
+        // does not carry, so this resolves to null and does not navigate rather
+        // than pushing a url that cannot resolve
+        const path = episodePath(data, data?.film, data?.seasonRecord)
+          ?? (data?.type.includes("film") || data?.type.includes("movie")
+            ? filmPath(data)
+            : data?.type.includes("series")
+            ? filmPath(data)
+            : data?.type?.includes("season")
+            ? seasonPath(data)
+            : seasonPath(data));
+
+        if (path) navigate(path);
+      }}
       className={
         "min-h-[250px] h-max w-full  lg:min-h-[310px]  max-w-[350px] flex flex-col items-start gap-3 pixelated "
       }

@@ -23,6 +23,7 @@ import ErrorMessage from "../../../2-Components/Forms/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { makeFilmPurchase } from "../../../5-Store/TanstackStore/services/api";
 import { AuthContext } from "../../../5-Store/AuthContext";
+import { filmPath, seasonPath } from "../../../lib/contentLinks";
 
 
 const FilmPayment = () => {
@@ -123,7 +124,9 @@ const FilmPayment = () => {
       if (variables.option === "mtnmomo") {
         // let path = filmsQuery?.data?.film?.type === "season" ? `/episode/${location?.state?.episodeId}/${filmsQuery?.data?.film?.id}/${location?.state?.seasonId}` : `/film/${filmsQuery?.data?.film?.id}`;
 
-        let path = location.state?.resourceType === "film" ? `/film/${filmsQuery?.data?.film?.id}` : `/segments/${seasonsQuery?.data?.season?.id}`;
+        let path = location.state?.resourceType === "film"
+          ? filmPath(filmsQuery?.data?.film)
+          : seasonPath(seasonsQuery?.data?.season);
         localStorage.setItem("filmPath", path )
         navigate("/payment/validate/" + data?.orderTrackingId, {
           state: {
@@ -137,7 +140,9 @@ const FilmPayment = () => {
         // let path = filmsQuery?.data?.film?.type === "series" ? `/episode/${location?.state?.episodeId}/${filmsQuery?.data?.film?.id}/${location?.state?.seasonId}` : `/film/${filmsQuery?.data?.film?.id}`;
 
 
-        let path = location.state?.resourceType === "film" ? `/film/${filmsQuery?.data?.film?.id}` : `/segments/${seasonsQuery?.data?.season?.id}`;
+        let path = location.state?.resourceType === "film"
+          ? filmPath(filmsQuery?.data?.film)
+          : seasonPath(seasonsQuery?.data?.season);
 
         localStorage.setItem("filmPath", path )
         navigate("/process/pesapal", {

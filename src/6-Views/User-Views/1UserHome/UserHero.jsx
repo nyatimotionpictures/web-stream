@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Button from "../../../2-Components/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import heroImg from "../../../1-Assets/Hero.png"
+import { filmPath } from "../../../lib/contentLinks";
 
 const UserHero = ({ filmData }) => {
   const [backDropUrl, setBackDropUrl] = React.useState(null);
@@ -122,13 +123,12 @@ const UserHero = ({ filmData }) => {
                 )}
 
                 <Button
-                  onClick={() =>
-                    filmData?.type === "movie" || filmData?.type?.includes("film")
-                      ? navigate(`/film/${filmData?.id}`)
-                      : filmData?.type === "series"
-                      ? navigate(`/series/${filmData?.id}`)
-                      : null
-                  }
+                  onClick={() => {
+                    // filmPath routes a series to /series and everything else
+                    // to /film, and returns null when there is nothing to link
+                    const path = filmPath(filmData);
+                    if (path) navigate(path);
+                  }}
                   className="flex w-max px-8 py-2 items-center justify-center space-x-2 rounded-full relative bg-[#706e72]"
                 >
                   <span className="icon-[solar--info-circle-outline] h-6 w-6 text-whites-40"></span>

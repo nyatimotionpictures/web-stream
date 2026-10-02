@@ -7,6 +7,7 @@ import { useGetFilm } from '../../../5-Store/TanstackStore/services/queries';
 import CustomLoader from '../../../2-Components/Loader/CustomLoader';
 import { Typography } from '@mui/material';
 import Button from '../../../2-Components/Buttons/Button';
+import { filmPath } from '../../../lib/contentLinks';
 
 
 const UWatchFilm = () => {
@@ -216,7 +217,17 @@ const UWatchFilm = () => {
 
                   <div className="flex flex-col gap-2 items-center justify-center">
                     <Button
-                      onClick={() => filmsQuery?.data?.film?.type === "movie" || filmsQuery?.data?.film?.type?.includes("film") ? navigate(`/film/${params?.id}`, { replace: true }) : navigate(-1, { replace: true })}
+                      onClick={() => {
+                        // the watch url may have arrived carrying a slug, so link
+                        // from the resolved film rather than echoing params.id
+                        const type = filmsQuery?.data?.film?.type;
+                        const isMovie = type === "movie" || type?.includes("film");
+
+                        if (!isMovie) return navigate(-1, { replace: true });
+
+                        const path = filmPath(filmsQuery?.data?.film);
+                        if (path) navigate(path, { replace: true });
+                      }}
                       className="w-full bg-transparent border border-primary-500 min-w-full md:min-w-[150px] px-5 rounded-lg text-sm"
                     >
                       Back to Film{" "}

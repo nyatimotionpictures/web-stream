@@ -6,6 +6,7 @@ import posterImage from "../../1-Assets/Posterimage.png";
 
 
 import { useNavigate } from "react-router-dom";
+import { filmPath, seasonPath, episodePath } from "../../lib/contentLinks";
 import Button from "../Buttons/Button";
 
 const MovieCard = ({ data, stylecard }) => {
@@ -91,7 +92,7 @@ const MovieCard = ({ data, stylecard }) => {
             }
         >
             <div
-                onClick={() => navigate(`/film/${data?._id.$oid}`)}
+                onClick={() => navigate(filmPath(data))}
                 className="bg-secondary-200 h-[252px] sm:h-[389px] w-full p-0 m-0 overflow-hidden rounded-tl-lg rounded-tr-lg"
             >
                 <img
@@ -145,7 +146,7 @@ const MovieCard = ({ data, stylecard }) => {
                     {data.plotSummary}
                 </Typography>
                 <Button
-                    onClick={() => navigate(`/film/${data?._id.$oid}`)}
+                    onClick={() => navigate(filmPath(data))}
                     variant="ghost"
                     className="text-primary-500 font-sans text-[13px] sm:text-base rounded h-max w-max flex absolute bottom-0 right-0 px-3 py-2 m-0 hover:bg-whites-900 bg-opacity-14%"
                 >
@@ -177,7 +178,7 @@ const MovieCard = ({ data, stylecard }) => {
         </div>
         <div>
           <Buttons
-            onClick={() => navigate(`/film/${data?._id.$oid}`)}
+            onClick={() => navigate(filmPath(data))}
             variant={"icon"}
             className="flex rounded-full relative bg-primary-400"
           >
