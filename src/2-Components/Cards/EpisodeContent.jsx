@@ -5,11 +5,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Buttons/Button";
 import TextClamped from "../Stacks/TextClamped";
+import { watchSeriesPath } from "../../lib/contentLinks";
 
 const EpisodeContent = ({
   seasondata,
   episodedata,
-  handlePaymentModel
+  handlePaymentModel,
+  onSelectEpisode
 }) => {
   let navigate = useNavigate();
   const [isPurchased, setIsPurchased] = React.useState(false);
@@ -41,7 +43,18 @@ React.useEffect(() => {
       ref={ref}
     
     >
-      <div onClick={() => isPurchased || seasondata.access?.includes('free') ? navigate(`/watch/s/${seasondata?.id}?ep=${episodedata?.id}`) : handlePaymentModel()} className="flex justify-start  items-start w-full sm:max-w-[338px] max-h-[250px] relative rounded-lg overflow-hidden">
+      <div
+        onClick={() => {
+          // the season owns the price, so its access decides play or pay
+          const canPlay = isPurchased || seasondata?.access?.includes("free");
+
+          if (!canPlay) return handlePaymentModel?.();
+
+          const path = watchSeriesPath(seasondata, episodedata);
+          if (path) navigate(path);
+        }}
+        className="flex justify-start  items-start w-full sm:max-w-[338px] max-h-[250px] relative rounded-lg overflow-hidden"
+      >
         <img
           src={
             episodedata?.posters?.length > 0 ? episodedata?.posters[0]?.url : ""
@@ -74,8 +87,18 @@ React.useEffect(() => {
             <TextClamped text={episodedata?.plotSummary} lines={3} />
           </Typography>
         </Stack>
-       
-      </Stack>
+
+        {/** the poster plays straight away, this opens the details modal */}
+        {onSelectEpisode && (
+          <Button
+            onClick={() => onSelectEpisode(episodedata)}
+            className="flex items-center justify-center gap-2 w-max min-w-[120px] px-5 h-11 rounded-full border-2 border-[#706e72] bg-transparent text-whites-40 font-[Roboto-Regular] text-sm transition-colors"
+          >
+            <span className="icon-[solar--info-circle-outline] h-5 w-5 text-whites-40" />
+            Info
+          </Button>
+        )}
+       </Stack>
     </Stack>
   );
 };

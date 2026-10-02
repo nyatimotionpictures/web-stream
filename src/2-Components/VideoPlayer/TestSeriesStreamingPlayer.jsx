@@ -47,6 +47,7 @@ const TestSeriesStreamingPlayer = ({
   height = 'auto',
   aspectRatio = '16/9',
   episodeData,
+  seasonEpisodeCount,
   playerId = `player-${Math.random().toString(36).substr(2, 9)}` // Unique ID for each player
 }) => {
   // Debug logging
@@ -71,6 +72,18 @@ const TestSeriesStreamingPlayer = ({
 
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
+
+  // episodeIndex is a position in the list of episodes that are actually
+  // playable, so it is not the episode number: drafts and coming soon rows sit
+  // in the season but never reach the player, and a season can skip numbers
+  // entirely. The record's own `episode` field is the number to show, with the
+  // position as a fallback for an episode that has no number set.
+  const currentEpisodeNumber =
+    episodeData?.episode ?? allEpisodes?.[episodeIndex]?.episode ?? episodeIndex + 1;
+
+  // fall back to the playable count when the season carries no numbering
+  const totalEpisodeNumber = seasonEpisodeCount || allEpisodes?.length || 0;
+
   const userData = useContext(AuthContext);
   const filmKey = userData.currentUser?.user.id ? `episode_${resourceId}_${userData.currentUser?.user.id}_time` : `episode_${resourceId}_time`;
 
@@ -2742,7 +2755,7 @@ const handleSeek = (e) => {
               color: '#ccc',
               marginBottom: '8px'
             }}>
-              Episode {episodeIndex + 1} of {allEpisodes?.length || 0}
+              Episode {currentEpisodeNumber} of {totalEpisodeNumber}
             </div>
             <div style={{
               fontSize: isFullscreen ? '14px' : '12px',
@@ -2784,7 +2797,7 @@ const handleSeek = (e) => {
             }}
           >
             <span style={{ fontSize: isFullscreen ? '28px' : '24px' }}>▶</span>
-            Play Episode {episodeIndex + 1}
+            Play Episode {currentEpisodeNumber}
           </button>
 
           {/* Episode Navigation */}
@@ -3615,7 +3628,7 @@ const handleSeek = (e) => {
             </div>
 
             <div style={{ marginBottom: '8px', fontSize: '14px', color: '#ccc' }}>
-              Episode {episodeIndex + 1}
+              Episode {currentEpisodeNumber}
             </div>
 
             <div style={{ marginBottom: '20px', fontSize: '14px', color: '#ccc' }}>
@@ -3724,7 +3737,7 @@ const handleSeek = (e) => {
             whiteSpace: 'nowrap',
             display: 'inline-block'
           }}>
-          Episode {episodeIndex + 1} - {title}
+          Episode {currentEpisodeNumber} - {title}
         </div>
       )}
 
@@ -4166,7 +4179,8 @@ const handleSeek = (e) => {
             color: '#ccc',
             marginBottom: '24px'
           }}>
-            {allEpisodes[episodeIndex + 1]?.title || `Episode ${episodeIndex + 2}`}
+            {allEpisodes[episodeIndex + 1]?.title ||
+              `Episode ${allEpisodes[episodeIndex + 1]?.episode ?? episodeIndex + 2}`}
           </div>
 
           {/* Countdown Progress Bar */}

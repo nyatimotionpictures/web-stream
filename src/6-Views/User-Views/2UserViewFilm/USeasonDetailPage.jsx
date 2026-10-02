@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../../5-Store/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   useGetFilm,
   useGetSeason,
@@ -21,6 +21,8 @@ import Button from "../../../2-Components/Buttons/Button";
 import UVideoResolutionForm from "../../../2-Components/Forms/UVideoResolutionForm";
 import Footer from "../../../2-Components/Footer/Footer";
 import UFilmTabs from "./UFilmTabs";
+import EpisodeDetailModal from "../../../2-Components/Modals/EpisodeDetailModal";
+import { matchesRecord } from "../../../lib/contentLinks";
 import UDetailHero from "./UDetailHero";
 import UMobileHero from "./UMobileHero";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
@@ -47,6 +49,31 @@ const USeasonDetailPage = () => {
   // const seasonQuery  = useGetFilm(params?.seriesid);
   let seasonQuery = useGetSeason(params?.id)
   let navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const seasonEpisodes = seasonQuery?.data?.season?.episodes ?? [];
+
+  /** an episode is addressed as a query param, by slug or by a leftover id */
+  const selectedEpisode = seasonEpisodes.find((episode) =>
+    matchesRecord(episode, searchParams.get("ep"))
+  );
+
+  /** open the modal by recording the episode in the url, so the link is shareable */
+  const handleSelectEpisode = (episode) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("ep", episode.slug ?? episode.id);
+      return next;
+    }, { replace: true });
+  };
+
+  const handleCloseEpisode = () => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete("ep");
+      return next;
+    }, { replace: true });
+  };
 
   // console.log("seasons", seasonQuery?.data?.season)
   React.useEffect(() => {
@@ -258,11 +285,23 @@ const USeasonDetailPage = () => {
             allSeasonData={seasonQuery?.data?.film?.season ?? []}
             handlePaymentModel={handlePaymentModel}
             videoPurchased={videoPurchasedArray?.length > 0 ? true : false}
+            onSelectEpisode={handleSelectEpisode}
             // filmData={selectedFilm}
           />
         </div>
       </Stack>
       <Footer />
+
+      {/** episode details, driven by the ?ep= param */}
+      {selectedEpisode && (
+        <EpisodeDetailModal
+          episode={selectedEpisode}
+          season={seasonQuery?.data?.season}
+          isPurchased={videoPurchasedArray?.length > 0}
+          handlePaymentModel={handlePaymentModel}
+          onClose={handleCloseEpisode}
+        />
+      )}
 
       {/** Popup */}
       {payModal && (

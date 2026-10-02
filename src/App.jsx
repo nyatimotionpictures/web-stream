@@ -28,7 +28,8 @@ import SearchAll from "./6-Views/User-Views/12UFilmSearchPages/SearchAll.jsx";
 import SearchFilms from "./6-Views/User-Views/12UFilmSearchPages/SearchFilms.jsx";
 import SearchShows from "./6-Views/User-Views/12UFilmSearchPages/SearchShows.jsx";
 
-import UEpisodeDetailPage from "./6-Views/User-Views/2UserViewFilm/UEpisodeDetailPage.jsx";
+// episodes are shown in a modal on the season page, see the route below
+// import UEpisodeDetailPage from "./6-Views/User-Views/2UserViewFilm/UEpisodeDetailPage.jsx";
 import PesaPalPayments from "./6-Views/User-Views/10PesaPal/PesaPalPayments.jsx";
 import PesaSuccess from "./6-Views/User-Views/10PesaPal/PesaSuccess.jsx";
 import PesaCancel from "./6-Views/User-Views/10PesaPal/PesaCancel.jsx";
@@ -53,6 +54,7 @@ import UWatchFilm2 from "./6-Views/User-Views/0TestFilms/3UserWatchFilm/UWatchFi
 import UWatchSeries from "./6-Views/User-Views/3UserWatchSeries/UWatchSeries.jsx";
 import UWatchSeries2 from "./6-Views/User-Views/0TestFilms/3UserWatchSeries/UWatchSeries.jsx";
 import VerifyAccount from "./6-Views/Auth/VerifyAccount.jsx";
+import ContentNotFound from "./2-Components/NotFound/ContentNotFound.jsx";
 
 
 
@@ -76,10 +78,12 @@ function App() {
                 element={<USeasonDetailPage />}
               />
 
-              <Route
+              {/* episodes have no page of their own, they open as a modal on the
+                  season page: /segments/:seasonSlug?ep=:episodeSlug */}
+              {/* <Route
                 path="/episode/:episodeid/:seriesid/:seasonid"
                 element={<UEpisodeDetailPage />}
-              />
+              /> */}
               <Route path="/payment" element={<FilmPayment />} />
               <Route path="/process/pesapal" element={<PesaPalPayments />} />
               <Route
@@ -164,6 +168,18 @@ function App() {
               <Route path="/mwatch/:id" element={<MobileWatchFilm />} />
               <Route path="/mwatch/s/:id" element={<MobileWatchSeries  />} />
             </Route>
+
+            {/* outside the protected group so a bad link still explains itself
+                rather than bouncing a signed out viewer to the login page */}
+            <Route
+              path="*"
+              element={
+                <ContentNotFound
+                  title="Page not found"
+                  description="The page you are looking for does not exist or may have moved."
+                />
+              }
+            />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

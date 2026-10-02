@@ -11,7 +11,7 @@ const EpisodeTab = ({
     setSelectedTrailer,
     openLocalModal,
     handlePaymentModel,
-    
+    onSelectEpisode,
 }) => {
     const [seasonData, setSeasonData] = React.useState([]);
     const [selectedSeason, setSelectedSeason] = React.useState(null);
@@ -50,6 +50,7 @@ const EpisodeTab = ({
                     setSelectedTrailer={setSelectedTrailer}
                     openLocalModal={openLocalModal}
                     handlePaymentModel={handlePaymentModel}
+                    onSelectEpisode={onSelectEpisode}
                   />
                 );
               }

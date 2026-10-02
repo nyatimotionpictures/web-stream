@@ -6,7 +6,7 @@ import posterImage from "../../1-Assets/Posterimage.png";
 
 
 import { useNavigate } from "react-router-dom";
-import { filmPath, seasonPath, episodePath } from "../../lib/contentLinks";
+import { filmPath, seasonPath } from "../../lib/contentLinks";
 import Button from "../Buttons/Button";
 
 const MovieCard = ({ data, stylecard }) => {

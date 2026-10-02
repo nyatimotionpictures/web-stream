@@ -55,6 +55,7 @@ const UWatchSeries = () => {
         //look for episode
         if (episodeId) {
           // console.log("here", episodeId)
+          // ?ep= carries an episode id
           let episodeDataDetail = allEpisodeData.find((episode) => {
             if (episode.id === episodeId) {
               return episode;
@@ -93,7 +94,7 @@ const UWatchSeries = () => {
           }
         } else {
           navigate(
-            `/watch/s/${params?.id}?ep=${data?.season?.episodes[0]?.id}`,
+            `/watch/s/${params?.id}?ep=${allEpisodeData[0]?.id}`,
             { replace: true }
           );
         }
@@ -148,7 +149,9 @@ const UWatchSeries = () => {
               if (episodeDataDetail && episodeDataDetail?.video?.length > 0) {
                 setAllVideos(episodeDataDetail.video);
                 setEpisodeIndex(resolutionDataArray.indexOf(episodeDataDetail));
-                setEpisodeData(resolutionDataArray[0]);
+                // the episode being played, not the first in the season: the
+                // player labels its title and episode number from this
+                setEpisodeData(episodeDataDetail);
                 let checkSelected = episodeDataDetail.video.filter((video) => {
                   if (video.resolution === "HD") {
                     return video;
@@ -204,7 +207,14 @@ const UWatchSeries = () => {
   React.useEffect(() => {
     // If no episode ID is set and we have season data, navigate to first episode
     if (!episodeId && data?.season && !isPending) {
-      const firstEpisode = data.season.episodes?.[0];
+      // The first entry in the list is not necessarily playable: drafts and
+      // coming soon rows sort ahead of released episodes, and defaulting to one
+      // of those reports "Episode not found" on a season that does have video.
+      const playableEpisodes = (data.season.episodes ?? []).filter(
+        (episode) => episode?.visibility === "published"
+      );
+
+      const firstEpisode = playableEpisodes[0];
       if (firstEpisode) {
         console.log('🔄 No episode ID found, navigating to first episode:', firstEpisode.id);
         navigate(`/watch/s/${params?.id}?ep=${firstEpisode.id}`, { replace: true });
@@ -223,6 +233,18 @@ const UWatchSeries = () => {
     setSelectedVideoUrl(resolution);
   };
 
+  // How many episodes the season numbers in total. The player only receives the
+  // published ones, so counting that list would report "Episode 5 of 1" on a
+  // season whose fifth episode is playable but whose first four are not.
+  const seasonEpisodeCount = React.useMemo(() => {
+    const episodes = data?.season?.episodes ?? [];
+    const numbers = episodes
+      .map((episode) => episode?.episode)
+      .filter((number) => typeof number === 'number' && !Number.isNaN(number));
+
+    return numbers.length ? Math.max(...numbers) : episodes.length;
+  }, [data?.season?.episodes]);
+
   return (
     <Container className="w-screen h-screen bg-secondary-900 overflow-hidden relative duration-300">
       {/* Only render SeriesStreamingPlayer when we have a valid episodeId and episodeData */}
@@ -237,6 +259,7 @@ const UWatchSeries = () => {
           episodeIndex={episodeIndex}
           allEpisodes={allEpisodes}
           episodeData={episodeData}
+          seasonEpisodeCount={seasonEpisodeCount}
           resourceId={episodeId}
           type={selectedVideoUrl?.resolution?.toLowerCase() || 'hd'}
           thumbnailUrl={episodeData?.thumbnailUrl}

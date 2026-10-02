@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Typography, Stack } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-import { filmPath, seasonPath, episodePath } from "../../lib/contentLinks";
+import { filmPath, seasonPath } from "../../lib/contentLinks";
 import Button from "../Buttons/Button";
 
 const MovieCard1 = ({ data, stylecard }) => {

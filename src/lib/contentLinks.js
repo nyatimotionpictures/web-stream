@@ -88,41 +88,85 @@ export const seasonPath = (season) => {
 };
 
 /**
- * @name episodePath
- * @description /episode/:episodeKey/:filmKey/:seasonKey
- *
- * The episode page resolves the film from the second segment and then looks up
- * the season and episode inside it, so all three have to be present and
- * correct. Episode records only carry seasonId, so a caller listing episodes
- * without their parents gets null rather than a half built url.
- *
- * @param {object} episode
- * @param {object} film the parent series or film
- * @param {object} season
+ * @name matchesRecord
+ * @description Whether a url segment identifies a record. Public urls carry
+ * slugs but older links and in-app navigation carry ObjectIds, so both have to
+ * match. Used to resolve a query param that may hold either.
+ * @param {object} record
+ * @param {string} param
+ * @returns {boolean}
+ */
+export const matchesRecord = (record, param) =>
+    Boolean(record) && Boolean(param) && (record.id === param || record.slug === param);
+
+/**
+ * @name recordId
+ * @description The stable ObjectId of a record, the inverse of recordKey. Used
+ * by the player, which is navigated programmatically and keys its own lookups
+ * and state off ids rather than slugs.
+ * @param {object|string} record
  * @returns {string|null}
  */
-export const episodePath = (episode, film, season) => {
-    const episodeKey = recordKey(episode);
-    const filmKey = recordKey(film);
+const recordId = (record) => {
+    if (!record) return null;
+    if (typeof record === "string") return record;
+
+    if (record._id) {
+        return typeof record._id === "string" ? record._id : record._id?.$oid ?? null;
+    }
+
+    return record.id ?? null;
+};
+
+/**
+ * @name watchSeriesPath
+ * @description /watch/s/:seasonId?ep=:episodeId, the player that handles
+ * episode playlists. Ids rather than slugs on purpose: the player is only ever
+ * reached by navigating inside the app, never by a shared link, and it resolves
+ * its episode against the list it already has in memory.
+ * @param {object} season
+ * @param {object} episode
+ * @returns {string|null}
+ */
+export const watchSeriesPath = (season, episode) => {
+    const seasonId = recordId(season);
+    const episodeId = recordId(episode);
+
+    if (!seasonId || !episodeId) return null;
+
+    return `/watch/s/${seasonId}?ep=${episodeId}`;
+};
+
+/**
+ * @name episodeQueryPath
+ * @description /segments/:seasonKey?ep=:episodeKey, which opens the episode
+ * details modal on the season page. This is what a shared episode link points
+ * at, so the episode is addressable without a page of its own.
+ * @param {object} season
+ * @param {object} episode
+ * @returns {string|null}
+ */
+export const episodeQueryPath = (season, episode) => {
     const seasonKey = recordKey(season);
+    const episodeKey = recordKey(episode);
 
-    if (!episodeKey || !filmKey || !seasonKey) return null;
+    if (!seasonKey || !episodeKey) return null;
 
-    return `/episode/${episodeKey}/${filmKey}/${seasonKey}`;
+    return `/segments/${seasonKey}?ep=${episodeKey}`;
 };
 
 /**
  * @name detailPath
- * @description Build the right path for any film, season or episode record,
- * for the places that render a mixed list. Episodes still need their parents,
- * which a mixed list does not carry, so they resolve to null.
+ * @description Build the right path for a film or season record, for the places
+ * that render a mixed list. An episode has no page of its own, so it resolves to
+ * null here rather than falling through to a /film/ url that cannot resolve;
+ * use episodeQueryPath with its season instead.
  * @param {object} record
- * @param {{film?: object, season?: object}} [parents]
  * @returns {string|null}
  */
-export const detailPath = (record, parents = {}) => {
+export const detailPath = (record) => {
     if (isEpisode(record)) {
-        return episodePath(record, parents.film, parents.season);
+        return null;
     }
     if (isSeason(record)) {
         return seasonPath(record);

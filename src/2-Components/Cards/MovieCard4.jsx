@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { filmPath, seasonPath, episodePath } from "../../lib/contentLinks";
+import { filmPath, seasonPath, episodeQueryPath } from "../../lib/contentLinks";
 import noImage from "../../1-Assets/no-image.svg";
 import ImageLoad from "../Loader/ImageLoad";
 
@@ -57,10 +57,11 @@ const  MovieCard4 = ({data, cardType}) => {
   return (
     <MovieContainer
       onClick={() => {
-        // the episode page needs the parent film and season, which a card list
-        // does not carry, so this resolves to null and does not navigate rather
-        // than pushing a url that cannot resolve
-        const path = episodePath(data, data?.film, data?.seasonRecord)
+        // an episode opens as a modal on its season page, so it needs the
+        // parent season, which a card list does not carry. Without one there is
+        // nothing to navigate to, so it stays null instead of pushing a url
+        // that cannot resolve
+        const path = episodeQueryPath(data?.film ?? data, data)
           ?? (data?.type.includes("film") || data?.type.includes("movie")
             ? filmPath(data)
             : data?.type.includes("series")
