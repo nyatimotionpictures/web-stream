@@ -24,6 +24,7 @@ import UFilmTabs from "./UFilmTabs";
 import UDetailHero from "./UDetailHero";
 import UMobileHero from "./UMobileHero";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
+import ContentNotFound from "../../../2-Components/NotFound/ContentNotFound";
 import Logo from "../../../1-Assets/logos/Logo.svg";
 
 const USeasonDetailPage = () => {
@@ -199,6 +200,20 @@ const USeasonDetailPage = () => {
       <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
         <CustomLoader text={"Loading..."} />
       </CustomStack>
+    );
+  }
+
+  // a shared link can point at a retired slug or a mistyped id, and the api
+  // answers 404 for those, which used to render an empty hero with no clue why
+  if (
+    seasonQuery?.isError ||
+    (seasonQuery?.isSuccess && !seasonQuery?.data?.season)
+  ) {
+    return (
+      <ContentNotFound
+        title="Season not found"
+        description="This season may have been removed, or the link may be mistyped."
+      />
     );
   }
 

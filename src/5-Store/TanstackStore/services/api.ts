@@ -35,7 +35,7 @@ export const postUserRegister = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -60,7 +60,7 @@ export const postSendOtp = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -87,7 +87,7 @@ export const verifyOtp = async (OtpData: any) => {
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -112,7 +112,7 @@ export const postAuthLogin = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -144,7 +144,7 @@ export const postAuthReset = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}. ${error.response?.data?.message}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -168,7 +168,7 @@ export const postAuthLogout = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -191,7 +191,7 @@ export const putUpdateUser = async (userdata: any) => {
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -217,7 +217,7 @@ export const getFilmContent = async (
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -250,7 +250,7 @@ export const getFilmContentMobile = async (
      throw {message: "Session expired. Please login again."}
     
   }else if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -270,7 +270,7 @@ export const getAllFilms = async () => {
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -290,7 +290,7 @@ export const getAllSeasons = async () => {
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -310,7 +310,7 @@ export const getSeasonContent = async (seasonId: String) => {
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -338,7 +338,7 @@ export const getSeasonContentMobile = async (seasonId: String) => {
      throw {message: "Session expired. Please login again."}
     
   } else if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -448,7 +448,7 @@ export const makeGeneralDonation = async (paymentData: any) => {
     
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -493,7 +493,7 @@ export const makeFilmDonation = async (paymentData: any) => {
     
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}
@@ -555,7 +555,7 @@ export const getAllCategories = async () => {
     return response.data;
   } catch (error) {
     if (error?.response) {
-      throw {message: `Error ${error.response.status}: ${error.response.statusText}`}
+      throw {message: `Error ${error.response.status}: ${error.response.statusText}`, status: error.response.status}
      
     } else if (error.request) {
       throw {message: "No response from server. Please check your network connection."}

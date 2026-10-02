@@ -11,6 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
+import ContentNotFound from "../../../2-Components/NotFound/ContentNotFound";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetFilm,
@@ -210,6 +211,17 @@ const UEpisodeDetailPage = () => {
       </CustomStack>
     );
   }
+
+  // two ways a shared episode link can miss: the series itself is gone, or the
+  // series loaded but the season and episode named in the url are not in it
+  if (filmsQuery?.isError || (filmsQuery?.isSuccess && !selectedFilm)) {
+    return (
+      <ContentNotFound
+        title="Episode not found"
+        description="This episode may have been removed, or the link may be mistyped."
+      />
+    );
+  }
   return (
     <Container className="w-full h-full relative flex-col space-y-0 bg-secondary-800">
       {!isSmallScreen && <WebNavigation isLoggedIn={true} />}
@@ -218,6 +230,8 @@ const UEpisodeDetailPage = () => {
         {isSmallScreen ? (
           <UMobileHero
             filmData={selectedFilm}
+            // see the UDetailHero branch below; same parent as the like target
+            socialTarget={filmsQuery?.data?.film}
             // filmData={selectedFilm}
             handlePaymentModel={handlePaymentModel}
             currentUserData={currentUserData}
@@ -231,6 +245,9 @@ const UEpisodeDetailPage = () => {
         ) : (
           <UDetailHero
             filmData={selectedFilm}
+            // likes and watchlist entries belong to the series, and both
+            // mutations reject an episode id, so they act on the parent film
+            socialTarget={filmsQuery?.data?.film}
             // filmData={selectedFilm}
             handlePaymentModel={handlePaymentModel}
             currentUserData={currentUserData}

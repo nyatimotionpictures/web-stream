@@ -11,6 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import WebNavigation from "../../../2-Components/Navigation/WebNavigation";
+import ContentNotFound from "../../../2-Components/NotFound/ContentNotFound";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetFilm,
@@ -191,6 +192,20 @@ const UFilmDetailPage = () => {
       <CustomStack className="flex-col w-full h-full bg-secondary-900 ">
         <CustomLoader text={"Loading..."} />
       </CustomStack>
+    );
+  }
+
+  // a shared link can point at a retired slug or a mistyped id, and the api
+  // answers 404 for those, which used to render an empty hero with no clue why
+  if (
+    filmsQuery?.isError ||
+    (filmsQuery?.isSuccess && !filmsQuery?.data?.film)
+  ) {
+    return (
+      <ContentNotFound
+        title="Title not found"
+        description="This title may have been removed, or the link may be mistyped."
+      />
     );
   }
   return (

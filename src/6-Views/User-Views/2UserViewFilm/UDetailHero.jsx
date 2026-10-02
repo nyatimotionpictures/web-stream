@@ -11,6 +11,13 @@ import TestHeroTrailerPlayer from "../../../2-Components/VideoPlayer/TestHeroPla
 
 const UDetailHero = ({
   filmData,
+  /**
+   * Record the like and watchlist actions apply to. Defaults to the record
+   * being displayed. The episode page passes the parent series, because only
+   * film and season carry likes and both mutations reject an episode id, so
+   * rating the episode itself would write a season id that matches no season.
+   */
+  socialTarget,
   handlePaymentModel,
   currentUserData,
   rateMutation,
@@ -21,6 +28,13 @@ const UDetailHero = ({
   handleWatchVideo,
   videoPurchaseData,
 }) => {
+  const likeResource = socialTarget ?? filmData;
+  const rateableTypes = ["series", "movie", "film"];
+  const rateableType = rateableTypes.some((t) =>
+    String(likeResource?.type ?? "").toLowerCase().includes(t)
+  )
+    ? "film"
+    : "season";
   const [backDropUrl, setBackdropUrl] = React.useState(null);
   const [showVideo, setShowVideo] = React.useState(false);
   const [isVideoPlayed, setIsVideoPlayed] = React.useState(false);
@@ -164,68 +178,24 @@ const UDetailHero = ({
 
   //handle likes
   const handleLikes = (type) => {
-    if (type === "like") {
-      let dataValues = {
-        resourceId: filmData?.id,
-        userId: currentUserData?.id,
-        likeType: "THUMBS_UP",
-        type:
-          filmData?.type === "series" ||
-          filmData?.type === "movie" ||
-          filmData?.type?.includes("film")
-            ? "film"
-            : "season",
-      };
-      rateMutation.mutate(dataValues);
-    } else if (type === "dislike") {
-      let dataValues = {
-        resourceId: filmData?.id,
-        userId: currentUserData?.id,
-        likeType: "THUMBS_DOWN",
-        type:
-          filmData?.type === "series" ||
-          filmData?.type === "movie" ||
-          filmData?.type?.includes("film")
-            ? "film"
-            : "season",
-      };
-      rateMutation.mutate(dataValues);
-    } else {
-      let dataValues = {
-        resourceId: filmData?.id,
-        userId: currentUserData?.id,
-        likeType: "NONE",
-        type:
-          filmData?.type === "series" ||
-          filmData?.type === "movie" ||
-          filmData?.type?.includes("film")
-            ? "film"
-            : "season",
-      };
-      rateMutation.mutate(dataValues);
-    }
+    const likeType =
+      type === "like" ? "THUMBS_UP" : type === "dislike" ? "THUMBS_DOWN" : "NONE";
+
+    rateMutation.mutate({
+      resourceId: likeResource?.id,
+      userId: currentUserData?.id,
+      likeType,
+      type: rateableType,
+    });
   };
 
   //handle add to watchlist
   const handleAddToWatchlist = () => {
-    if (includedInWatchlist) {
-      // removeFromWatchlistMutation.mutate({
-      //   filmId: filmData?.id,
-      //   userId: currentUserData?.id,
-      // });
-
-      addToWatchlistMutation.mutate({
-        resourceId: filmData?.id,
-        userId: currentUserData?.id,
-        type: filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
-      });
-    } else {
-      addToWatchlistMutation.mutate({
-        resourceId: filmData?.id,
-        userId: currentUserData?.id,
-        type:  filmData?.type?.includes("film") ? "film" : filmData?.type?.includes("series") ? "film" : "season",
-      });
-    }
+    addToWatchlistMutation.mutate({
+      resourceId: likeResource?.id,
+      userId: currentUserData?.id,
+      type: rateableType,
+    });
   };
 
   return (
@@ -447,7 +417,13 @@ const UDetailHero = ({
                     )}
 
                     {/** like buttons */}
-                    <Stack direction="row" className="space-x-2">
+                    {/* without an id both mutations would post an undefined
+                        resourceId and come back a 400, so show nothing */}
+                    <Stack
+                      direction="row"
+                      className="space-x-2"
+                      hidden={!likeResource?.id}
+                    >
                       {includedInWatchlist ? (
                         <Button
                           onClick={handleAddToWatchlist}
@@ -464,7 +440,7 @@ const UDetailHero = ({
                         </Button>
                       )}
 
-                      {filmData?.likes[0]?.type === "THUMBS_UP" ? (
+                      {likeResource?.likes?.[0]?.type === "THUMBS_UP" ? (
                         <Button
                           disabled={rateMutation.isPending ? true : false}
                           onClick={() => handleLikes("none")}
@@ -482,7 +458,7 @@ const UDetailHero = ({
                         </Button>
                       )}
 
-                      {filmData?.likes[0]?.type === "THUMBS_DOWN" ? (
+                      {likeResource?.likes?.[0]?.type === "THUMBS_DOWN" ? (
                         <Button
                           disabled={rateMutation.isPending ? true : false}
                           onClick={() => handleLikes("none")}
