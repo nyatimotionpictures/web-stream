@@ -7,15 +7,11 @@ const Category = ({ categoryInfo }) => {
 
   React.useEffect(() => {
     if (categoryInfo?.type === "series") {
-      //get all films from season and combine them
-      console.log(categoryInfo);
-      let filmData = categoryInfo?.seasons
-        .filter((season) => {
-          if (season.visibility === "published") {
-            return season
-          }
-        })
-        .flat();
+      // seasons come back without a type, so tag them; otherwise the cards
+      // can't tell them apart from films and link to /film/ instead of /segments/
+      let filmData = (categoryInfo?.seasons ?? [])
+        .filter((season) => season.visibility === "published")
+        .map((season) => ({ ...season, type: "season" }));
 
       setFilms(() => filmData);
     } else {

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Typography, Stack } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-import { filmPath, seasonPath, episodeQueryPath } from "../../lib/contentLinks";
+import { filmPath, seasonPath, episodeQueryPath, isEpisode, isSeason } from "../../lib/contentLinks";
 import Button from "../Buttons/Button";
 import ImageLoad from "../Loader/ImageLoad";
 
@@ -102,14 +102,11 @@ const MovieCard5 = ({ data, stylecard }) => {
       onClick={() => {
         // see MovieCard4: an episode needs its parent season, which a card
         // list does not carry, so it resolves to null and does not navigate
-        const path = episodeQueryPath(data?.film ?? data, data)
-          ?? (data?.type?.includes("film") || data?.type?.includes("movie")
-            ? filmPath(data)
-            : data?.type?.includes("series")
-            ? filmPath(data)
-            : data?.type?.includes("season") || data?.season
-            ? seasonPath(data)
-            : null);
+        const path = isEpisode(data)
+          ? episodeQueryPath(data?.season, data)
+          : isSeason(data)
+          ? seasonPath(data)
+          : filmPath(data);
 
         if (path) navigate(path);
       }}
