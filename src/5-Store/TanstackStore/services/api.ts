@@ -468,7 +468,7 @@ export const getGeneralDonationStatus = async (
     // console.log("orderId", orderId);
     let token = localStorage.getItem("token");
     const response = await axios.get(
-    `${BaseUrl}/v1/payment/mtn/transact_statuses/${orderId}`, {
+    `${BaseUrl}/v2/payment/mtn/transact_statuses/${orderId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -488,7 +488,7 @@ export const getGeneralDonationStatus = async (
 export const makeFilmDonation = async (paymentData: any) => {
   try {
     let {filmId, userId, ...rest} = paymentData;
-    const response = await apiRequest.post(`/v1/film/donate/${userId}/${filmId}`, rest);
+    const response = await apiRequest.post(`/v2/film/donate/${userId}/${filmId}`, rest);
     return response.data
     
   } catch (error) {
@@ -511,7 +511,7 @@ export const makeFilmDonation = async (paymentData: any) => {
 export const makeFilmPurchase = async (paymentData: any) => {
   try {
     
-    const response = await apiRequest.post(`/v1/film/purchase`, paymentData);
+    const response = await apiRequest.post(`/v2/film/purchase`, paymentData);
     return response.data
     
   } catch (error) {
@@ -527,7 +527,7 @@ export const getPaymentStatus = async (
     // console.log("orderId", orderId);
     let token = localStorage.getItem("token");
     const response = await axios.get(
-    `${BaseUrl}/v1/film/checkpaymentstatus/${orderId}`, {
+    `${BaseUrl}/v2/film/checkpaymentstatus/${orderId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
