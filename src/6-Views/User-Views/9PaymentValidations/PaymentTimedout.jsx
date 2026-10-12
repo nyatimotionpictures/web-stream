@@ -3,7 +3,15 @@ import Button from '../../../2-Components/Buttons/Button';
 import { Icon } from "@iconify/react";
 import { useNavigate } from 'react-router-dom';
 
-const PaymentTimedout = () => {
+/**
+ * @param {{
+ *  onRetry?: () => void, resend the same payment (film purchases)
+ *  onChangeNumber?: () => void, back to the payment form
+ *  retrying?: boolean,
+ *  errorMessage?: string,
+ * }} props
+ */
+const PaymentTimedout = ({ onRetry, onChangeNumber, retrying, errorMessage }) => {
     let navigate = useNavigate();
   return (
     <div className="flex flex-col  items-center text-whites-40  max-w-[287px] gap-40">
@@ -34,9 +42,30 @@ const PaymentTimedout = () => {
       </div>
     </div>
 
-    <div className="w-full relative flex justify-center items-center ">
+    <div className="w-full relative flex flex-col justify-center items-center gap-3">
+      {errorMessage ? (
+        <p className="text-red-400 text-center font-[Inter-Regular] text-sm">{errorMessage}</p>
+      ) : null}
+      {onRetry ? (
+        <Button
+          className="w-full rounded-full hover:bg-primary-500/95"
+          disabled={retrying}
+          onClick={onRetry}
+        >
+          {retrying ? "Sending…" : "Try again"}
+        </Button>
+      ) : null}
+      {onChangeNumber ? (
+        <Button
+          className="w-full rounded-full border border-whites-40/40 bg-transparent hover:bg-secondary-600"
+          disabled={retrying}
+          onClick={onChangeNumber}
+        >
+          Change number
+        </Button>
+      ) : null}
       <Button
-        className="w-full rounded-full"
+        className={`w-full rounded-full ${onRetry ? "hover:bg-secondary-600 bg-secondary-700" : ""}`}
         onClick={() => navigate("/", { replace: true })}
       >
         Close

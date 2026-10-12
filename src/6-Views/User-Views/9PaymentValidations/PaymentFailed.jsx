@@ -3,8 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../../2-Components/Buttons/Button';
 import { Icon } from "@iconify/react";
 
-const PaymentFailed = () => {
-    let navigate = useNavigate();
+/**
+ * @param {{
+ *  onRetry?: () => void, resend the same payment (film purchases)
+ *  onChangeNumber?: () => void, back to the payment form
+ *  retrying?: boolean,
+ *  errorMessage?: string,
+ * }} props Without onRetry, Retry goes back a page (donation flow).
+ */
+const PaymentFailed = ({ onRetry, onChangeNumber, retrying, errorMessage }) => {
+  let navigate = useNavigate();
   return (
     <div className="flex flex-col  items-center text-whites-40  max-w-[287px] gap-40">
       <div className="flex flex-col gap-5">
@@ -20,7 +28,7 @@ const PaymentFailed = () => {
 
         <div className="flex flex-col gap-6">
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-            Your donation failed because you may have insufficient funds.
+            Your payment failed because you may have insufficient funds.
           </p>
 
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
@@ -31,15 +39,28 @@ const PaymentFailed = () => {
       </div>
 
       <div className="w-full relative flex flex-col justify-center items-center gap-3">
+        {errorMessage ? (
+          <p className="text-red-400 text-center font-[Inter-Regular] text-sm">{errorMessage}</p>
+        ) : null}
         <Button
           className="w-full rounded-full hover:bg-primary-500/95"
-          onClick={() => navigate.goBack()}
+          disabled={retrying}
+          onClick={() => (onRetry ? onRetry() : navigate(-1))}
         >
-          Retry
+          {retrying ? "Sending…" : "Try again"}
         </Button>
+        {onChangeNumber ? (
+          <Button
+            className="w-full rounded-full border border-whites-40/40 bg-transparent hover:bg-secondary-600"
+            disabled={retrying}
+            onClick={onChangeNumber}
+          >
+            Change number
+          </Button>
+        ) : null}
         <Button
           className="w-full rounded-full hover:bg-secondary-600 bg-secondary-700"
-          onClick={() =>  navigate("/", { replace: true })}
+          onClick={() => navigate("/", { replace: true })}
         >
           Cancel
         </Button>

@@ -460,19 +460,34 @@ export const makeGeneralDonation = async (paymentData: any) => {
   }
 }
 
+/**
+ * Authorization header for calls made with plain axios. Signed-in users keep
+ * their token in localStorage "user" (as apiRequest reads it); the mobile app's
+ * watch hand-off stores it as "token". Sends nothing rather than "Bearer null"
+ * when there is neither, which the server would reject.
+ */
+const authHeaders = (): Record<string, string> => {
+  let token: string | null = null;
+  try {
+    token = JSON.parse(localStorage.getItem("user") ?? "null")?.token ?? null;
+  } catch {
+    token = null;
+  }
+  token = token || localStorage.getItem("token");
+  return token && token !== "null" && token !== "undefined"
+    ? { Authorization: `Bearer ${token}` }
+    : {};
+};
+
 /** get general donation status */
 export const getGeneralDonationStatus = async (
   orderId: string
 ) => {
   try {
     // console.log("orderId", orderId);
-    let token = localStorage.getItem("token");
     const response = await axios.get(
     `${BaseUrl}/v2/payment/mtn/transact_statuses/${orderId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+      headers: { ...authHeaders(), "Content-Type": "application/json" },
     }
     );
   
@@ -525,13 +540,9 @@ export const getPaymentStatus = async (
 ) => {
   try {
     // console.log("orderId", orderId);
-    let token = localStorage.getItem("token");
     const response = await axios.get(
     `${BaseUrl}/v2/film/checkpaymentstatus/${orderId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+      headers: { ...authHeaders(), "Content-Type": "application/json" },
     }
     );
   

@@ -133,6 +133,10 @@ const FilmPayment = () => {
             filmPath: path,
             option: variables.option,
             orderTrackingId: data?.orderTrackingId,
+            // lets the status page resend the same payment ("Try again") or
+            // reopen this form with the same title ("Change number")
+            payment: variables,
+            paymentPageState: location.state,
           },
         });
       } else {
